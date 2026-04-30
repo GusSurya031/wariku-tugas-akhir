@@ -1,22 +1,18 @@
 import { useState, useEffect, useRef } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import "@/../css/app.css";
+import ItemFadeIn from "@/components/ItemFadeIn";
+import HeroMaterial from "@/assets/images/hero-material.png";
+import QuoteMaterial from "@/assets/images/quotes-material.png";
+
+
 
 // ─────────────────────────────────────────────
 //  Shared: Fonts + Base Styles
 // ─────────────────────────────────────────────
 const GlobalStyles = () => (
     <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=Caveat:wght@700&display=swap');
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fafaf8; color: #1a1a1a; }
-    .font-handwrite { font-family: 'Caveat', cursive; }
-
-    /* Navbar */
-    .nav-link { position: relative; }
-    .nav-link::after {
-      content: ''; position: absolute; bottom: -3px; left: 0;
-      width: 0; height: 2px; background: #F59E0B; transition: width 0.3s;
-    }
-    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
 
     /* Hero */
     .hero-material {
@@ -105,56 +101,6 @@ const GlobalStyles = () => (
     }
     .fade-in-ready.visible { opacity: 1; transform: none; }
   `}</style>
-);
-
-// ─────────────────────────────────────────────
-//  Shared: Logo SVG
-// ─────────────────────────────────────────────
-const Logo = () => (
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <circle cx="14" cy="14" r="13" stroke="#F5A623" strokeWidth="2" />
-        <path d="M8 10 Q14 6 20 10 Q14 14 8 10Z" fill="#F5A623" />
-        <path
-            d="M8 14 Q14 10 20 14 Q14 18 8 14Z"
-            fill="#4A90D9"
-            opacity="0.7"
-        />
-        <path
-            d="M8 18 Q14 14 20 18 Q14 22 8 18Z"
-            fill="#F5A623"
-            opacity="0.5"
-        />
-    </svg>
-);
-
-// ─────────────────────────────────────────────
-//  Shared: Social Icons
-// ─────────────────────────────────────────────
-const IgIcon = () => (
-    <svg
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-    >
-        <rect x="2" y="2" width="20" height="20" rx="5" />
-        <circle cx="12" cy="12" r="4" />
-        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-    </svg>
-);
-const FbIcon = () => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
-    </svg>
-);
-const TwIcon = () => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
-    </svg>
 );
 
 // ─────────────────────────────────────────────
@@ -430,408 +376,6 @@ const MaterialCard = ({
     );
 };
 
-// ─────────────────────────────────────────────
-//  Hero Book Illustration (CSS 3D-style)
-// ─────────────────────────────────────────────
-const BookIllustration = () => (
-    <div style={{ position: "relative", width: 280, height: 220 }}>
-        {/* Open book base */}
-        <div
-            style={{
-                position: "absolute",
-                bottom: 0,
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: 200,
-                height: 140,
-                background: "linear-gradient(135deg, #f8f8f8, #ececec)",
-                borderRadius: "4px 4px 8px 8px",
-                boxShadow: "0 12px 32px rgba(0,0,0,0.15)",
-            }}
-        >
-            {/* Pages left */}
-            <div
-                style={{
-                    position: "absolute",
-                    left: 0,
-                    top: 0,
-                    bottom: 0,
-                    width: "50%",
-                    background: "linear-gradient(to right, #f0f0f0, #f8f8f8)",
-                    borderRadius: "4px 0 0 8px",
-                    borderRight: "1px solid #e0e0e0",
-                }}
-            >
-                {[...Array(6)].map((_, i) => (
-                    <div
-                        key={i}
-                        style={{
-                            height: 2,
-                            background: "#ddd",
-                            margin: `${14 + i * 14}px 12px ${0}px`,
-                            borderRadius: 2,
-                            width: `${65 + (i % 3) * 10}%`,
-                        }}
-                    />
-                ))}
-            </div>
-            {/* Pages right */}
-            <div
-                style={{
-                    position: "absolute",
-                    right: 0,
-                    top: 0,
-                    bottom: 0,
-                    width: "50%",
-                    background: "linear-gradient(to left, #f0f0f0, #f8f8f8)",
-                    borderRadius: "0 4px 8px 0",
-                }}
-            >
-                {[...Array(6)].map((_, i) => (
-                    <div
-                        key={i}
-                        style={{
-                            height: 2,
-                            background: "#ddd",
-                            margin: `${14 + i * 14}px 12px`,
-                            borderRadius: 2,
-                            width: `${60 + (i % 2) * 15}%`,
-                        }}
-                    />
-                ))}
-            </div>
-            {/* Spine */}
-            <div
-                style={{
-                    position: "absolute",
-                    left: "50%",
-                    top: 0,
-                    bottom: 0,
-                    width: 4,
-                    background: "#ccc",
-                    transform: "translateX(-50%)",
-                }}
-            />
-        </div>
-
-        {/* Pink book (back) */}
-        <div
-            className="float-sm"
-            style={{
-                position: "absolute",
-                top: 20,
-                left: 10,
-                width: 60,
-                height: 80,
-                background: "linear-gradient(135deg, #EC4899, #F472B6)",
-                borderRadius: 4,
-                boxShadow: "0 6px 16px rgba(236,72,153,0.3)",
-                transform: "rotate(-15deg)",
-            }}
-        />
-
-        {/* Orange book */}
-        <div
-            className="float-sm"
-            style={{
-                position: "absolute",
-                top: 10,
-                right: 20,
-                width: 55,
-                height: 70,
-                background: "linear-gradient(135deg, #F97316, #FB923C)",
-                borderRadius: 4,
-                boxShadow: "0 6px 16px rgba(249,115,22,0.3)",
-                transform: "rotate(12deg)",
-                animationDelay: "1.5s",
-            }}
-        />
-
-        {/* Green book */}
-        <div
-            className="float-sm"
-            style={{
-                position: "absolute",
-                top: 50,
-                right: 5,
-                width: 45,
-                height: 60,
-                background: "linear-gradient(135deg, #10B981, #34D399)",
-                borderRadius: 4,
-                boxShadow: "0 4px 12px rgba(16,185,129,0.3)",
-                transform: "rotate(20deg)",
-                animationDelay: "0.8s",
-            }}
-        />
-
-        {/* Stars */}
-        {[
-            { top: 5, left: 80, size: 18, color: "#F59E0B" },
-            { top: 30, right: 80, size: 14, color: "#FBBF24" },
-            { bottom: 30, left: 40, size: 12, color: "#FCD34D" },
-            { top: 60, left: 150, size: 16, color: "#F59E0B" },
-        ].map((s, i) => (
-            <div
-                key={i}
-                className="float-sm"
-                style={{
-                    position: "absolute",
-                    ...s,
-                    color: s.color,
-                    fontSize: s.size,
-                    animationDelay: `${i * 0.7}s`,
-                }}
-            >
-                ★
-            </div>
-        ))}
-    </div>
-);
-
-// ─────────────────────────────────────────────
-//  CTA Illustration
-// ─────────────────────────────────────────────
-const ThinkingGirl = () => (
-    <div style={{ position: "relative", width: 200, height: 200 }}>
-        {/* Books tower */}
-        <div style={{ position: "absolute", bottom: 0, left: 20 }}>
-            {[
-                { w: 80, h: 14, bg: "#92400E" },
-                { w: 70, h: 14, bg: "#D97706" },
-                { w: 75, h: 14, bg: "#B45309" },
-                { w: 65, h: 14, bg: "#78350F" },
-                { w: 80, h: 14, bg: "#92400E" },
-            ].map((b, i) => (
-                <div
-                    key={i}
-                    style={{
-                        width: b.w,
-                        height: b.h,
-                        background: b.bg,
-                        borderRadius: 3,
-                        marginBottom: 1,
-                        boxShadow: "1px 2px 4px rgba(0,0,0,0.2)",
-                    }}
-                />
-            ))}
-        </div>
-        {/* Bookshelf poles */}
-        <div
-            style={{
-                position: "absolute",
-                bottom: 0,
-                left: 10,
-                width: 6,
-                height: 110,
-                background: "#6B3D14",
-                borderRadius: 3,
-            }}
-        />
-        <div
-            style={{
-                position: "absolute",
-                bottom: 0,
-                left: 105,
-                width: 6,
-                height: 110,
-                background: "#6B3D14",
-                borderRadius: 3,
-            }}
-        />
-
-        {/* Girl */}
-        <div
-            style={{
-                position: "absolute",
-                bottom: 0,
-                right: 10,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-            }}
-        >
-            {/* Head */}
-            <div
-                style={{
-                    width: 44,
-                    height: 44,
-                    background: "#FBBF24",
-                    borderRadius: "50%",
-                    position: "relative",
-                    marginBottom: -2,
-                }}
-            >
-                {/* Hair */}
-                <div
-                    style={{
-                        position: "absolute",
-                        top: -4,
-                        left: -4,
-                        right: -4,
-                        height: 26,
-                        background: "#DC2626",
-                        borderRadius: "50% 50% 0 0",
-                    }}
-                />
-                {/* Hair sides */}
-                <div
-                    style={{
-                        position: "absolute",
-                        top: 10,
-                        left: -8,
-                        width: 10,
-                        height: 24,
-                        background: "#DC2626",
-                        borderRadius: "0 0 8px 8px",
-                    }}
-                />
-                <div
-                    style={{
-                        position: "absolute",
-                        top: 10,
-                        right: -8,
-                        width: 10,
-                        height: 24,
-                        background: "#DC2626",
-                        borderRadius: "0 0 8px 8px",
-                    }}
-                />
-                {/* Face eyes */}
-                <div
-                    style={{
-                        position: "absolute",
-                        top: 18,
-                        left: 10,
-                        width: 7,
-                        height: 7,
-                        background: "#374151",
-                        borderRadius: "50%",
-                    }}
-                />
-                <div
-                    style={{
-                        position: "absolute",
-                        top: 18,
-                        right: 10,
-                        width: 7,
-                        height: 7,
-                        background: "#374151",
-                        borderRadius: "50%",
-                    }}
-                />
-                {/* Blush */}
-                <div
-                    style={{
-                        position: "absolute",
-                        top: 26,
-                        left: 6,
-                        width: 8,
-                        height: 4,
-                        background: "#FCA5A5",
-                        borderRadius: "50%",
-                        opacity: 0.7,
-                    }}
-                />
-                <div
-                    style={{
-                        position: "absolute",
-                        top: 26,
-                        right: 6,
-                        width: 8,
-                        height: 4,
-                        background: "#FCA5A5",
-                        borderRadius: "50%",
-                        opacity: 0.7,
-                    }}
-                />
-                {/* Hand on cheek */}
-                <div
-                    style={{
-                        position: "absolute",
-                        bottom: -4,
-                        right: -10,
-                        width: 12,
-                        height: 12,
-                        background: "#FBBF24",
-                        borderRadius: "50%",
-                    }}
-                />
-            </div>
-            {/* Body */}
-            <div
-                style={{
-                    width: 50,
-                    height: 60,
-                    background: "#7C3AED",
-                    borderRadius: "0 0 16px 16px",
-                    position: "relative",
-                }}
-            >
-                {/* Open book on lap */}
-                <div
-                    style={{
-                        position: "absolute",
-                        bottom: -5,
-                        left: -20,
-                        width: 45,
-                        height: 28,
-                        background: "#FEF3C7",
-                        borderRadius: 4,
-                        boxShadow: "0 4px 8px rgba(0,0,0,0.15)",
-                        display: "flex",
-                    }}
-                >
-                    <div style={{ flex: 1, borderRight: "1px solid #D1D5DB" }}>
-                        {[...Array(3)].map((_, i) => (
-                            <div
-                                key={i}
-                                style={{
-                                    height: 2,
-                                    background: "#D1D5DB",
-                                    margin: "4px 4px",
-                                }}
-                            />
-                        ))}
-                    </div>
-                    <div style={{ flex: 1 }}>
-                        {[...Array(3)].map((_, i) => (
-                            <div
-                                key={i}
-                                style={{
-                                    height: 2,
-                                    background: "#D1D5DB",
-                                    margin: "4px 4px",
-                                }}
-                            />
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        {/* Light bulb */}
-        <div
-            className="float-sm"
-            style={{ position: "absolute", top: 0, right: 30 }}
-        >
-            <div
-                style={{
-                    width: 28,
-                    height: 28,
-                    background: "#FEF08A",
-                    borderRadius: "50%",
-                    boxShadow: "0 0 20px #FDE047, 0 0 40px #FEF08A80",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: 16,
-                }}
-            >
-                💡
-            </div>
-        </div>
-    </div>
-);
 
 // ─────────────────────────────────────────────
 //  DATA: Materials list
@@ -938,372 +482,6 @@ const MATERIALS = [
     },
 ];
 
-// ─────────────────────────────────────────────
-//  Shared: Navbar (same as Landing)
-// ─────────────────────────────────────────────
-const Navbar = () => {
-    const [scrolled, setScrolled] = useState(false);
-    const [menuOpen, setMenuOpen] = useState(false);
-    useEffect(() => {
-        const h = () => setScrolled(window.scrollY > 20);
-        window.addEventListener("scroll", h);
-        return () => window.removeEventListener("scroll", h);
-    }, []);
-    return (
-        <nav
-            style={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                right: 0,
-                zIndex: 50,
-                background: scrolled ? "rgba(255,255,255,0.97)" : "transparent",
-                backdropFilter: scrolled ? "blur(12px)" : "none",
-                boxShadow: scrolled ? "0 2px 16px rgba(0,0,0,0.06)" : "none",
-                transition: "all 0.3s",
-            }}
-        >
-            <div
-                style={{ maxWidth: 1152, margin: "0 auto", padding: "0 24px" }}
-            >
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        height: 64,
-                    }}
-                >
-                    <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 8,
-                        }}
-                    >
-                        <Logo />
-                        <span
-                            style={{
-                                fontWeight: 800,
-                                fontSize: 18,
-                                color: "#111827",
-                            }}
-                        >
-                            Wariku
-                        </span>
-                    </div>
-                    {/* Desktop */}
-                    <div
-                        className="desktop-nav"
-                        style={{ display: "flex", gap: 32 }}
-                    >
-                        {["Home", "Material", "About"].map((item) => (
-                            <a
-                                key={item}
-                                href="#"
-                                className={`nav-link ${item === "Material" ? "active" : ""}`}
-                                style={{
-                                    fontSize: 14,
-                                    fontWeight: item === "Material" ? 700 : 500,
-                                    color:
-                                        item === "Material"
-                                            ? "#111827"
-                                            : "#6B7280",
-                                    textDecoration: "none",
-                                    transition: "color 0.2s",
-                                }}
-                            >
-                                {item}
-                            </a>
-                        ))}
-                    </div>
-                    <div
-                        className="desktop-nav"
-                        style={{ display: "flex", gap: 12 }}
-                    >
-                        <a
-                            href="#"
-                            style={{
-                                padding: "8px 20px",
-                                borderRadius: 999,
-                                border: "2px solid #2563EB",
-                                color: "#2563EB",
-                                fontWeight: 700,
-                                fontSize: 13,
-                                textDecoration: "none",
-                                transition: "all 0.2s",
-                            }}
-                            onMouseEnter={(e) => {
-                                e.target.style.background = "#2563EB";
-                                e.target.style.color = "#fff";
-                            }}
-                            onMouseLeave={(e) => {
-                                e.target.style.background = "transparent";
-                                e.target.style.color = "#2563EB";
-                            }}
-                        >
-                            Login
-                        </a>
-                        <a
-                            href="#"
-                            style={{
-                                padding: "8px 20px",
-                                borderRadius: 999,
-                                background: "#FBBF24",
-                                color: "#fff",
-                                fontWeight: 700,
-                                fontSize: 13,
-                                textDecoration: "none",
-                                boxShadow: "0 4px 12px rgba(251,191,36,0.3)",
-                            }}
-                        >
-                            Register
-                        </a>
-                    </div>
-                    {/* Mobile hamburger */}
-                    <button
-                        onClick={() => setMenuOpen(!menuOpen)}
-                        style={{
-                            background: "none",
-                            border: "none",
-                            cursor: "pointer",
-                            padding: 8,
-                            display: "none",
-                        }}
-                        className="mobile-menu-btn"
-                    >
-                        <div
-                            style={{
-                                width: 20,
-                                height: 2,
-                                background: "#374151",
-                                marginBottom: 4,
-                                transition: "all 0.3s",
-                                transform: menuOpen
-                                    ? "rotate(45deg) translate(4px, 4px)"
-                                    : "none",
-                            }}
-                        />
-                        <div
-                            style={{
-                                width: 20,
-                                height: 2,
-                                background: "#374151",
-                                marginBottom: 4,
-                                opacity: menuOpen ? 0 : 1,
-                                transition: "all 0.3s",
-                            }}
-                        />
-                        <div
-                            style={{
-                                width: 20,
-                                height: 2,
-                                background: "#374151",
-                                transition: "all 0.3s",
-                                transform: menuOpen
-                                    ? "rotate(-45deg) translate(4px, -4px)"
-                                    : "none",
-                            }}
-                        />
-                    </button>
-                </div>
-                {/* Mobile menu */}
-                {menuOpen && (
-                    <div
-                        style={{
-                            background: "#fff",
-                            borderTop: "1px solid #f3f4f6",
-                            padding: "12px 0 16px",
-                            borderRadius: "0 0 16px 16px",
-                            boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
-                        }}
-                    >
-                        {["Home", "Material", "About"].map((item) => (
-                            <a
-                                key={item}
-                                href="#"
-                                style={{
-                                    display: "block",
-                                    padding: "10px 16px",
-                                    color: "#374151",
-                                    fontWeight: 600,
-                                    fontSize: 14,
-                                    textDecoration: "none",
-                                }}
-                            >
-                                {item}
-                            </a>
-                        ))}
-                        <div
-                            style={{
-                                display: "flex",
-                                gap: 12,
-                                padding: "10px 16px",
-                                borderTop: "1px solid #f3f4f6",
-                                marginTop: 8,
-                            }}
-                        >
-                            <a
-                                href="#"
-                                style={{
-                                    flex: 1,
-                                    textAlign: "center",
-                                    padding: "8px 0",
-                                    borderRadius: 999,
-                                    border: "2px solid #2563EB",
-                                    color: "#2563EB",
-                                    fontWeight: 700,
-                                    fontSize: 13,
-                                    textDecoration: "none",
-                                }}
-                            >
-                                Login
-                            </a>
-                            <a
-                                href="#"
-                                style={{
-                                    flex: 1,
-                                    textAlign: "center",
-                                    padding: "8px 0",
-                                    borderRadius: 999,
-                                    background: "#FBBF24",
-                                    color: "#fff",
-                                    fontWeight: 700,
-                                    fontSize: 13,
-                                    textDecoration: "none",
-                                }}
-                            >
-                                Register
-                            </a>
-                        </div>
-                    </div>
-                )}
-            </div>
-            <style>{`
-        @media (max-width: 768px) {
-          .desktop-nav { display: none !important; }
-          .mobile-menu-btn { display: block !important; }
-        }
-      `}</style>
-        </nav>
-    );
-};
-
-// ─────────────────────────────────────────────
-//  Shared: Footer
-// ─────────────────────────────────────────────
-const Footer = () => (
-    <footer
-        style={{
-            background: "#fff",
-            borderTop: "1px solid #f3f4f6",
-            padding: "48px 24px 32px",
-        }}
-    >
-        <div style={{ maxWidth: 1152, margin: "0 auto" }}>
-            <div
-                style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    justifyContent: "space-between",
-                    gap: 32,
-                    marginBottom: 40,
-                }}
-            >
-                <div>
-                    <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 8,
-                            marginBottom: 8,
-                        }}
-                    >
-                        <Logo />
-                        <span
-                            style={{
-                                fontWeight: 800,
-                                fontSize: 18,
-                                color: "#111827",
-                            }}
-                        >
-                            Wariku
-                        </span>
-                    </div>
-                </div>
-                <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
-                    <div>
-                        {["Home", "Material", "About", "Contact"].map((l) => (
-                            <a
-                                key={l}
-                                href="#"
-                                style={{
-                                    display: "block",
-                                    color: "#6B7280",
-                                    fontSize: 13,
-                                    textDecoration: "none",
-                                    marginBottom: 8,
-                                }}
-                            >
-                                {l}
-                            </a>
-                        ))}
-                    </div>
-                    <div>
-                        {["Media", "News", "Support Us"].map((l) => (
-                            <a
-                                key={l}
-                                href="#"
-                                style={{
-                                    display: "block",
-                                    color: "#6B7280",
-                                    fontSize: 13,
-                                    textDecoration: "none",
-                                    marginBottom: 8,
-                                }}
-                            >
-                                {l}
-                            </a>
-                        ))}
-                    </div>
-                </div>
-                <div style={{ display: "flex", gap: 10 }}>
-                    {[IgIcon, FbIcon, TwIcon].map((Icon, i) => (
-                        <a
-                            key={i}
-                            href="#"
-                            style={{
-                                width: 38,
-                                height: 38,
-                                borderRadius: "50%",
-                                background: "#F3F4F6",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                color: "#6B7280",
-                                textDecoration: "none",
-                                transition: "all 0.2s",
-                            }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.background = "#FBBF24";
-                                e.currentTarget.style.color = "#fff";
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.background = "#F3F4F6";
-                                e.currentTarget.style.color = "#6B7280";
-                            }}
-                        >
-                            <Icon />
-                        </a>
-                    ))}
-                </div>
-            </div>
-            <p style={{ textAlign: "center", color: "#9CA3AF", fontSize: 12 }}>
-                © 2026 Wariku. All rights reserved.
-            </p>
-        </div>
-    </footer>
-);
 
 // ─────────────────────────────────────────────
 //  PAGE: Material Page
@@ -1322,31 +500,15 @@ export default function MaterialPage() {
     const hasMore = visibleCount < filtered.length;
 
     return (
-        <div style={{ minHeight: "100vh", background: "#fafaf8" }}>
+        <div className="bg-linear-to-b from-[#F8F6F1] to-white">
             <GlobalStyles />
             <Navbar />
 
             {/* ══ HERO ══════════════════════════════════════ */}
-            <section
-                className="hero-material"
-                style={{ paddingTop: 96, paddingBottom: 64 }}
-            >
-                <div
-                    style={{
-                        maxWidth: 1152,
-                        margin: "0 auto",
-                        padding: "0 24px",
-                    }}
-                >
-                    <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            flexWrap: "wrap",
-                            gap: 32,
-                        }}
-                    >
+            <section className="py-16 md:pt-24 md:pb-20">
+                <div className="max-w-360 mx-auto pl-4 sm:pl-6 lg:pl-16 bg-white rounded-4xl">
+                    <div className="flex flex-col md:flex-row gap-10 md:gap-20 md:justify-between items-center mb-14 relative">
+                        <ItemFadeIn direction="left" className="md:w-5/12 z-10">
                         {/* Text */}
                         <div
                             ref={heroRef}
@@ -1393,7 +555,7 @@ export default function MaterialPage() {
                                     color: "#111827",
                                     lineHeight: 1.2,
                                     marginBottom: 16,
-                                }}
+                                }} className="font-serif"
                             >
                                 Jelajahi Materi{" "}
                                 <span
@@ -1429,39 +591,27 @@ export default function MaterialPage() {
                                     </svg>
                                 </span>
                             </h1>
-                            <p
-                                style={{
-                                    color: "#6B7280",
-                                    fontSize: 15,
-                                    lineHeight: 1.7,
-                                    maxWidth: 400,
-                                }}
-                            >
+                            <p className="text-base">
                                 Temukan berbagai materi matematika dasar yang
                                 dirancang secara bertahap sesuai tingkat
                                 pemahaman kamu
                             </p>
                         </div>
-
-                        {/* Illustration */}
-                        <div
-                            style={{
-                                opacity: heroVisible ? 1 : 0,
-                                transform: heroVisible
-                                    ? "none"
-                                    : "translateX(32px)",
-                                transition:
-                                    "opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s",
-                            }}
+                        </ItemFadeIn>
+                        <ItemFadeIn
+                            direction="right"
+                            delay={0.15}
+                            className=""
                         >
-                            <BookIllustration />
-                        </div>
+                            <img src={HeroMaterial} alt="Hero Material" />
+                        </ItemFadeIn>
+                        {/* <div className="absolute w-100 h-100 bg-[#F7D55D] rounded-full blur-3xl -left-40 -top-40"></div> */}
                     </div>
                 </div>
             </section>
 
             {/* ══ MATERIALS GRID ════════════════════════════ */}
-            <section style={{ padding: "64px 24px" }}>
+            <section>
                 <div style={{ maxWidth: 1152, margin: "0 auto" }}>
                     {/* Section header */}
                     <div style={{ textAlign: "center", marginBottom: 40 }}>
@@ -1574,71 +724,25 @@ export default function MaterialPage() {
                 </div>
             </section>
 
-            {/* ══ CTA BANNER ════════════════════════════════ */}
-            <section
-                className="cta-purple"
-                style={{
-                    padding: "64px 24px",
-                    margin: "0 24px 64px",
-                    borderRadius: 24,
-                    maxWidth: 1152,
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                }}
-            >
-                <div
-                    style={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        gap: 32,
-                        maxWidth: 1104,
-                        margin: "0 auto",
-                    }}
-                >
-                    {/* Illustration */}
-                    <div style={{ flexShrink: 0 }}>
-                        <ThinkingGirl />
-                    </div>
-                    {/* Quote */}
-                    <div style={{ flex: 1, minWidth: 260 }}>
-                        <div
-                            style={{
-                                color: "rgba(255,255,255,0.5)",
-                                fontSize: 64,
-                                lineHeight: 0.6,
-                                marginBottom: 16,
-                                fontFamily: "Georgia, serif",
-                            }}
+            {/* ══════════════════════════════════════════ CTA BANNER ══ */}
+            <section className="py-12 md:py-20">
+                <div className="max-w-360 mx-auto pr-4 sm:pr-6 lg:pr-16 bg-linear-to-tr from-[#41278E] to-[#6F43F4] md:rounded-2xl shadow-lg">
+                    <div className="flex justify-end relative min-h-56 md:min-h-96">
+                        <ItemFadeIn
+                            direction="left"
+                            className="hidden md:block md:absolute left-0 -top-20"
                         >
-                            "
-                        </div>
-                        <p
-                            style={{
-                                color: "#fff",
-                                fontSize: "clamp(1.1rem, 2.5vw, 1.5rem)",
-                                fontWeight: 700,
-                                lineHeight: 1.6,
-                                maxWidth: 440,
-                            }}
+                            <img src={QuoteMaterial} alt="Education" />
+                        </ItemFadeIn>
+                        <ItemFadeIn
+                            direction="right"
+                            delay={0.2}
+                            className="relative self-center text-center md:text-left md:max-w-xl"
                         >
-                            Belajar bukan tentang seberapa cepat kamu memahami,
-                            tetapi tentang seberapa konsisten kamu mencoba.
-                        </p>
-                        <div
-                            style={{
-                                color: "rgba(255,255,255,0.5)",
-                                fontSize: 64,
-                                lineHeight: 0.6,
-                                marginTop: 12,
-                                textAlign: "right",
-                                maxWidth: 440,
-                                fontFamily: "Georgia, serif",
-                            }}
-                        >
-                            "
-                        </div>
+                            <h2 className="text-xl md:text-2xl text-white leading-tight mb-3 font-serif text-center md:text-right">
+                                "Belajar bukan tentang seberapa cepat kamu memahami, tetapi tentang seberapa konsisten kamu mencoba."
+                            </h2>
+                        </ItemFadeIn>
                     </div>
                 </div>
             </section>
