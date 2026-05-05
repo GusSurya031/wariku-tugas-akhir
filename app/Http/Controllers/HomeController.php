@@ -16,6 +16,9 @@ class HomeController extends Controller
         return Inertia::render('Guest/Material');
     }
 
+    public function showMaterial(){
+        return Inertia::render('Guest/DetailMaterial');
+    }
     // public function showMaterial(Material $material){
     //     return Inertia::render('Guest/ShowMaterial', [
     //         'material' => $material

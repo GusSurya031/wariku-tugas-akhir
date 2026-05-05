@@ -58,11 +58,6 @@ const GlobalStyles = () => (
       font-size: 11px; font-weight: 700; letter-spacing: 0.03em;
     }
 
-    /* CTA purple section */
-    .cta-purple {
-      background: linear-gradient(135deg, #5B21B6 0%, #7C3AED 60%, #6D28D9 100%);
-    }
-
     /* Load more btn */
     .btn-outline-dark {
       border: 2px solid #374151; border-radius: 999px;
@@ -82,24 +77,6 @@ const GlobalStyles = () => (
       border-color: #F59E0B; background: #FEF3C7; color: #92400e;
     }
     .filter-pill.active { background: #F59E0B; color: #fff; border-color: #F59E0B; }
-
-    /* Animations */
-    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-    @keyframes spinSlow { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
-    @keyframes fadeSlideUp {
-      from { opacity:0; transform:translateY(28px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-    .float-sm { animation: float 5s ease-in-out infinite; }
-    .float-sm:nth-child(2) { animation-duration: 7s; animation-delay: 1s; }
-    .spin-slow { animation: spinSlow 20s linear infinite; }
-
-    /* Scroll fade-in */
-    .fade-in-ready {
-      opacity: 0; transform: translateY(24px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .fade-in-ready.visible { opacity: 1; transform: none; }
   `}</style>
 );
 

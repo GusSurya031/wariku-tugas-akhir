@@ -45,18 +45,18 @@ export default function Navbar() {
 
                     {/* CTA Buttons */}
                     <div className="hidden md:flex md:flex-1 justify-end items-center gap-3">
-                        <a
+                        <Link
                             href="#"
                             className="px-5 py-2 text-base font-semibold text-blue-600 border-2 border-blue-600 rounded-full hover:bg-blue-600 hover:text-white transition-all duration-200"
                         >
                             Login
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                             href="#"
                             className="px-5 py-2 text-base font-semibold text-white bg-yellow-400 rounded-full hover:bg-yellow-500 transition-all duration-200 shadow-md"
                         >
                             Register
-                        </a>
+                        </Link>
                     </div>
 
                     {/* Mobile menu button */}
