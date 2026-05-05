@@ -6,80 +6,6 @@ import ItemFadeIn from "@/components/ItemFadeIn";
 import HeroMaterial from "@/assets/images/hero-material.png";
 import QuoteMaterial from "@/assets/images/quotes-material.png";
 
-
-
-// ─────────────────────────────────────────────
-//  Shared: Fonts + Base Styles
-// ─────────────────────────────────────────────
-const GlobalStyles = () => (
-    <style>{`
-
-    /* Hero */
-    .hero-material {
-      background: linear-gradient(135deg, #fef9e7 0%, #fdf4ca 50%, #fef3e2 100%);
-      overflow: hidden;
-    }
-
-    /* Material Card */
-    .material-card {
-      background: #ffffff;
-      border: 1px solid #f0ede6;
-      border-radius: 20px;
-      overflow: hidden;
-      transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), box-shadow 0.3s ease;
-      cursor: pointer;
-    }
-    .material-card:hover {
-      transform: translateY(-8px) scale(1.01);
-      box-shadow: 0 24px 48px rgba(0,0,0,0.10);
-    }
-    .material-card:hover .card-btn { background: #F59E0B; color: #fff; }
-    .card-thumbnail {
-      background: linear-gradient(135deg, #fef9e7, #fff7ed);
-      min-height: 160px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .card-btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 6px 16px; border-radius: 999px;
-      background: #FEF3C7; color: #92400e;
-      font-size: 12px; font-weight: 700;
-      border: none; cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-    }
-
-    /* Category badge */
-    .badge {
-      display: inline-block; padding: 3px 10px; border-radius: 999px;
-      font-size: 11px; font-weight: 700; letter-spacing: 0.03em;
-    }
-
-    /* Load more btn */
-    .btn-outline-dark {
-      border: 2px solid #374151; border-radius: 999px;
-      padding: 10px 32px; font-weight: 700; font-size: 14px;
-      background: transparent; color: #374151; cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-    }
-    .btn-outline-dark:hover { background: #374151; color: #fff; }
-
-    /* Filter pill */
-    .filter-pill {
-      padding: 6px 18px; border-radius: 999px; font-size: 13px; font-weight: 600;
-      border: 2px solid #e5e7eb; background: #fff; color: #6b7280;
-      cursor: pointer; transition: all 0.2s;
-    }
-    .filter-pill.active, .filter-pill:hover {
-      border-color: #F59E0B; background: #FEF3C7; color: #92400e;
-    }
-    .filter-pill.active { background: #F59E0B; color: #fff; border-color: #F59E0B; }
-  `}</style>
-);
-
 // ─────────────────────────────────────────────
 //  Shared: useInView scroll hook
 // ─────────────────────────────────────────────
@@ -88,9 +14,7 @@ function useInView(threshold = 0.12) {
     const [visible, setVisible] = useState(false);
     useEffect(() => {
         const obs = new IntersectionObserver(
-            ([e]) => {
-                if (e.isIntersecting) setVisible(true);
-            },
+            ([e]) => { if (e.isIntersecting) setVisible(true); },
             { threshold },
         );
         if (ref.current) obs.observe(ref.current);
@@ -102,84 +26,25 @@ function useInView(threshold = 0.12) {
 // ─────────────────────────────────────────────
 //  Reusable: Math Thumbnail Illustration
 // ─────────────────────────────────────────────
-const MathThumbnail = ({
-    color = "#6366F1",
-    accentColor = "#F59E0B",
-    size = "md",
-}) => {
+const MathThumbnail = ({ size = "md" }) => {
     const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
     const ops = ["+", "−", "×", "÷", "="];
-    const colors = [
-        "#EF4444",
-        "#3B82F6",
-        "#10B981",
-        "#F59E0B",
-        "#8B5CF6",
-        "#EC4899",
-        "#06B6D4",
-    ];
+    const colors = ["#EF4444", "#3B82F6", "#10B981", "#F59E0B", "#8B5CF6", "#EC4899", "#06B6D4"];
     const sz = size === "sm" ? 0.75 : 1;
 
     return (
-        <div
-            style={{
-                width: `${160 * sz}px`,
-                height: `${120 * sz}px`,
-                position: "relative",
-                userSelect: "none",
-            }}
-        >
-            {/* Scattered numbers */}
+        <div style={{ width: `${160 * sz}px`, height: `${120 * sz}px`, position: "relative", userSelect: "none" }}>
             {numbers.map((n, i) => (
-                <div
-                    key={n}
-                    style={{
-                        position: "absolute",
-                        fontSize: `${(14 + (i % 3) * 4) * sz}px`,
-                        fontWeight: 900,
-                        color: colors[i % colors.length],
-                        left: `${(i * 17) % 80}%`,
-                        top: `${(i * 23 + 5) % 70}%`,
-                        textShadow: "0 2px 4px rgba(0,0,0,0.12)",
-                        transform: `rotate(${i * 13 - 20}deg)`,
-                        lineHeight: 1,
-                    }}
-                >
+                <div key={n} style={{ position: "absolute", fontSize: `${(14 + (i % 3) * 4) * sz}px`, fontWeight: 900, color: colors[i % colors.length], left: `${(i * 17) % 80}%`, top: `${(i * 23 + 5) % 70}%`, textShadow: "0 2px 4px rgba(0,0,0,0.12)", transform: `rotate(${i * 13 - 20}deg)`, lineHeight: 1 }}>
                     {n}
                 </div>
             ))}
-            {/* Operators */}
             {ops.map((op, i) => (
-                <div
-                    key={op}
-                    style={{
-                        position: "absolute",
-                        fontSize: `${11 * sz}px`,
-                        fontWeight: 700,
-                        color: colors[(i + 3) % colors.length],
-                        left: `${(i * 19 + 5) % 85}%`,
-                        top: `${(i * 17 + 15) % 75}%`,
-                        transform: `rotate(${i * -11}deg)`,
-                    }}
-                >
+                <div key={op} style={{ position: "absolute", fontSize: `${11 * sz}px`, fontWeight: 700, color: colors[(i + 3) % colors.length], left: `${(i * 19 + 5) % 85}%`, top: `${(i * 17 + 15) % 75}%`, transform: `rotate(${i * -11}deg)` }}>
                     {op}
                 </div>
             ))}
-            {/* MATH text */}
-            <div
-                style={{
-                    position: "absolute",
-                    bottom: "8%",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    fontSize: `${22 * sz}px`,
-                    fontWeight: 900,
-                    color: "#1D4ED8",
-                    textShadow: `2px 2px 0 #93C5FD, -1px -1px 0 #BFDBFE`,
-                    letterSpacing: "3px",
-                    whiteSpace: "nowrap",
-                }}
-            >
+            <div style={{ position: "absolute", bottom: "8%", left: "50%", transform: "translateX(-50%)", fontSize: `${22 * sz}px`, fontWeight: 900, color: "#1D4ED8", textShadow: `2px 2px 0 #93C5FD, -1px -1px 0 #BFDBFE`, letterSpacing: "3px", whiteSpace: "nowrap" }}>
                 MATH
             </div>
         </div>
@@ -187,20 +52,8 @@ const MathThumbnail = ({
 };
 
 // ─────────────────────────────────────────────
-//  ✅ REUSABLE COMPONENT: MaterialCard
+//  Reusable: MaterialCard
 // ─────────────────────────────────────────────
-/**
- * Props:
- *  - title      {string}  Card title
- *  - description{string}  Short description text
- *  - category   {string}  Badge label (e.g. "Dasar", "Menengah")
- *  - categoryColor{string} Tailwind-style hex for badge bg
- *  - level      {number}  Difficulty 1-3
- *  - duration   {string}  e.g. "45 Menit"
- *  - thumbnail  {ReactNode} Optional custom thumbnail
- *  - onSelect   {fn}      Click handler
- *  - delay      {number}  Animation stagger delay in seconds
- */
 const MaterialCard = ({
     title = "Penjumlahan Dasar",
     description = "Pelajari konsep dasar penjumlahan sebagai fondasi dalam memahami operasi matematika.",
@@ -218,11 +71,11 @@ const MaterialCard = ({
     return (
         <div
             ref={ref}
-            className="material-card fade-in-ready"
+            className="material-card"
             style={{
                 transitionDelay: `${delay}s`,
                 opacity: visible ? 1 : 0,
-                transform: visible ? "none" : "translateY(24px)",
+                transform: visible ? "translateY(0)" : "translateY(24px)",
             }}
             onClick={onSelect}
             role="button"
@@ -232,49 +85,18 @@ const MaterialCard = ({
             {/* Thumbnail */}
             <div className="card-thumbnail">
                 {thumbnail || <MathThumbnail />}
-                {/* Category badge overlay */}
+
+                {/* Category badge */}
                 <div
-                    style={{
-                        position: "absolute",
-                        top: 12,
-                        left: 12,
-                        background: categoryColor,
-                        color: "#fff",
-                        borderRadius: "999px",
-                        padding: "3px 10px",
-                        fontSize: "11px",
-                        fontWeight: 700,
-                        letterSpacing: "0.03em",
-                    }}
+                    className="absolute top-3 left-3 text-white rounded-full px-[10px] py-[3px] text-[11px] font-bold tracking-wide"
+                    style={{ background: categoryColor }}
                 >
                     {category}
                 </div>
+
                 {/* Duration badge */}
-                <div
-                    style={{
-                        position: "absolute",
-                        top: 12,
-                        right: 12,
-                        background: "rgba(255,255,255,0.9)",
-                        backdropFilter: "blur(4px)",
-                        borderRadius: "999px",
-                        padding: "3px 10px",
-                        fontSize: "11px",
-                        fontWeight: 600,
-                        color: "#374151",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 4,
-                    }}
-                >
-                    <svg
-                        width="11"
-                        height="11"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#6B7280"
-                        strokeWidth="2.5"
-                    >
+                <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full px-[10px] py-[3px] text-[11px] font-semibold text-gray-700 flex items-center gap-1">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#6B7280" strokeWidth="2.5">
                         <circle cx="12" cy="12" r="10" />
                         <path d="M12 6v6l4 2" />
                     </svg>
@@ -283,68 +105,31 @@ const MaterialCard = ({
             </div>
 
             {/* Body */}
-            <div style={{ padding: "16px 18px 18px" }}>
+            <div className="px-[18px] pt-4 pb-[18px]">
                 {/* Difficulty dots */}
-                <div style={{ display: "flex", gap: 4, marginBottom: 8 }}>
+                <div className="flex items-center gap-1 mb-2">
                     {levelDots.map((d) => (
                         <div
                             key={d}
-                            style={{
-                                width: 8,
-                                height: 8,
-                                borderRadius: "50%",
-                                background: d <= level ? "#F59E0B" : "#E5E7EB",
-                            }}
+                            className="w-2 h-2 rounded-full"
+                            style={{ background: d <= level ? "#F59E0B" : "#E5E7EB" }}
                         />
                     ))}
-                    <span
-                        style={{
-                            fontSize: 11,
-                            color: "#9CA3AF",
-                            marginLeft: 4,
-                            fontWeight: 500,
-                        }}
-                    >
-                        {level === 1
-                            ? "Pemula"
-                            : level === 2
-                              ? "Menengah"
-                              : "Lanjut"}
+                    <span className="text-[11px] text-gray-400 ml-1 font-medium">
+                        {level === 1 ? "Pemula" : level === 2 ? "Menengah" : "Lanjut"}
                     </span>
                 </div>
 
-                <h3
-                    style={{
-                        fontSize: 15,
-                        fontWeight: 800,
-                        color: "#111827",
-                        marginBottom: 6,
-                        lineHeight: 1.3,
-                    }}
-                >
+                <h3 className="text-[15px] font-extrabold text-gray-900 mb-1.5 leading-tight">
                     {title}
                 </h3>
-                <p
-                    style={{
-                        fontSize: 12.5,
-                        color: "#6B7280",
-                        lineHeight: 1.6,
-                        marginBottom: 14,
-                    }}
-                >
+                <p className="text-[12.5px] text-gray-500 leading-relaxed mb-3.5">
                     {description}
                 </p>
 
                 <button className="card-btn">
                     Selengkapnya
-                    <svg
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                    >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                         <path d="M7 17L17 7M17 7H7M17 7v10" />
                     </svg>
                 </button>
@@ -353,112 +138,22 @@ const MaterialCard = ({
     );
 };
 
-
 // ─────────────────────────────────────────────
 //  DATA: Materials list
 // ─────────────────────────────────────────────
-const CATEGORIES = [
-    "Semua",
-    "Dasar",
-    "Menengah",
-    "Lanjut",
-    "Geometri",
-    "Statistik",
-];
+const CATEGORIES = ["Semua", "Dasar", "Menengah", "Lanjut", "Geometri", "Statistik"];
 
 const MATERIALS = [
-    {
-        id: 1,
-        title: "Penjumlahan Dasar",
-        description:
-            "Pelajari konsep dasar penjumlahan sebagai fondasi dalam memahami operasi matematika.",
-        category: "Dasar",
-        categoryColor: "#16A34A",
-        level: 1,
-        duration: "30 Menit",
-    },
-    {
-        id: 2,
-        title: "Pengurangan Bilangan",
-        description:
-            "Pelajari teknik pengurangan bilangan bulat dan desimal dengan latihan bertahap.",
-        category: "Dasar",
-        categoryColor: "#16A34A",
-        level: 1,
-        duration: "25 Menit",
-    },
-    {
-        id: 3,
-        title: "Perkalian & Pembagian",
-        description:
-            "Kuasai operasi perkalian dan pembagian dasar untuk memperkuat fondasi matematikamu.",
-        category: "Dasar",
-        categoryColor: "#16A34A",
-        level: 1,
-        duration: "40 Menit",
-    },
-    {
-        id: 4,
-        title: "Pecahan & Desimal",
-        description:
-            "Memahami konsep pecahan biasa, campuran, dan desimal serta konversinya.",
-        category: "Menengah",
-        categoryColor: "#D97706",
-        level: 2,
-        duration: "45 Menit",
-    },
-    {
-        id: 5,
-        title: "Persamaan Linear",
-        description:
-            "Belajar menyelesaikan persamaan linear satu dan dua variabel secara sistematis.",
-        category: "Menengah",
-        categoryColor: "#D97706",
-        level: 2,
-        duration: "50 Menit",
-    },
-    {
-        id: 6,
-        title: "Bilangan Bulat Negatif",
-        description:
-            "Operasi bilangan bulat negatif dalam garis bilangan dan konteks nyata.",
-        category: "Menengah",
-        categoryColor: "#D97706",
-        level: 2,
-        duration: "35 Menit",
-    },
-    {
-        id: 7,
-        title: "Aljabar Dasar",
-        description:
-            "Pengenalan variabel, ekspresi aljabar, dan cara menyederhanakan bentuk aljabar.",
-        category: "Lanjut",
-        categoryColor: "#7C3AED",
-        level: 3,
-        duration: "60 Menit",
-    },
-    {
-        id: 8,
-        title: "Fungsi & Grafik",
-        description:
-            "Memahami konsep fungsi matematika dan cara menggambar grafiknya di bidang koordinat.",
-        category: "Lanjut",
-        categoryColor: "#7C3AED",
-        level: 3,
-        duration: "55 Menit",
-    },
-    {
-        id: 9,
-        title: "Luas & Keliling Bangun Datar",
-        description:
-            "Hitung luas dan keliling berbagai bangun datar: persegi, segitiga, lingkaran, dan trapesium.",
-        category: "Geometri",
-        categoryColor: "#0369A1",
-        level: 2,
-        duration: "40 Menit",
-    },
+    { id: 1, title: "Penjumlahan Dasar", description: "Pelajari konsep dasar penjumlahan sebagai fondasi dalam memahami operasi matematika.", category: "Dasar", categoryColor: "#16A34A", level: 1, duration: "30 Menit" },
+    { id: 2, title: "Pengurangan Bilangan", description: "Pelajari teknik pengurangan bilangan bulat dan desimal dengan latihan bertahap.", category: "Dasar", categoryColor: "#16A34A", level: 1, duration: "25 Menit" },
+    { id: 3, title: "Perkalian & Pembagian", description: "Kuasai operasi perkalian dan pembagian dasar untuk memperkuat fondasi matematikamu.", category: "Dasar", categoryColor: "#16A34A", level: 1, duration: "40 Menit" },
+    { id: 4, title: "Pecahan & Desimal", description: "Memahami konsep pecahan biasa, campuran, dan desimal serta konversinya.", category: "Menengah", categoryColor: "#D97706", level: 2, duration: "45 Menit" },
+    { id: 5, title: "Persamaan Linear", description: "Belajar menyelesaikan persamaan linear satu dan dua variabel secara sistematis.", category: "Menengah", categoryColor: "#D97706", level: 2, duration: "50 Menit" },
+    { id: 6, title: "Bilangan Bulat Negatif", description: "Operasi bilangan bulat negatif dalam garis bilangan dan konteks nyata.", category: "Menengah", categoryColor: "#D97706", level: 2, duration: "35 Menit" },
+    { id: 7, title: "Aljabar Dasar", description: "Pengenalan variabel, ekspresi aljabar, dan cara menyederhanakan bentuk aljabar.", category: "Lanjut", categoryColor: "#7C3AED", level: 3, duration: "60 Menit" },
+    { id: 8, title: "Fungsi & Grafik", description: "Memahami konsep fungsi matematika dan cara menggambar grafiknya di bidang koordinat.", category: "Lanjut", categoryColor: "#7C3AED", level: 3, duration: "55 Menit" },
+    { id: 9, title: "Luas & Keliling Bangun Datar", description: "Hitung luas dan keliling berbagai bangun datar: persegi, segitiga, lingkaran, dan trapesium.", category: "Geometri", categoryColor: "#0369A1", level: 2, duration: "40 Menit" },
 ];
-
 
 // ─────────────────────────────────────────────
 //  PAGE: Material Page
@@ -468,17 +163,15 @@ export default function MaterialPage() {
     const [visibleCount, setVisibleCount] = useState(9);
     const [heroRef, heroVisible] = useInView(0.1);
 
-    const filtered =
-        activeFilter === "Semua"
-            ? MATERIALS
-            : MATERIALS.filter((m) => m.category === activeFilter);
+    const filtered = activeFilter === "Semua"
+        ? MATERIALS
+        : MATERIALS.filter((m) => m.category === activeFilter);
 
     const visible = filtered.slice(0, visibleCount);
     const hasMore = visibleCount < filtered.length;
 
     return (
         <div className="bg-linear-to-b from-[#F8F6F1] to-white">
-            <GlobalStyles />
             <Navbar />
 
             {/* ══ HERO ══════════════════════════════════════ */}
@@ -486,155 +179,83 @@ export default function MaterialPage() {
                 <div className="max-w-360 mx-auto pl-4 sm:pl-6 lg:pl-16 bg-white rounded-4xl">
                     <div className="flex flex-col md:flex-row gap-10 md:gap-20 md:justify-between items-center mb-14 relative">
                         <ItemFadeIn direction="left" className="md:w-5/12 z-10">
-                        {/* Text */}
-                        <div
-                            ref={heroRef}
-                            style={{
-                                maxWidth: 480,
-                                opacity: heroVisible ? 1 : 0,
-                                transform: heroVisible
-                                    ? "none"
-                                    : "translateX(-32px)",
-                                transition:
-                                    "opacity 0.7s ease, transform 0.7s ease",
-                            }}
-                        >
-                            {/* Eyebrow */}
                             <div
+                                ref={heroRef}
+                                className="max-w-[480px]"
                                 style={{
-                                    display: "inline-flex",
-                                    alignItems: "center",
-                                    gap: 8,
-                                    background: "#fff",
-                                    border: "1px solid #E5E7EB",
-                                    borderRadius: 999,
-                                    padding: "4px 14px",
-                                    marginBottom: 16,
-                                    boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                                    opacity: heroVisible ? 1 : 0,
+                                    transform: heroVisible ? "none" : "translateX(-32px)",
+                                    transition: "opacity 0.7s ease, transform 0.7s ease",
                                 }}
                             >
-                                <span style={{ fontSize: 14 }}>📚</span>
-                                <span
-                                    style={{
-                                        fontSize: 12,
-                                        fontWeight: 700,
-                                        color: "#D97706",
-                                    }}
-                                >
-                                    Materi Pembelajaran
-                                </span>
-                            </div>
+                                {/* Eyebrow */}
+                                <div className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-[14px] py-1 mb-4 shadow-sm">
+                                    <span className="text-sm">📚</span>
+                                    <span className="text-xs font-bold text-amber-600">
+                                        Materi Pembelajaran
+                                    </span>
+                                </div>
 
-                            <h1
-                                style={{
-                                    fontSize: "clamp(2rem, 5vw, 3rem)",
-                                    fontWeight: 900,
-                                    color: "#111827",
-                                    lineHeight: 1.2,
-                                    marginBottom: 16,
-                                }} className="font-serif"
-                            >
-                                Jelajahi Materi{" "}
-                                <span
-                                    style={{
-                                        fontFamily: "'Caveat', cursive",
-                                        color: "#F59E0B",
-                                        fontSize:
-                                            "clamp(2.2rem, 5.5vw, 3.4rem)",
-                                        display: "inline-block",
-                                        position: "relative",
-                                    }}
+                                <h1
+                                    className="font-black text-gray-900 leading-tight mb-4 font-serif"
+                                    style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}
                                 >
-                                    Pembelajaran
-                                    {/* Underline decoration */}
-                                    <svg
+                                    Jelajahi Materi{" "}
+                                    <span
+                                        className="text-amber-400 inline-block relative"
                                         style={{
-                                            position: "absolute",
-                                            bottom: -4,
-                                            left: 0,
-                                            width: "100%",
+                                            fontFamily: "'Caveat', cursive",
+                                            fontSize: "clamp(2.2rem, 5.5vw, 3.4rem)",
                                         }}
-                                        height="8"
-                                        viewBox="0 0 200 8"
-                                        preserveAspectRatio="none"
                                     >
-                                        <path
-                                            d="M0 6 Q50 0 100 5 Q150 10 200 4"
-                                            stroke="#F59E0B"
-                                            strokeWidth="3"
-                                            fill="none"
-                                            strokeLinecap="round"
-                                        />
-                                    </svg>
-                                </span>
-                            </h1>
-                            <p className="text-base">
-                                Temukan berbagai materi matematika dasar yang
-                                dirancang secara bertahap sesuai tingkat
-                                pemahaman kamu
-                            </p>
-                        </div>
+                                        Pembelajaran
+                                        <svg
+                                            className="absolute -bottom-1 left-0 w-full"
+                                            height="8"
+                                            viewBox="0 0 200 8"
+                                            preserveAspectRatio="none"
+                                        >
+                                            <path d="M0 6 Q50 0 100 5 Q150 10 200 4" stroke="#F59E0B" strokeWidth="3" fill="none" strokeLinecap="round" />
+                                        </svg>
+                                    </span>
+                                </h1>
+
+                                <p className="text-base">
+                                    Temukan berbagai materi matematika dasar yang dirancang secara bertahap sesuai tingkat pemahaman kamu
+                                </p>
+                            </div>
                         </ItemFadeIn>
-                        <ItemFadeIn
-                            direction="right"
-                            delay={0.15}
-                            className=""
-                        >
+
+                        <ItemFadeIn direction="right" delay={0.15}>
                             <img src={HeroMaterial} alt="Hero Material" />
                         </ItemFadeIn>
-                        {/* <div className="absolute w-100 h-100 bg-[#F7D55D] rounded-full blur-3xl -left-40 -top-40"></div> */}
                     </div>
                 </div>
             </section>
 
             {/* ══ MATERIALS GRID ════════════════════════════ */}
             <section>
-                <div style={{ maxWidth: 1152, margin: "0 auto" }}>
+                <div className="max-w-6xl mx-auto px-4">
                     {/* Section header */}
-                    <div style={{ textAlign: "center", marginBottom: 40 }}>
+                    <div className="text-center mb-10">
                         <h2
-                            style={{
-                                fontSize: "clamp(1.6rem, 3vw, 2.2rem)",
-                                fontWeight: 900,
-                                color: "#111827",
-                                marginBottom: 10,
-                            }}
+                            className="font-black text-gray-900 mb-2.5"
+                            style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)" }}
                         >
                             Pilih Materi Belajarmu
                         </h2>
-                        <p
-                            style={{
-                                color: "#6B7280",
-                                fontSize: 14,
-                                lineHeight: 1.7,
-                                maxWidth: 480,
-                                margin: "0 auto",
-                            }}
-                        >
-                            Mulai dari konsep dasar hingga tingkat lanjut,
-                            setiap materi disusun untuk membantu kamu belajar
-                            secara bertahap dan terarah.
+                        <p className="text-gray-500 text-sm leading-[1.7] max-w-[480px] mx-auto">
+                            Mulai dari konsep dasar hingga tingkat lanjut, setiap materi disusun untuk membantu kamu belajar secara bertahap dan terarah.
                         </p>
                     </div>
 
                     {/* Filter Pills */}
-                    <div
-                        style={{
-                            display: "flex",
-                            flexWrap: "wrap",
-                            gap: 10,
-                            justifyContent: "center",
-                            marginBottom: 40,
-                        }}
-                    >
+                    <div className="flex flex-wrap gap-[10px] justify-center mb-10">
                         {CATEGORIES.map((cat) => (
                             <button
                                 key={cat}
                                 className={`filter-pill ${activeFilter === cat ? "active" : ""}`}
-                                onClick={() => {
-                                    setActiveFilter(cat);
-                                    setVisibleCount(9);
-                                }}
+                                onClick={() => { setActiveFilter(cat); setVisibleCount(9); }}
                             >
                                 {cat}
                             </button>
@@ -642,58 +263,30 @@ export default function MaterialPage() {
                     </div>
 
                     {/* Results count */}
-                    <div
-                        style={{
-                            marginBottom: 24,
-                            color: "#9CA3AF",
-                            fontSize: 13,
-                            textAlign: "center",
-                        }}
-                    >
+                    <div className="mb-6 text-gray-400 text-[13px] text-center">
                         Menampilkan{" "}
-                        <strong style={{ color: "#374151" }}>
-                            {Math.min(visibleCount, filtered.length)}
-                        </strong>{" "}
+                        <strong className="text-gray-700">{Math.min(visibleCount, filtered.length)}</strong>{" "}
                         dari{" "}
-                        <strong style={{ color: "#374151" }}>
-                            {filtered.length}
-                        </strong>{" "}
+                        <strong className="text-gray-700">{filtered.length}</strong>{" "}
                         materi
                     </div>
 
                     {/* Cards Grid */}
-                    <div
-                        style={{
-                            display: "grid",
-                            gridTemplateColumns:
-                                "repeat(auto-fill, minmax(280px, 1fr))",
-                            gap: 24,
-                        }}
-                    >
+                    <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
                         {visible.map((mat, idx) => (
                             <MaterialCard
                                 key={mat.id}
-                                title={mat.title}
-                                description={mat.description}
-                                category={mat.category}
-                                categoryColor={mat.categoryColor}
-                                level={mat.level}
-                                duration={mat.duration}
+                                {...mat}
                                 delay={(idx % 3) * 0.1}
-                                onSelect={() =>
-                                    console.log("Selected:", mat.title)
-                                }
+                                onSelect={() => console.log("Selected:", mat.title)}
                             />
                         ))}
                     </div>
 
                     {/* Load more */}
                     {hasMore && (
-                        <div style={{ textAlign: "center", marginTop: 48 }}>
-                            <button
-                                className="btn-outline-dark"
-                                onClick={() => setVisibleCount((v) => v + 6)}
-                            >
+                        <div className="text-center mt-12">
+                            <button className="btn-outline-dark" onClick={() => setVisibleCount((v) => v + 6)}>
                                 Lihat Lebih Banyak
                             </button>
                         </div>
@@ -701,21 +294,14 @@ export default function MaterialPage() {
                 </div>
             </section>
 
-            {/* ══════════════════════════════════════════ CTA BANNER ══ */}
+            {/* ══ CTA BANNER ════════════════════════════════ */}
             <section className="py-12 md:py-20">
                 <div className="max-w-360 mx-auto pr-4 sm:pr-6 lg:pr-16 bg-linear-to-tr from-[#41278E] to-[#6F43F4] md:rounded-2xl shadow-lg">
                     <div className="flex justify-end relative min-h-56 md:min-h-96">
-                        <ItemFadeIn
-                            direction="left"
-                            className="hidden md:block md:absolute left-0 -top-20"
-                        >
+                        <ItemFadeIn direction="left" className="hidden md:block md:absolute left-0 -top-20">
                             <img src={QuoteMaterial} alt="Education" />
                         </ItemFadeIn>
-                        <ItemFadeIn
-                            direction="right"
-                            delay={0.2}
-                            className="relative self-center text-center md:text-left md:max-w-xl"
-                        >
+                        <ItemFadeIn direction="right" delay={0.2} className="relative self-center text-center md:text-left md:max-w-xl">
                             <h2 className="text-xl md:text-2xl text-white leading-tight mb-3 font-serif text-center md:text-right">
                                 "Belajar bukan tentang seberapa cepat kamu memahami, tetapi tentang seberapa konsisten kamu mencoba."
                             </h2>
