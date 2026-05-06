@@ -36,7 +36,7 @@ export default function Navbar() {
                             <Link
                                 key={item.name}
                                 href={item.href}
-                                className={`nav-link text-base font-medium ${item.name === "Home" ? "text-gray-900 font-semibold" : "text-gray-500 hover:text-gray-800"} transition-colors`}
+                                className={`nav-link text-base font-medium ${item.name === "Home" ? "text-primary-black font-semibold" : "text-primary-grey hover:text-gray-800"} transition-colors`}
                             >
                                 {item.name}
                             </Link>
@@ -47,7 +47,7 @@ export default function Navbar() {
                     <div className="hidden md:flex md:flex-1 justify-end items-center gap-3">
                         <Link
                             href="/login"
-                            className="px-5 py-2 text-base font-semibold text-blue-600 border-2 border-blue-600 rounded-full hover:bg-blue-600 hover:text-white transition-all duration-200"
+                            className="px-5 py-2 text-base font-semibold text-primary-blue border-2 border-primary-blue rounded-full hover:bg-primary-blue hover:text-white transition-all duration-200"
                         >
                             Login
                         </Link>
@@ -91,13 +91,13 @@ export default function Navbar() {
                         <div className="flex gap-3 px-3 pt-2 border-t border-gray-100">
                             <Link
                                 href="/login"
-                                className="flex-1 text-center px-4 py-2 text-base font-semibold text-blue-600 border-2 border-blue-600 rounded-full"
+                                className="flex-1 text-center px-4 py-2 text-base font-semibold text-primary-blue border-2 border-primary-blue rounded-full hover:bg-primary-blue hover:text-white transition-all duration-200"
                             >
                                 Login
                             </Link>
                             <Link
                                 href="/register"
-                                className="flex-1 text-center px-4 py-2 text-base font-semibold text-white bg-yellow-400 rounded-full"
+                                className="flex-1 text-center px-4 py-2 text-base font-semibold text-white bg-yellow-400 rounded-full hover:bg-yellow-500 transition-all duration-200 shadow-md"
                             >
                                 Register
                             </Link>

@@ -48,32 +48,33 @@ const cardItems = [
 // ── Main Component ────────────────────────────────────────────────
 export default function Home() {
     return (
-        <div className="min-h-screen font-sans text-gray-800 overflow-x-hidden">
+        <div className="min-h-screen font-sans text-primary-grey overflow-x-hidden">
             <Navbar />
 
             {/* ══════════════════════════════════════════ HERO ══ */}
-            <section className="hero-bg min-h-screen pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
+            <section className="hero-bg min-h-screen overflow-hidden pt-28 pb-16 md:pt-36 md:pb-24">
                 <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-col items-center text-center relative">
+                    <div className="relative flex flex-col items-center text-center">
                         {/* Badge */}
                         <ItemFadeIn>
-                            <div className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full shadow-sm/5 mb-6 pr-4">
-                                <span className="bg-[#F37EBE] text-white text-xs font-bold px-4 py-2 rounded-full">
+                            <div className="mb-6 inline-flex items-center gap-2 rounded-full ] bg-white pr-4 shadow-sm">
+                                <span className="rounded-full bg-pink-200 px-4 py-2 text-xs font-bold text-white">
                                     Smart
                                 </span>
-                                <span className="text-gray-600 text-sm font-bold">
+
+                                <span className="text-sm font-bold text-primary-grey">
                                     Learning Systems
                                 </span>
                             </div>
                         </ItemFadeIn>
 
                         {/* Illustrations — shown beside headline on md+ */}
-                        <div className="w-full flex relative items-center justify-center gap-8">
+                        <div className="relative flex w-full items-center justify-center gap-8">
                             {/* Left illustration */}
                             <ItemFadeIn
                                 direction="left"
                                 delay={0.2}
-                                className="hidden md:flex float-anim absolute left-0"
+                                className="float-anim absolute left-0 hidden md:flex"
                             >
                                 <img
                                     src={HeroKiri}
@@ -83,11 +84,11 @@ export default function Home() {
                             </ItemFadeIn>
 
                             {/* Headline */}
-                            <div className="flex-1 max-w-3xl relative z-10 font-serif gap-8">
+                            <div className="relative z-10 flex-1 max-w-3xl gap-8 font-serif">
                                 <ItemFadeIn delay={0.1}>
-                                    <h1 className="text-4xl md:text-5xl lg:text-6xl leading-snug text-gray-900 mb-4">
+                                    <h1 className="mb-4 text-4xl leading-snug text-primary-black md:text-5xl lg:text-6xl">
                                         Belajar Lebih{" "}
-                                        <span className="text-yellow-400 font-handwriting text-5xl md:text-6xl lg:text-7xl font-extralight relative">
+                                        <span className="relative font-handwriting text-5xl font-extralight text-primary-yellow md:text-6xl lg:text-7xl">
                                             Cerdas
                                             <img
                                                 src={LineElement}
@@ -96,7 +97,7 @@ export default function Home() {
                                             />
                                         </span>
                                         <br />
-                                        <span className="font-handwriting text-blue-500 text-5xl md:text-6xl lg:text-7xl italic font-extralight relative">
+                                        <span className="relative font-handwriting text-5xl italic font-extralight text-primary-blue md:text-6xl lg:text-7xl">
                                             Sesuai
                                             <img
                                                 src={LineElement2}
@@ -107,24 +108,27 @@ export default function Home() {
                                         Dengan Dirimu
                                     </h1>
                                 </ItemFadeIn>
+
                                 <ItemFadeIn delay={0.25}>
-                                    <p className="text-gray-500 text-base md:text-lg leading-relaxed my-6 max-w-lg md:max-w-2xl mx-auto font-sans font-medium">
+                                    <p className="mx-auto my-6 max-w-lg font-sans text-base leading-relaxed font-medium text-primary-grey md:max-w-2xl md:text-lg">
                                         Sistem pembelajaran adaptif yang
                                         menggabungkan analisis kemampuan belajar
                                         dengan interpretasi Wariga Bali
                                     </p>
                                 </ItemFadeIn>
+
                                 <ItemFadeIn delay={0.35}>
-                                    <div className="flex flex-col sm:flex-row gap-3 justify-center font-sans">
+                                    <div className="flex flex-col justify-center gap-3 font-sans sm:flex-row">
                                         <Link
                                             href="/"
-                                            className="btn-primary px-7 py-3 rounded-full font-semibold text-white text-sm shadow-lg"
+                                            className="btn-primary rounded-full px-7 py-3 text-sm font-semibold text-white shadow-lg"
                                         >
                                             Mulai Belajar
                                         </Link>
+
                                         <Link
                                             href="#"
-                                            className="btn-outline px-7 py-3 rounded-full font-semibold text-sm text-gray-700"
+                                            className="btn-outline rounded-full px-7 py-3 text-sm font-semibold text-primary-grey"
                                         >
                                             Lihat Selengkapnya
                                         </Link>
@@ -136,7 +140,7 @@ export default function Home() {
                             <ItemFadeIn
                                 direction="right"
                                 delay={0.2}
-                                className="hidden md:flex float-anim-slow absolute right-0"
+                                className="float-anim-slow absolute right-0 hidden md:flex"
                             >
                                 <img
                                     src={HeroKanan}
@@ -147,7 +151,7 @@ export default function Home() {
                         </div>
 
                         {/* Mobile illustrations */}
-                        <div className="flex md:hidden justify-center gap-8 mt-6">
+                        <div className="mt-6 flex justify-center gap-8 md:hidden">
                             <div className="float-anim">
                                 <img
                                     src={HeroKiri}
@@ -155,6 +159,7 @@ export default function Home() {
                                     className="w-100"
                                 />
                             </div>
+
                             <div className="float-anim-slow">
                                 <img
                                     src={HeroKanan}
@@ -181,7 +186,7 @@ export default function Home() {
                             delay={0.15}
                             className="md:w-6/12"
                         >
-                            <p className="text-gray-500 leading-relaxed text-sm md:text-lg text-justify">
+                            <p className="text-primary-grey leading-relaxed text-sm md:text-lg text-justify">
                                 Sistem ini dirancang untuk memberikan{" "}
                                 <strong className="text-gray-800">
                                     pengalaman belajar
@@ -201,17 +206,17 @@ export default function Home() {
                                     className={`card-hover h-full rounded-2xl p-6 shadow-md border ${card.active ? "feature-card-active border-yellow-400" : "bg-white border-gray-100"}`}
                                 >
                                     <div
-                                        className={`mb-4  p-3 rounded-full w-max ${card.active ? "bg-white" : "bg-[#311445]"}`}
+                                        className={`mb-4  p-3 rounded-full w-max ${card.active ? "bg-white" : "bg-primary-purple"}`}
                                     >
                                         <img src={card.icon} alt="" />
                                     </div>
                                     <h3
-                                        className={`font-bold text-lg mb-2 ${card.active ? "text-white" : "text-gray-800"}`}
+                                        className={`font-bold text-lg mb-2 ${card.active ? "text-white" : "text-primary-grey"}`}
                                     >
                                         {card.title}
                                     </h3>
                                     <p
-                                        className={`text-sm md:text-base leading-relaxed ${card.active ? "text-yellow-50" : "text-gray-500"}`}
+                                        className={`text-sm md:text-base leading-relaxed ${card.active ? "text-yellow-50" : "text-primary-grey"}`}
                                     >
                                         {card.desc}
                                     </p>
@@ -237,10 +242,10 @@ export default function Home() {
                             delay={0.2}
                             className="md:w-1/2"
                         >
-                            <h2 className="text-3xl md:text-4xl text-gray-900 leading-tight mb-4 font-serif">
+                            <h2 className="text-3xl md:text-4xl text-primary-black leading-tight mb-4 font-serif">
                                 Belajar Sesuai Gaya dan Preferensimu
                             </h2>
-                            <p className="text-gray-500 text-sm md:text-base leading-relaxed">
+                            <p className="text-primary-grey text-sm md:text-base leading-relaxed">
                                 Sistem memahami preferensi belajarmu melalui
                                 pendekatan Wariga Bali, sehingga materi dapat
                                 disajikan dalam bentuk yang lebih mudah kamu
@@ -248,14 +253,14 @@ export default function Home() {
                             </p>
                             <div className="mt-6 flex gap-3">
                                 <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2" />
-                                <p className="text-sm md:text-base text-gray-500">
+                                <p className="text-sm md:text-base text-primary-grey">
                                     Materi disesuaikan dengan karakteristik
                                     belajarmu secara otomatis
                                 </p>
                             </div>
                             <div className="mt-3 flex gap-3">
                                 <div className="w-2 h-2 bg-blue-400 rounded-full mt-2" />
-                                <p className="text-sm md:text-base text-gray-500">
+                                <p className="text-sm md:text-base text-primary-grey">
                                     Pendekatan holistik berbasis kearifan lokal
                                     Bali
                                 </p>
@@ -274,10 +279,10 @@ export default function Home() {
                             delay={0.2}
                             className="md:w-1/2"
                         >
-                            <h2 className="text-3xl md:text-4xl text-gray-900 leading-tight mb-4 font-serif">
+                            <h2 className="text-3xl md:text-4xl text-primary-black leading-tight mb-4 font-serif">
                                 Latihan yang Menyesuaikan Kemampuanmu
                             </h2>
-                            <p className="text-gray-500 text-sm md:text-base leading-relaxed">
+                            <p className="text-primary-grey text-sm md:text-base leading-relaxed">
                                 Setiap latihan yang kamu kerjakan dianalisis
                                 berdasarkan tingkat ketepatan dan waktu
                                 pengerjaan. Sistem kemudian menentukan tingkat
@@ -286,14 +291,14 @@ export default function Home() {
                             </p>
                             <div className="mt-6 flex gap-3">
                                 <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2" />
-                                <p className="text-sm md:text-base text-gray-500">
+                                <p className="text-sm md:text-base text-primary-grey">
                                     Analisis real-time berdasarkan performa
                                     latihan kamu
                                 </p>
                             </div>
                             <div className="mt-3 flex gap-3">
                                 <div className="w-2 h-2 bg-blue-400 rounded-full mt-2" />
-                                <p className="text-sm md:text-base text-gray-500">
+                                <p className="text-sm md:text-base text-primary-grey">
                                     Rekomendasi cerdas untuk materi selanjutnya
                                 </p>
                             </div>
@@ -327,7 +332,7 @@ export default function Home() {
                         className="absolute top-1/2 -right-50 transform"
                     />
                     <ItemFadeIn>
-                        <p className="text-black text-lg md:text-2xl font-semibold leading-relaxed">
+                        <p className="text-primary-black text-lg md:text-2xl font-semibold leading-relaxed">
                             " Sistem memahami preferensi belajarmu melalui
                             pendekatan Wariga Bali, sehingga materi dapat
                             disajikan dalam bentuk yang lebih mudah kamu pahami,
@@ -357,13 +362,13 @@ export default function Home() {
                                 <br />
                                 Belajarmu Sekarang
                             </h2>
-                            <p className="text-blue-200 text-sm md:text-base mb-6 md:min-w-md">
+                            <p className="text-primary-white text-sm md:text-base mb-6 md:min-w-md">
                                 Kenali bagaimana sistem ini bekerja untuk
                                 mendukung proses belajarmu.
                             </p>
                             <Link
                                 href="#"
-                                className="text-sm md:text-base inline-block px-8 py-3 bg-white text-blue-700 font-bold rounded-full shadow-lg hover:bg-blue-50 transition-all duration-200"
+                                className="text-sm md:text-base inline-block px-8 py-3 bg-white text-primary-blue font-bold rounded-full shadow-lg hover:bg-blue-50 transition-all duration-200"
                             >
                                 Mulai Sekarang
                             </Link>
@@ -378,7 +383,7 @@ export default function Home() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         {/* Lihat Materi */}
                         <ItemFadeIn direction="left">
-                            <div className="card-hover bg-[#FFD25D] border border-gray-100 rounded-2xl p-8 md:p-16 shadow-md">
+                            <div className="card-hover bg-yellow-100 border border-gray-100 rounded-2xl p-8 md:p-16 shadow-md">
                                 <div className="w-16 h-16 md:w-18 md:h-18 bg-white rounded-full flex items-center justify-center mb-4">
                                     <img
                                         src={IconBook1}
@@ -386,10 +391,10 @@ export default function Home() {
                                         className="w-1/2 md:w-2/3"
                                     />
                                 </div>
-                                <h3 className="text-2xl md:text-4xl text-gray-900 mb-2 font-serif">
+                                <h3 className="text-2xl md:text-4xl text-primary-black mb-2 font-serif">
                                     Lihat Materi
                                 </h3>
-                                <p className="text-gray-900 text-sm md:text-base mb-6">
+                                <p className="text-primary-black text-sm md:text-base mb-6">
                                     Eksplorasi materi pembelajaran sesuai
                                     kebutuhanmu.
                                 </p>
@@ -422,7 +427,7 @@ export default function Home() {
                                 </p>
                                 <a
                                     href="#"
-                                    className="inline-flex items-center gap-2 text-sm font-semibold text-blue-500 border-b-2 border-blue-300 pb-0.5 hover:border-white transition-colors"
+                                    className="inline-flex items-center gap-2 text-sm font-semibold text-primary-blue border-b-2 border-blue-300 pb-0.5 hover:border-white transition-colors"
                                 >
                                     Lihat Selengkapnya
                                     <span>↗</span>
