@@ -6,209 +6,15 @@
 @source '../**/*.js';
 
 @theme {
-    /* =====================================================
-       TYPOGRAPHY
-       ===================================================== */
-
     --font-sans: "Quicksand", sans-serif;
     --font-serif: "Quando", serif;
     --font-handwriting: "Courgette", cursive;
-
-    /* =====================================================
-       BASE COLORS
-       ===================================================== */
-
-    --color-primary-blue: #4388f4;
-    --color-primary-yellow: #f1c112;
-    --color-primary-black: #121212;
-    --color-primary-grey: #636363;
-    --color-primary-white: #f9f8f3;
-    --color-primary-purple: #311445;
-
-    /* =====================================================
-       PURPLE
-       ===================================================== */
-
-    --color-purple-300: #704fe6;
-    --color-purple-200: #9b84ee;
-    --color-purple-100: #dec8fe;
-
-    /* =====================================================
-       YELLOW
-       ===================================================== */
-
-    --color-yellow-300: #ffbb02;
-    --color-yellow-200: #ffbe17;
-    --color-yellow-100: #ffd25d;
-
-    /* =====================================================
-       GREEN
-       ===================================================== */
-
-    --color-green-300: #47d960;
-    --color-green-200: #5cee74;
-    --color-green-100: #8ef79f;
-
-    /* =====================================================
-       ORANGE
-       ===================================================== */
-
-    --color-orange-300: #f09037;
-    --color-orange-200: #faa14e;
-    --color-orange-100: #fbb26e;
-
-    /* =====================================================
-       RED
-       ===================================================== */
-
-    --color-red-300: #eb2e2e;
-    --color-red-200: #f85858;
-    --color-red-100: #fe8181;
-
-    /* =====================================================
-       PINK
-       ===================================================== */
-
-    --color-pink-300: #ff53b1;
-    --color-pink-200: #f37ebe;
-    --color-pink-100: #fea2d4;
-
-    /* =====================================================
-       BLUE SECONDARY
-       ===================================================== */
-
-    --color-blue-300: #5c729c;
-    --color-blue-200: #8298c0;
-    --color-blue-100: #b3c0da;
-
-    /* =====================================================
-       WHITE / NEUTRAL
-       ===================================================== */
-
-    --color-white-300: #c3c4c6;
-    --color-white-200: #d6d9de;
-    --color-white-100: #edeff2;
 }
-
-/* =========================================================
-   ROOT DEFAULT VARIABLES
-   ========================================================= */
-
-:root {
-    /* =====================================================
-       BASE UI
-       ===================================================== */
-
-    --bg-primary: #f9f8f3;
-    --bg-secondary: #ffffff;
-
-    --text-primary: #121212;
-    --text-secondary: #636363;
-
-    --border-primary: #e5e7eb;
-
-    /* =====================================================
-       DEFAULT THEME
-       ===================================================== */
-
-    --theme-primary: var(--color-purple-300);
-    --theme-secondary: var(--color-purple-200);
-    --theme-soft: var(--color-purple-100);
-
-    --theme-gradient: linear-gradient(135deg, #41278e 0%, #6f43f4 100%);
-}
-
-/* =========================================================
-   SAPTA WARA THEMES
-   ========================================================= */
-
-/* SENIN */
-[data-theme="soma"] {
-    --theme-primary: var(--color-purple-300);
-    --theme-secondary: var(--color-purple-200);
-    --theme-soft: var(--color-purple-100);
-
-    --theme-gradient: linear-gradient(135deg, #41278e 0%, #6f43f4 100%);
-}
-
-/* SELASA */
-[data-theme="anggara"] {
-    --theme-primary: var(--color-orange-300);
-    --theme-secondary: var(--color-orange-200);
-    --theme-soft: var(--color-orange-100);
-
-    --theme-gradient: linear-gradient(135deg, #d97706 0%, #faa14e 100%);
-}
-
-/* RABU */
-[data-theme="buda"] {
-    --theme-primary: var(--color-yellow-300);
-    --theme-secondary: var(--color-yellow-200);
-    --theme-soft: var(--color-yellow-100);
-
-    --theme-gradient: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-}
-
-/* KAMIS */
-[data-theme="wrespati"] {
-    --theme-primary: var(--color-pink-300);
-    --theme-secondary: var(--color-pink-200);
-    --theme-soft: var(--color-pink-100);
-
-    --theme-gradient: linear-gradient(135deg, #ec4899 0%, #f9a8d4 100%);
-}
-
-/* JUMAT */
-[data-theme="sukra"] {
-    --theme-primary: var(--color-blue-300);
-    --theme-secondary: var(--color-blue-200);
-    --theme-soft: var(--color-blue-100);
-
-    --theme-gradient: linear-gradient(135deg, #274f8e 0%, #4388f4 100%);
-}
-
-/* SABTU */
-[data-theme="saniscara"] {
-    --theme-primary: var(--color-red-300);
-    --theme-secondary: var(--color-red-200);
-    --theme-soft: var(--color-red-100);
-
-    --theme-gradient: linear-gradient(135deg, #dc2626 0%, #f87171 100%);
-}
-
-/* MINGGU */
-[data-theme="redite"] {
-    --theme-primary: var(--color-white-300);
-    --theme-secondary: var(--color-white-200);
-    --theme-soft: var(--color-white-100);
-
-    --theme-gradient: linear-gradient(135deg, #9ca3af 0%, #e5e7eb 100%);
-}
-
-/* =========================================================
-   GLOBAL STYLING
-   ========================================================= */
 
 * {
     box-sizing: border-box;
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-
-    font-family: var(--font-sans);
-
-    transition:
-        background-color 0.3s ease,
-        color 0.3s ease;
-}
-
-/* Halaman Home Page */
 .hero-bg {
     background: linear-gradient(135deg, #fefce8 0%, #fdf4e3 40%, #f0f9ff 100%);
 }
@@ -280,21 +86,34 @@ body {
 .float-anim-slow {
     animation: float 6s ease-in-out infinite;
 }
+@keyframes pulse-dot {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+    }
+}
+.dot-grid span {
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+.dot-grid span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.dot-grid span:nth-child(3) {
+    animation-delay: 0.4s;
+}
 
 /* ── Material Page ───────────────────────────── */
-    .hero-about {
-      background: linear-gradient(135deg, #fef9e7 0%, #fdf4ca 55%, #fef3e2 100%);
-      border-radius: 24px;
-      overflow: hidden;
-      position: relative;
-    }
 .material-card {
     background: #ffffff;
     border: 1px solid #f0ede6;
     border-radius: 20px;
     overflow: hidden;
-    transition:
-        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
         box-shadow 0.3s ease;
     cursor: pointer;
 }
@@ -327,9 +146,7 @@ body {
     font-weight: 700;
     border: none;
     cursor: pointer;
-    transition:
-        background 0.2s,
-        color 0.2s;
+    transition: background 0.2s, color 0.2s;
 }
 .filter-pill {
     padding: 6px 18px;
@@ -361,18 +178,9 @@ body {
     background: transparent;
     color: #374151;
     cursor: pointer;
-    transition:
-        background 0.2s,
-        color 0.2s;
+    transition: background 0.2s, color 0.2s;
 }
 .btn-outline-dark:hover {
     background: #374151;
     color: #fff;
-}
-.glow-blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(64px);
-    opacity: 0.3;
-    pointer-events: none;
 }
