@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 
 const GlobalStyles = () => (
     <style>{`
@@ -214,15 +214,6 @@ function getStrength(pw) {
     return { score, ...map[score] };
 }
 
-const GoogleIcon = () => (
-    <svg width="16" height="16" viewBox="0 0 24 24">
-        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" />
-        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-    </svg>
-);
-
 export default function Register() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -249,12 +240,42 @@ export default function Register() {
         return e;
     };
 
-    const handleSubmit = () => {
-        const e = validate();
-        if (Object.keys(e).length) { setErrors(e); return; }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // 1. Jalankan validasi client-side
+        const validationErrors = validate();
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
+
+        // 2. Reset errors dan set loading
         setErrors({});
         setLoading(true);
-        setTimeout(() => { setLoading(false); setSuccess(true); }, 1800);
+
+        // 3. Kirim data ke backend
+        router.post("/register", {
+            name,
+            email,
+            password,
+            password_confirmation: confirm,
+            agree, // Kirim juga status persetujuan jika backend membutuhkannya
+        }, {
+            // Inertia akan otomatis menangani pengiriman data
+            onError: (backendErrors) => {
+                setErrors(backendErrors);
+                setLoading(false);
+            },
+            onSuccess: () => {
+                setSuccess(true);
+            },
+            onFinish: () => {
+                setLoading(false);
+            },
+            // Penting: Cegah scroll jump
+            preserveScroll: true,
+        });
     };
 
     if (success) return (
@@ -314,151 +335,136 @@ export default function Register() {
                             </p>
                         </div>
 
-                        {/* Name */}
-                        <div className="input-group">
-                            <label className="input-label">Nama lengkap</label>
-                            <input
-                                className={`auth-input ${errors.name ? "error-state" : name ? "success" : ""}`}
-                                type="text"
-                                placeholder="Nama kamu"
-                                value={name}
-                                onChange={(e) => { setName(e.target.value); setErrors((p) => ({ ...p, name: "" })); }}
-                            />
-                            {errors.name && <p className="input-error">⚠ {errors.name}</p>}
-                        </div>
-
-                        {/* Email */}
-                        <div className="input-group">
-                            <label className="input-label">Email kamu</label>
-                            <input
-                                className={`auth-input ${errors.email ? "error-state" : email && !errors.email ? "success" : ""}`}
-                                type="email"
-                                placeholder="contoh@email.com"
-                                value={email}
-                                onChange={(e) => { setEmail(e.target.value); setErrors((p) => ({ ...p, email: "" })); }}
-                            />
-                            {errors.email && <p className="input-error">⚠ {errors.email}</p>}
-                        </div>
-
-                        {/* Password */}
-                        <div className="input-group">
-                            <label className="input-label">Password</label>
-                            <div className="input-wrap">
+                        {/* Form */}
+                        <form onSubmit={handleSubmit}>
+                            {/* Name */}
+                            <div className="input-group">
+                                <label className="input-label">Nama lengkap</label>
                                 <input
-                                    className={`auth-input ${errors.password ? "error-state" : ""}`}
-                                    type={showPw ? "text" : "password"}
-                                    placeholder="Min. 8 karakter"
-                                    value={password}
-                                    onChange={(e) => { setPassword(e.target.value); setErrors((p) => ({ ...p, password: "" })); }}
-                                    style={{ paddingRight: 44 }}
+                                    className={`auth-input ${errors.name ? "error-state" : name ? "success" : ""}`}
+                                    type="text"
+                                    placeholder="Nama kamu"
+                                    value={name}
+                                    onChange={(e) => { setName(e.target.value); setErrors((p) => ({ ...p, name: "" })); }}
                                 />
-                                <span className="input-icon" onClick={() => setShowPw(!showPw)}>
-                                    {showPw ? (
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                            <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22" />
-                                        </svg>
-                                    ) : (
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                            <circle cx="12" cy="12" r="3" />
-                                        </svg>
-                                    )}
-                                </span>
+                                {errors.name && <p className="input-error">⚠ {errors.name}</p>}
                             </div>
-                            {/* Strength meter */}
-                            {password && (
-                                <div style={{ marginTop: 8 }}>
-                                    <div style={{ display: "flex", gap: 4, marginBottom: 4 }}>
-                                        {[0, 1, 2, 3].map((i) => (
-                                            <div key={i} className="strength-bar" style={{ flex: 1, background: i < strength.score ? strength.color : "#E5E7EB" }} />
-                                        ))}
-                                    </div>
-                                    <span style={{ fontSize: 11, color: strength.color, fontWeight: 600 }}>{strength.label}</span>
+
+                            {/* Email */}
+                            <div className="input-group">
+                                <label className="input-label">Email kamu</label>
+                                <input
+                                    className={`auth-input ${errors.email ? "error-state" : email && !errors.email ? "success" : ""}`}
+                                    type="email"
+                                    placeholder="contoh@email.com"
+                                    value={email}
+                                    onChange={(e) => { setEmail(e.target.value); setErrors((p) => ({ ...p, email: "" })); }}
+                                />
+                                {errors.email && <p className="input-error">⚠ {errors.email}</p>}
+                            </div>
+
+                            {/* Password */}
+                            <div className="input-group">
+                                <label className="input-label">Password</label>
+                                <div className="input-wrap">
+                                    <input
+                                        className={`auth-input ${errors.password ? "error-state" : ""}`}
+                                        type={showPw ? "text" : "password"}
+                                        placeholder="Min. 8 karakter"
+                                        value={password}
+                                        onChange={(e) => { setPassword(e.target.value); setErrors((p) => ({ ...p, password: "" })); }}
+                                        style={{ paddingRight: 44 }}
+                                    />
+                                    <span className="input-icon" onClick={() => setShowPw(!showPw)}>
+                                        {showPw ? (
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22" />
+                                            </svg>
+                                        ) : (
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                                <circle cx="12" cy="12" r="3" />
+                                            </svg>
+                                        )}
+                                    </span>
                                 </div>
-                            )}
-                            {errors.password && <p className="input-error">⚠ {errors.password}</p>}
-                        </div>
-
-                        {/* Confirm Password */}
-                        <div className="input-group">
-                            <label className="input-label">Konfirmasi password</label>
-                            <div className="input-wrap">
-                                <input
-                                    className={`auth-input ${errors.confirm ? "error-state" : confirm && confirm === password ? "success" : confirm ? "error-state" : ""}`}
-                                    type={showConfirm ? "text" : "password"}
-                                    placeholder="Ulangi password"
-                                    value={confirm}
-                                    onChange={(e) => { setConfirm(e.target.value); setErrors((p) => ({ ...p, confirm: "" })); }}
-                                    style={{ paddingRight: 44 }}
-                                />
-                                <span className="input-icon" onClick={() => setShowConfirm(!showConfirm)}>
-                                    {confirm && confirm === password ? (
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5"><path d="M20 6L9 17l-5-5" /></svg>
-                                    ) : showConfirm ? (
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                            <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22" />
-                                        </svg>
-                                    ) : (
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                            <circle cx="12" cy="12" r="3" />
-                                        </svg>
-                                    )}
-                                </span>
-                            </div>
-                            {errors.confirm && <p className="input-error">⚠ {errors.confirm}</p>}
-                        </div>
-
-                        {/* Agree */}
-                        <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 20 }}>
-                            <div
-                                className={`custom-check ${agree ? "checked" : ""}`}
-                                onClick={() => { setAgree(!agree); setErrors((p) => ({ ...p, agree: "" })); }}
-                                style={{ marginTop: 1 }}
-                            >
-                                {agree && (
-                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><path d="M20 6L9 17l-5-5" /></svg>
+                                {/* Strength meter */}
+                                {password && (
+                                    <div style={{ marginTop: 8 }}>
+                                        <div style={{ display: "flex", gap: 4, marginBottom: 4 }}>
+                                            {[0, 1, 2, 3].map((i) => (
+                                                <div key={i} className="strength-bar" style={{ flex: 1, background: i < strength.score ? strength.color : "#E5E7EB" }} />
+                                            ))}
+                                        </div>
+                                        <span style={{ fontSize: 11, color: strength.color, fontWeight: 600 }}>{strength.label}</span>
+                                    </div>
                                 )}
+                                {errors.password && <p className="input-error">⚠ {errors.password}</p>}
                             </div>
-                            <span style={{ fontSize: 12.5, color: "#374151", lineHeight: 1.6 }}>
-                                Saya setuju dengan{" "}
-                                <a href="#" style={{ color: "#7C3AED", fontWeight: 600, textDecoration: "none" }}>Syarat & Ketentuan</a>{" "}
-                                dan{" "}
-                                <a href="#" style={{ color: "#7C3AED", fontWeight: 600, textDecoration: "none" }}>Kebijakan Privasi</a>{" "}
-                                Wariku
-                            </span>
-                        </div>
-                        {errors.agree && <p className="input-error" style={{ marginTop: -14, marginBottom: 12 }}>⚠ {errors.agree}</p>}
 
-                        {/* Submit */}
-                        <button className="btn-primary-auth" onClick={handleSubmit} disabled={loading}>
-                            {loading ? (
-                                <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ animation: "spin-slow 1s linear infinite" }}>
-                                        <path d="M21 12a9 9 0 11-6.219-8.56" />
-                                    </svg>
-                                    Membuat akun...
+                            {/* Confirm Password */}
+                            <div className="input-group">
+                                <label className="input-label">Konfirmasi password</label>
+                                <div className="input-wrap">
+                                    <input
+                                        className={`auth-input ${errors.confirm ? "error-state" : confirm && confirm === password ? "success" : confirm ? "error-state" : ""}`}
+                                        type={showConfirm ? "text" : "password"}
+                                        placeholder="Ulangi password"
+                                        value={confirm}
+                                        onChange={(e) => { setConfirm(e.target.value); setErrors((p) => ({ ...p, confirm: "" })); }}
+                                        style={{ paddingRight: 44 }}
+                                    />
+                                    <span className="input-icon" onClick={() => setShowConfirm(!showConfirm)}>
+                                        {confirm && confirm === password ? (
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5"><path d="M20 6L9 17l-5-5" /></svg>
+                                        ) : showConfirm ? (
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22" />
+                                            </svg>
+                                        ) : (
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                                <circle cx="12" cy="12" r="3" />
+                                            </svg>
+                                        )}
+                                    </span>
+                                </div>
+                                {errors.confirm && <p className="input-error">⚠ {errors.confirm}</p>}
+                            </div>
+
+                            {/* Agree */}
+                            <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 20 }}>
+                                <div
+                                    className={`custom-check ${agree ? "checked" : ""}`}
+                                    onClick={() => { setAgree(!agree); setErrors((p) => ({ ...p, agree: "" })); }}
+                                    style={{ marginTop: 1 }}
+                                >
+                                    {agree && (
+                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><path d="M20 6L9 17l-5-5" /></svg>
+                                    )}
+                                </div>
+                                <span style={{ fontSize: 12.5, color: "#374151", lineHeight: 1.6 }}>
+                                    Saya setuju dengan{" "}
+                                    <a href="#" style={{ color: "#7C3AED", fontWeight: 600, textDecoration: "none" }}>Syarat & Ketentuan</a>{" "}
+                                    dan{" "}
+                                    <a href="#" style={{ color: "#7C3AED", fontWeight: 600, textDecoration: "none" }}>Kebijakan Privasi</a>{" "}
+                                    Wariku
                                 </span>
-                            ) : "Buat Akun →"}
-                        </button>
+                            </div>
+                            {errors.agree && <p className="input-error" style={{ marginTop: -14, marginBottom: 12 }}>⚠ {errors.agree}</p>}
 
-                        {/* Divider */}
-                        <div className="divider">
-                            <div className="divider-line" />
-                            <span className="divider-text">atau daftar dengan</span>
-                            <div className="divider-line" />
-                        </div>
-
-                        {/* Social */}
-                        <div className="social-btns" style={{ display: "flex", gap: 10, marginBottom: 20 }}>
-                            <button className="social-btn"><GoogleIcon /> Google</button>
-                            <button className="social-btn">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="#1877F2">
-                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                                </svg>
-                                Facebook
+                            {/* Submit */}
+                            <button className="btn-primary-auth" type="submit" disabled={loading}>
+                                {loading ? (
+                                    <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ animation: "spin-slow 1s linear infinite" }}>
+                                            <path d="M21 12a9 9 0 11-6.219-8.56" />
+                                        </svg>
+                                        Membuat akun...
+                                    </span>
+                                ) : "Buat Akun →"}
                             </button>
-                        </div>
+                        </form>
 
                         {/* Switch to Login */}
                         <p style={{ textAlign: "center", fontSize: 13, color: "#6B7280" }}>
