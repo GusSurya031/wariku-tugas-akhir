@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->date('birth_date')->nullable();
-            $table->enum('gender', ['P', 'L'])->nullable();
+            $table->enum('gender', ['female', 'male'])->nullable();
             $table->enum('learning_type', ['text', 'illustration'])->nullable();
             $table->enum('difficulty_material', ['easy', 'medium', 'hard'])->nullable();
             $table->enum('difficulty_quiz', ['easy', 'medium', 'hard', 'mix_easy_medium', 'mix_medium_hard'])->nullable();

@@ -15,8 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('wuku');
+            $table->tinyInteger('urip_wuku');
             $table->enum('panca_wara', ['Umanis', 'Paing', 'Pon', 'Wage', 'Kliwon']);
+            $table->tinyInteger('urip_panca_wara');
             $table->enum('sapta_wara', ['Redite', 'Soma', 'Anggara', 'Buda', 'Wrespati', 'Sukra', 'Saniscara']);
+            $table->tinyInteger('urip_sapta_wara');
             $table->string('characteristic', 255);
             $table->timestamps();
         });

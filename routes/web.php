@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OnBoardingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,10 +19,23 @@ Route::get('/about', [HomeController::class, 'about'])->name('home.about');
 Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
 Route::post('/register', [AuthController::class, 'store'])->name('auth.store');
-Route::post('/login', [AuthController::class, 'authenticate'])->name('auth.authenticate');
+Route::post('/login', [AuthController::class, 'authenticate'])->name('login');
 
-Route::group(['middleware' => ['auth']], function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+    Route::get('/onboarding', [OnBoardingController::class, 'index'])
+        ->name('onboarding.index');
+
+    Route::post('/onboarding/profile', [OnBoardingController::class, 'storeProfile'])
+        ->name('onboarding.profile');
+
+    Route::post('/onboarding/mood', [OnBoardingController::class, 'storeMood'])
+        ->name('onboarding.mood');
+
+    Route::post('/onboarding/finish', [OnBoardingController::class, 'finish'])
+        ->name('onboarding.finish');
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
 
