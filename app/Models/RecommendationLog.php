@@ -6,10 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
-// #[Fillable(['user_id', 'material_has_variant_id', 'mood_label', 'mood_level', 'wariga_characteristic', 'user_learning_type', 'user_difficulty', 'final_learning_type', 'final_difficulty', 'reason'])]
-
-#[Fillable(['user_id', '171719'])]
+#[Fillable(['user_id', 'recommendation_rules_id'])]
 
 class RecommendationLog extends Model
 {
@@ -20,8 +17,8 @@ class RecommendationLog extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function materialHasVariant()
+    public function rule()
     {
-        return $this->belongsTo(MaterialHasVariant::class);
+        return $this->belongsTo(RecommendationRule::class, 'recommendation_rules_id');
     }
 }

@@ -1,79 +1,60 @@
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import "@/../css/app.css";
 import { BalineseDate } from "balinese-date-js-lib";
 
 export default function Onboarding() {
+    const { hasProfile, userProfile } = usePage().props;
     const balineseTodayDate = new BalineseDate();
+
+    /* =============================================
+       STEP STATE
+       - Returning users (hasProfile) mulai dari step 1
+         dengan data terkunci, lalu langsung ke step 2
+       - User baru mulai dari step 1 dengan form kosong
+    ============================================= */
     const [step, setStep] = useState(1);
-    /* =============================================
-       STEP 1
-    ============================================= */
-
-    const [username, setUsername] = useState("");
-    const [birthDate, setBirthDate] = useState("");
-    const [gender, setGender] = useState("");
 
     /* =============================================
-       STEP 2
+       STEP 1 STATE — diisi dari props jika returning user
     ============================================= */
+    const [username, setUsername] = useState(userProfile?.username ?? "");
+    const [birthDate, setBirthDate] = useState(userProfile?.birth_date ?? "");
+    const [gender, setGender] = useState(userProfile?.gender ?? "");
 
+    /* =============================================
+       STEP 2 STATE
+    ============================================= */
     const [selectedMood, setSelectedMood] = useState(null);
 
     const moods = [
-        {
-            label: "Sangat Semangat",
-            value: 3,
-            emoji: "🔥",
-        },
-        {
-            label: "Semangat",
-            value: 3,
-            emoji: "😄",
-        },
-        {
-            label: "Biasa Saja",
-            value: 2,
-            emoji: "🙂",
-        },
-        {
-            label: "Kurang Fokus",
-            value: 1,
-            emoji: "😴",
-        },
-        {
-            label: "Sangat Lelah",
-            value: 1,
-            emoji: "🥲",
-        },
+        { label: "Sangat Semangat", value: 3, emoji: "🔥" },
+        { label: "Semangat",        value: 3, emoji: "😄" },
+        { label: "Biasa Saja",      value: 2, emoji: "🙂" },
+        { label: "Kurang Fokus",    value: 1, emoji: "😴" },
+        { label: "Sangat Lelah",    value: 1, emoji: "🥲" },
     ];
 
     /* =============================================
        STEP 1 SUBMIT
+       Selalu dipanggil — baik user baru maupun returning.
+       Untuk returning user: recalculate catur_bekel untuk hari ini.
     ============================================= */
-
     const handleProfile = () => {
-        const balineseBirthDate = new BalineseDate(new Date(birthDate))
-        // console.log(birth_date)
+        const balineseBirthDate = new BalineseDate(new Date(birthDate));
 
         router.post(
             "/onboarding/profile",
             {
                 username,
-                birth_date: birthDate,
+                birth_date:           birthDate,
                 gender,
-                balinese_birth_date:balineseBirthDate,
-                balinese_today_date:balineseTodayDate
+                balinese_birth_date:  balineseBirthDate,
+                balinese_today_date:  balineseTodayDate,
             },
             {
-                onError: (errors) => {
-                    console.log(errors);
-                },
-
-                onSuccess: () => {
-                    setStep(2);
-                },
-
+                onError:   (errors) => console.log(errors),
+                onSuccess: () => setStep(2),
             },
         );
     };
@@ -81,7 +62,6 @@ export default function Onboarding() {
     /* =============================================
        STEP 2 SUBMIT
     ============================================= */
-
     const handleMood = () => {
         if (!selectedMood) return;
 
@@ -92,9 +72,7 @@ export default function Onboarding() {
                 mood_label: selectedMood.label,
             },
             {
-                onSuccess: () => {
-                    setStep(3);
-                },
+                onSuccess: () => setStep(3),
             },
         );
     };
@@ -102,20 +80,23 @@ export default function Onboarding() {
     /* =============================================
        FINISH
     ============================================= */
-
     const handleFinish = () => {
         router.post("/onboarding/finish");
     };
 
+    /* =============================================
+       PROGRESS — step 2 & 3 tidak relevan untuk
+       returning user yang skip ke mood langsung
+    ============================================= */
+    const totalSteps = 3;
+
     return (
         <div className="min-h-screen bg-primary flex items-center justify-center px-4 py-10">
-            <div className="w-full max-w-2xl rounded-3xl bg-white p-8 shadow-xl border border-[var(--border-primary)]">
-                {/* =====================================
-                   PROGRESS
-                ===================================== */}
+            <div className="w-full max-w-2xl rounded-3xl bg-white p-8 shadow-xl border border-(--border-primary)">
 
+                {/* PROGRESS BAR */}
                 <div className="mb-8 flex items-center justify-center gap-3">
-                    {[1, 2, 3].map((item) => (
+                    {Array.from({ length: totalSteps }, (_, i) => i + 1).map((item) => (
                         <div
                             key={item}
                             className={`h-3 w-20 rounded-full transition-all duration-300 ${
@@ -128,72 +109,77 @@ export default function Onboarding() {
                 </div>
 
                 {/* =====================================
-                   STEP 1
+                   STEP 1 — Profil
+                   Returning user: form diisi otomatis dan dinonaktifkan
                 ===================================== */}
-
                 {step === 1 && (
                     <div>
                         <div className="mb-8 text-center">
-                            <h1 className="text-3xl font-serif text-[var(--text-primary)] mb-2">
-                                Lengkapi Profilmu
+                            <h1 className="text-3xl font-serif text-(--text-primary) mb-2">
+                                {hasProfile ? "Konfirmasi Profilmu" : "Lengkapi Profilmu"}
                             </h1>
-
-                            <p className="text-[var(--text-secondary)]">
-                                Bantu sistem mengenal dirimu lebih baik
+                            <p className="text-(--text-secondary)">
+                                {hasProfile
+                                    ? "Data profilmu tidak dapat diubah"
+                                    : "Bantu sistem mengenal dirimu lebih baik"}
                             </p>
                         </div>
 
                         <div className="space-y-5">
-                            {/* Username Input */}
+                            {/* Nama Panggilan */}
                             <div>
-                                <label className="mb-2 block text-sm font-semibold text-[var(--text-primary)]">
+                                <label className="mb-2 block text-sm font-semibold text-(--text-primary)">
                                     Nama Panggilan
                                 </label>
-
                                 <input
                                     type="text"
                                     value={username}
-                                    onChange={(e) =>
-                                        setUsername(e.target.value)
-                                    }
+                                    onChange={(e) => setUsername(e.target.value)}
                                     placeholder="Contoh: Made"
-                                    className="w-full rounded-2xl border border-[var(--border-primary)] px-5 py-4 outline-none focus:border-[var(--color-primary-blue)]"
+                                    disabled={hasProfile}
+                                    className={`w-full rounded-2xl border px-5 py-4 outline-none ${
+                                        hasProfile
+                                            ? "border-(--border-primary) bg-gray-50 text-gray-400 cursor-not-allowed"
+                                            : "border-(--border-primary) focus:border-primary-blue"
+                                    }`}
                                 />
                             </div>
 
-                            {/* Birth Date Input */}
+                            {/* Tanggal Lahir */}
                             <div>
-                                <label className="mb-2 block text-sm font-semibold text-[var(--text-primary)]">
+                                <label className="mb-2 block text-sm font-semibold text-(--text-primary)">
                                     Tanggal Lahir
                                 </label>
-
                                 <input
                                     type="date"
                                     value={birthDate}
-                                    onChange={(e) =>
-                                        setBirthDate(e.target.value)
-                                    }
-                                    className="w-full rounded-2xl border border-[var(--border-primary)] px-5 py-4 outline-none focus:border-[var(--color-primary-blue)]"
+                                    onChange={(e) => setBirthDate(e.target.value)}
+                                    disabled={hasProfile}
+                                    className={`w-full rounded-2xl border px-5 py-4 outline-none ${
+                                        hasProfile
+                                            ? "border-(--border-primary) bg-gray-50 text-gray-400 cursor-not-allowed"
+                                            : "border-(--border-primary) focus:border-primary-blue"
+                                    }`}
                                 />
                             </div>
 
-                            {/* Gender Input */}
+                            {/* Jenis Kelamin */}
                             <div>
-                                <label className="mb-2 block text-sm font-semibold text-[var(--text-primary)]">
+                                <label className="mb-2 block text-sm font-semibold text-(--text-primary)">
                                     Jenis Kelamin
                                 </label>
-
                                 <select
                                     value={gender}
                                     onChange={(e) => setGender(e.target.value)}
-                                    className="w-full rounded-2xl border border-[var(--border-primary)] bg-white px-5 py-4 outline-none focus:border-[var(--color-primary-blue)]"
+                                    disabled={hasProfile}
+                                    className={`w-full rounded-2xl border bg-white px-5 py-4 outline-none ${
+                                        hasProfile
+                                            ? "border-(--border-primary) bg-gray-50 text-gray-400 cursor-not-allowed"
+                                            : "border-(--border-primary) focus:border-primary-blue"
+                                    }`}
                                 >
-                                    <option value="">
-                                        Pilih jenis kelamin
-                                    </option>
-
+                                    <option value="">Pilih jenis kelamin</option>
                                     <option value="male">Laki-laki</option>
-
                                     <option value="female">Perempuan</option>
                                 </select>
                             </div>
@@ -209,17 +195,15 @@ export default function Onboarding() {
                 )}
 
                 {/* =====================================
-                   STEP 2
+                   STEP 2 — Mood
                 ===================================== */}
-
                 {step === 2 && (
                     <div>
                         <div className="mb-8 text-center">
-                            <h1 className="text-3xl font-serif text-[var(--text-primary)] mb-2">
+                            <h1 className="text-3xl font-serif text-(--text-primary) mb-2">
                                 Bagaimana Mood-mu Hari Ini?
                             </h1>
-
-                            <p className="text-[var(--text-secondary)]">
+                            <p className="text-(--text-secondary)">
                                 Sistem akan menyesuaikan pengalaman belajar
                                 berdasarkan kondisimu
                             </p>
@@ -232,21 +216,17 @@ export default function Onboarding() {
                                     onClick={() => setSelectedMood(mood)}
                                     className={`rounded-2xl border p-5 text-left transition-all duration-200 ${
                                         selectedMood?.label === mood.label
-                                            ? "border-[var(--color-primary-blue)] bg-blue-50"
-                                            : "border-[var(--border-primary)] bg-white"
+                                            ? "border-primary-blue bg-blue-50"
+                                            : "border-(--border-primary) bg-white"
                                     }`}
                                 >
                                     <div className="flex items-center gap-4">
-                                        <div className="text-3xl">
-                                            {mood.emoji}
-                                        </div>
-
+                                        <div className="text-3xl">{mood.emoji}</div>
                                         <div>
-                                            <h3 className="font-semibold text-[var(--text-primary)]">
+                                            <h3 className="font-semibold text-(--text-primary)">
                                                 {mood.label}
                                             </h3>
-
-                                            <p className="text-sm text-[var(--text-secondary)]">
+                                            <p className="text-sm text-(--text-secondary)">
                                                 Mood Level {mood.value}
                                             </p>
                                         </div>
@@ -257,7 +237,7 @@ export default function Onboarding() {
 
                         <button
                             onClick={handleMood}
-                            className="mt-6 w-full rounded-2xl bg-[var(--color-primary-blue)] py-4 font-semibold text-white transition-all duration-200 hover:opacity-90"
+                            className="mt-6 w-full rounded-2xl bg-primary-blue py-4 font-semibold text-white transition-all duration-200 hover:opacity-90"
                         >
                             Simpan Mood
                         </button>
@@ -265,26 +245,22 @@ export default function Onboarding() {
                 )}
 
                 {/* =====================================
-                   STEP 3
+                   STEP 3 — Selesai
                 ===================================== */}
-
                 {step === 3 && (
                     <div className="py-10 text-center">
                         <div className="mb-6 text-6xl">🎉</div>
-
-                        <h1 className="mb-3 text-4xl font-serif text-[var(--text-primary)]">
+                        <h1 className="mb-3 text-4xl font-serif text-(--text-primary)">
                             Sistem Siap Digunakan
                         </h1>
-
-                        <p className="mx-auto mb-8 max-w-lg leading-relaxed text-[var(--text-secondary)]">
+                        <p className="mx-auto mb-8 max-w-lg leading-relaxed text-(--text-secondary)">
                             Profil dan preferensimu berhasil disimpan. Sekarang
                             kamu sudah bisa mulai belajar dengan pengalaman yang
                             lebih personal.
                         </p>
-
                         <button
                             onClick={handleFinish}
-                            className="rounded-2xl bg-[var(--color-primary-blue)] px-8 py-4 font-semibold text-white transition-all duration-200 hover:opacity-90"
+                            className="rounded-2xl bg-primary-blue px-8 py-4 font-semibold text-white transition-all duration-200 hover:opacity-90"
                         >
                             Masuk ke Dashboard
                         </button>
