@@ -18,8 +18,8 @@ class RecommendationRulePostQuizSeeder extends Seeder
                 'catur_bekel_values'          => ['guru', 'ratu'],
                 'recommended_content_type'    => 'text',
                 'recommended_difficulty'      => 'medium',
-                'recommended_quiz_difficulty' => 'mix_medium',
-                'description'                => 'Kluster A + mood positif (3) + catur bekel guru/ratu → teks, bobot medium, soal mix_medium',
+                'recommended_quiz_difficulty' => 'mix_easy_medium',
+                'description'                => 'Kluster A + mood positif (3) + catur bekel guru/ratu → teks, bobot medium, soal mix_easy_medium',
                 'priority'                    => 1,
             ],
             [
@@ -29,8 +29,8 @@ class RecommendationRulePostQuizSeeder extends Seeder
                 'catur_bekel_values'          => ['guru', 'ratu'],
                 'recommended_content_type'    => 'text',
                 'recommended_difficulty'      => 'hard',
-                'recommended_quiz_difficulty' => 'mix_hard',
-                'description'                => 'Kluster B + mood positif (3) + catur bekel guru/ratu → teks, bobot hard, soal mix_hard',
+                'recommended_quiz_difficulty' => 'mix_medium_hard',
+                'description'                => 'Kluster B + mood positif (3) + catur bekel guru/ratu → teks, bobot hard, soal mix_medium_hard',
                 'priority'                    => 2,
             ],
             [
@@ -75,8 +75,8 @@ class RecommendationRulePostQuizSeeder extends Seeder
                 'catur_bekel_values'          => ['lara', 'pati'],
                 'recommended_content_type'    => 'text',
                 'recommended_difficulty'      => 'hard',
-                'recommended_quiz_difficulty' => 'mix_medium',
-                'description'                => 'Kluster C + mood positif (3) + catur bekel lara/pati → teks, bobot hard, soal mix_medium',
+                'recommended_quiz_difficulty' => 'mix_easy_medium',
+                'description'                => 'Kluster C + mood positif (3) + catur bekel lara/pati → teks, bobot hard, soal mix_easy_medium',
                 'priority'                    => 6,
             ],
 
@@ -99,8 +99,8 @@ class RecommendationRulePostQuizSeeder extends Seeder
                 'catur_bekel_values'          => ['guru', 'ratu'],
                 'recommended_content_type'    => 'illustration',
                 'recommended_difficulty'      => 'medium',
-                'recommended_quiz_difficulty' => 'mix_medium',
-                'description'                => 'Kluster B + mood negatif (1) + catur bekel guru/ratu → ilustrasi, bobot medium, soal mix_medium',
+                'recommended_quiz_difficulty' => 'mix_easy_medium',
+                'description'                => 'Kluster B + mood negatif (1) + catur bekel guru/ratu → ilustrasi, bobot medium, soal mix_easy_medium',
                 'priority'                    => 8,
             ],
             [
@@ -110,8 +110,8 @@ class RecommendationRulePostQuizSeeder extends Seeder
                 'catur_bekel_values'          => ['guru', 'ratu'],
                 'recommended_content_type'    => 'illustration',
                 'recommended_difficulty'      => 'medium',
-                'recommended_quiz_difficulty' => 'mix_hard',
-                'description'                => 'Kluster C + mood negatif (1) + catur bekel guru/ratu → ilustrasi, bobot medium, soal mix_hard',
+                'recommended_quiz_difficulty' => 'mix_medium_hard',
+                'description'                => 'Kluster C + mood negatif (1) + catur bekel guru/ratu → ilustrasi, bobot medium, soal mix_medium_hard',
                 'priority'                    => 9,
             ],
 
@@ -134,8 +134,8 @@ class RecommendationRulePostQuizSeeder extends Seeder
                 'catur_bekel_values'          => ['lara', 'pati'],
                 'recommended_content_type'    => 'illustration',
                 'recommended_difficulty'      => 'easy',
-                'recommended_quiz_difficulty' => 'mix_medium',
-                'description'                => 'Kluster B + mood negatif (1) + catur bekel lara/pati → ilustrasi, bobot easy, soal mix_medium',
+                'recommended_quiz_difficulty' => 'mix_easy_medium',
+                'description'                => 'Kluster B + mood negatif (1) + catur bekel lara/pati → ilustrasi, bobot easy, soal mix_easy_medium',
                 'priority'                    => 11,
             ],
             [
@@ -189,7 +189,7 @@ class RecommendationRulePostQuizSeeder extends Seeder
         foreach ($rules as $rule) {
             RecommendationRule::updateOrCreate(
                 ['rule_code' => $rule['rule_code']],
-                array_merge($rule, ['rule_type' => 'post_quiz', 'is_active' => true])
+                [...$rule, 'rule_type' => 'post_quiz', 'is_active' => true]
             );
         }
     }

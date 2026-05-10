@@ -25,7 +25,9 @@ return new class extends Migration
             $table->enum('recommended_difficulty', ['easy', 'medium', 'hard']);
             // null untuk first_login rules (belum ada soal)
             // mix_medium = campuran easy+medium, mix_hard = campuran medium+hard
-            $table->enum('recommended_quiz_difficulty', ['easy', 'medium', 'hard', 'mix_medium', 'mix_hard'])->nullable();
+            $table->enum('recommended_quiz_difficulty', ['easy', 'medium', 'hard', 'mix_easy_medium', 'mix_medium_hard'])->nullable();
+            // current = tema sesuai hari login, next = tema hari berikutnya; null untuk post_quiz
+            $table->enum('theme_day_offset', ['current', 'next'])->nullable();
 
             $table->text('description')->nullable();
             $table->smallInteger('priority')->unsigned()->default(0);

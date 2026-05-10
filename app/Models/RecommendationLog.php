@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-#[Fillable(['user_id', 'material_has_variant_id', 'mood_label', 'mood_level', 'wariga_characteristic', 'user_learning_type', 'user_difficulty', 'final_learning_type', 'final_difficulty', 'reason'])]
+// #[Fillable(['user_id', 'material_has_variant_id', 'mood_label', 'mood_level', 'wariga_characteristic', 'user_learning_type', 'user_difficulty', 'final_learning_type', 'final_difficulty', 'reason'])]
+
+#[Fillable(['user_id', '171719'])]
 
 class RecommendationLog extends Model
 {

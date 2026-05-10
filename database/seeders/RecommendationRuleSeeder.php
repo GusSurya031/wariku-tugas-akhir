@@ -11,66 +11,77 @@ class RecommendationRuleSeeder extends Seeder
     {
         $rules = [
             [
-                'rule_type'                  => 'first_login',
                 'rule_code'                  => 'FL_001',
                 'mood_value'                 => 3,
                 'catur_bekel_values'         => ['guru', 'ratu'],
                 'recommended_content_type'   => 'text',
                 'recommended_difficulty'     => 'hard',
-                'description'               => 'Mood positif (3) + catur bekel guru/ratu → materi teks, bobot tinggi',
+                'theme_day_offset'           => 'current',
+                'description'               => 'Mood positif (3) + catur bekel guru/ratu → teks, bobot tinggi, tema hari login',
                 'priority'                   => 1,
-                'is_active'                  => true,
             ],
             [
-                'rule_type'                  => 'first_login',
                 'rule_code'                  => 'FL_002',
                 'mood_value'                 => 3,
                 'catur_bekel_values'         => ['lara', 'pati'],
                 'recommended_content_type'   => 'text',
                 'recommended_difficulty'     => 'medium',
-                'description'               => 'Mood positif (3) + catur bekel lara/pati → materi teks, bobot sedang',
+                'theme_day_offset'           => 'next',
+                'description'               => 'Mood positif (3) + catur bekel lara/pati → teks, bobot sedang, tema hari esok',
                 'priority'                   => 2,
-                'is_active'                  => true,
             ],
             [
-                'rule_type'                  => 'first_login',
                 'rule_code'                  => 'FL_003',
                 'mood_value'                 => 1,
                 'catur_bekel_values'         => ['guru', 'ratu'],
                 'recommended_content_type'   => 'illustration',
                 'recommended_difficulty'     => 'medium',
-                'description'               => 'Mood negatif (1) + catur bekel guru/ratu → materi ilustrasi, bobot sedang',
+                'theme_day_offset'           => 'current',
+                'description'               => 'Mood negatif (1) + catur bekel guru/ratu → ilustrasi, bobot sedang, tema hari login',
                 'priority'                   => 3,
-                'is_active'                  => true,
             ],
             [
-                'rule_type'                  => 'first_login',
                 'rule_code'                  => 'FL_004',
                 'mood_value'                 => 1,
                 'catur_bekel_values'         => ['lara', 'pati'],
                 'recommended_content_type'   => 'illustration',
                 'recommended_difficulty'     => 'easy',
-                'description'               => 'Mood negatif (1) + catur bekel lara/pati → materi ilustrasi, bobot mudah',
+                'theme_day_offset'           => 'next',
+                'description'               => 'Mood negatif (1) + catur bekel lara/pati → ilustrasi, bobot mudah, tema hari esok',
                 'priority'                   => 4,
-                'is_active'                  => true,
             ],
             [
-                'rule_type'                  => 'first_login',
                 'rule_code'                  => 'FL_005',
                 'mood_value'                 => 2,
-                'catur_bekel_values'         => ['guru', 'ratu', 'lara', 'pati'],
+                'catur_bekel_values'         => ['guru', 'ratu'],
                 'recommended_content_type'   => 'random',
                 'recommended_difficulty'     => 'medium',
-                'description'               => 'Mood netral (2) + catur bekel apapun → materi acak, bobot sedang',
+                'theme_day_offset'           => 'current',
+                'description'               => 'Mood netral (2) + catur bekel guru/ratu → materi acak, bobot sedang, tema hari login',
                 'priority'                   => 5,
-                'is_active'                  => true,
+            ],
+            [
+                'rule_code'                  => 'FL_006',
+                'mood_value'                 => 2,
+                'catur_bekel_values'         => ['lara', 'pati'],
+                'recommended_content_type'   => 'random',
+                'recommended_difficulty'     => 'medium',
+                'theme_day_offset'           => 'next',
+                'description'               => 'Mood netral (2) + catur bekel lara/pati → materi acak, bobot sedang, tema hari esok',
+                'priority'                   => 6,
             ],
         ];
 
         foreach ($rules as $rule) {
             RecommendationRule::updateOrCreate(
                 ['rule_code' => $rule['rule_code']],
-                $rule
+                [
+                    ...$rule,
+                    'rule_type'                   => 'first_login',
+                    'recommended_quiz_difficulty' => null,
+                    'performance_cluster'         => null,
+                    'is_active'                   => true,
+                ]
             );
         }
     }
