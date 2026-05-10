@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Role;
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -25,5 +24,9 @@ class DatabaseSeeder extends Seeder
         Role::create(['role_name' => 'admin']);
         Role::create(['role_name' => 'student']);
 
+        $this->call([
+            RecommendationRuleSeeder::class,
+            RecommendationRulePostQuizSeeder::class,
+        ]);
     }
 }

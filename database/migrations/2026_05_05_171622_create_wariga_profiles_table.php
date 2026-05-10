@@ -20,7 +20,9 @@ return new class extends Migration
             $table->tinyInteger('urip_panca_wara');
             $table->enum('sapta_wara', ['Redite', 'Soma', 'Anggara', 'Buda', 'Wrespati', 'Sukra', 'Saniscara']);
             $table->tinyInteger('urip_sapta_wara');
-            $table->string('characteristic', 255);
+            // $table->string('characteristic', 255);\
+            $table->enum('catur_bekel_kahuripan', ['guru', 'ratu', 'lara', 'pati'])->nullable();
+            $table->date('catur_bekel_date')->nullable();
             $table->timestamps();
         });
     }

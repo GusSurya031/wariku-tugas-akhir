@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('material_id')->constrained()->onDelete('cascade');
             $table->enum('difficulty_level', ['easy', 'medium', 'hard'])->nullable();
             $table->enum('learning_type', ['text', 'illustration'])->nullable();
+            $table->text('thumbnail_path')->nullable();
             $table->timestamps();
         });
     }
