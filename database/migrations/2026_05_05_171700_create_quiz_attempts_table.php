@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('material_has_variant_id')->constrained()->onDelete('cascade');
             $table->integer('score')->default(0);
-            $table->decimal('score_performance', 5, 2)->nullable()->after('score');
+            $table->decimal('score_performance', 5, 2)->nullable();
             $table->timestamps();
         });
     }
