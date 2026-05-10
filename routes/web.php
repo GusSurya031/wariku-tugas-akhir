@@ -4,7 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OnBoardingController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -26,6 +26,7 @@ Route::get('/lessons/1', [DashboardController::class, 'showLesson'])->name('dash
 Route::get('/exercise', [DashboardController::class, 'exercise'])->name('dashboard.exercise');
 Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
 Route::get('/quiz', [DashboardController::class, 'quiz'])->name('dashboard.quiz');
+Route::post('/quiz', [QuizController::class, 'store'])->name('quiz.store');
 Route::get('/report', [DashboardController::class, 'report'])->name('dashboard.report');
 
 

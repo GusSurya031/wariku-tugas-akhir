@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['user_id', 'material_has_variant_id', 'score'])]
+#[Fillable(['user_id', 'material_has_variant_id', 'score', 'score_performance'])]
 
 class QuizAttempt extends Model
 {
