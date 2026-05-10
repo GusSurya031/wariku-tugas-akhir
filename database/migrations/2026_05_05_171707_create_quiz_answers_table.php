@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('quiz_attempt_id')->constrained()->onDelete('cascade');
             $table->foreignId('question_option_id')->constrained()->onDelete('cascade');
+            $table->foreignId('question_id')->constrained()->onDelete('cascade');
+            $table->integer('duration_answering')->default(0); // Durasi dalam det
             $table->boolean('is_correct')->default(false);
             $table->timestamps();
         });

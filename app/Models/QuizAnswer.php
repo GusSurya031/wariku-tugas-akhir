@@ -7,7 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-#[Fillable(['quiz_attempt_id', 'question_option_id', 'is_correct'])]
+#[Fillable(
+    [
+    'quiz_attempt_id',
+    'question_option_id',
+    'question_id',
+    'duration_answering',
+    'is_correct'
+    ])]
 
 class QuizAnswer extends Model
 {

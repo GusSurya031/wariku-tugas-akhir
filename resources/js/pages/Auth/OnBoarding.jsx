@@ -9,11 +9,10 @@ export default function Onboarding() {
 
     /* =============================================
        STEP STATE
-       - Returning users (hasProfile) mulai dari step 1
-         dengan data terkunci, lalu langsung ke step 2
+       - Returning users (hasProfile) langsung ke step 2 dengan data terisi
        - User baru mulai dari step 1 dengan form kosong
     ============================================= */
-    const [step, setStep] = useState(1);
+    const [step, setStep] = hasProfile ? useState(2) : useState(1);
 
     /* =============================================
        STEP 1 STATE — diisi dari props jika returning user
@@ -116,12 +115,10 @@ export default function Onboarding() {
                     <div>
                         <div className="mb-8 text-center">
                             <h1 className="text-3xl font-serif text-(--text-primary) mb-2">
-                                {hasProfile ? "Konfirmasi Profilmu" : "Lengkapi Profilmu"}
+                                 "Lengkapi Profilmu"
                             </h1>
                             <p className="text-(--text-secondary)">
-                                {hasProfile
-                                    ? "Data profilmu tidak dapat diubah"
-                                    : "Bantu sistem mengenal dirimu lebih baik"}
+                                "Bantu sistem mengenal dirimu lebih baik"
                             </p>
                         </div>
 
@@ -136,12 +133,8 @@ export default function Onboarding() {
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
                                     placeholder="Contoh: Made"
-                                    disabled={hasProfile}
-                                    className={`w-full rounded-2xl border px-5 py-4 outline-none ${
-                                        hasProfile
-                                            ? "border-(--border-primary) bg-gray-50 text-gray-400 cursor-not-allowed"
-                                            : "border-(--border-primary) focus:border-primary-blue"
-                                    }`}
+                                    className={`w-full rounded-2xl border px-5 py-4 outline-none
+                                            border-(--border-primary) focus:border-primary-blue`}
                                 />
                             </div>
 
@@ -154,12 +147,7 @@ export default function Onboarding() {
                                     type="date"
                                     value={birthDate}
                                     onChange={(e) => setBirthDate(e.target.value)}
-                                    disabled={hasProfile}
-                                    className={`w-full rounded-2xl border px-5 py-4 outline-none ${
-                                        hasProfile
-                                            ? "border-(--border-primary) bg-gray-50 text-gray-400 cursor-not-allowed"
-                                            : "border-(--border-primary) focus:border-primary-blue"
-                                    }`}
+                                    className={`w-full rounded-2xl border px-5 py-4 outline-none border-(--border-primary) focus:border-primary-blue`}
                                 />
                             </div>
 
@@ -171,12 +159,7 @@ export default function Onboarding() {
                                 <select
                                     value={gender}
                                     onChange={(e) => setGender(e.target.value)}
-                                    disabled={hasProfile}
-                                    className={`w-full rounded-2xl border bg-white px-5 py-4 outline-none ${
-                                        hasProfile
-                                            ? "border-(--border-primary) bg-gray-50 text-gray-400 cursor-not-allowed"
-                                            : "border-(--border-primary) focus:border-primary-blue"
-                                    }`}
+                                    className={`w-full rounded-2xl border bg-white px-5 py-4 outline-none border-(--border-primary) focus:border-primary-blue`}
                                 >
                                     <option value="">Pilih jenis kelamin</option>
                                     <option value="male">Laki-laki</option>
