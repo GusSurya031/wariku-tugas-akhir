@@ -33,6 +33,7 @@ Route::get('/report', [DashboardController::class, 'report'])->name('dashboard.r
 
 // Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/dashboard/teacher', [DashboardController::class, 'dashboardTeacher'])->name('dashboard.teacher');
 
     Route::get('/onboarding', [OnBoardingController::class, 'index'])
         ->name('onboarding.index');

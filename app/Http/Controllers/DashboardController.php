@@ -41,4 +41,9 @@ class DashboardController extends Controller
     {
         return Inertia::render('Auth/Report');
     }
+
+    public function dashboardTeacher()
+    {
+        return Inertia::render('Auth/DashboardTeacher');
+    }
 }
