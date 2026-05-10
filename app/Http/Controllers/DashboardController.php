@@ -11,4 +11,29 @@ class DashboardController extends Controller
     {
         return Inertia::render('Auth/Dashboard');
     }
+
+    public function lessons()
+    {
+        return Inertia::render('Auth/Lesson');
+    }
+
+    public function showLesson()
+    {
+        return Inertia::render('Auth/ChapterLesson');
+    }
+
+    public function exercise()
+    {
+        return Inertia::render('Auth/Exercise');
+    }
+
+    public function profile()
+    {
+        return Inertia::render('Auth/Profile');
+    }
+
+    public function quiz()
+    {
+        return Inertia::render('Auth/Quiz');
+    }
 }

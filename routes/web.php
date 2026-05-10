@@ -17,11 +17,20 @@ Route::get('/material', [HomeController::class, 'material'])->name('home.materia
 Route::get('/material/1', [HomeController::class, 'showMaterial'])->name('home.showMaterial');
 Route::get('/about', [HomeController::class, 'about'])->name('home.about');
 Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
-Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
+Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'store'])->name('auth.store');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('login');
 
-Route::middleware(['auth'])->group(function () {
+Route::get('/lessons', [DashboardController::class, 'lessons'])->name('dashboard.lessons');
+Route::get('/lessons/1', [DashboardController::class, 'showLesson'])->name('dashboard.showLesson');
+Route::get('/exercise', [DashboardController::class, 'exercise'])->name('dashboard.exercise');
+Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
+Route::get('/quiz', [DashboardController::class, 'quiz'])->name('dashboard.quiz');
+
+
+
+
+// Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     Route::get('/onboarding', [OnBoardingController::class, 'index'])
@@ -37,5 +46,5 @@ Route::middleware(['auth'])->group(function () {
         ->name('onboarding.finish');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-});
+// });
 
