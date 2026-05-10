@@ -36,4 +36,9 @@ class DashboardController extends Controller
     {
         return Inertia::render('Auth/Quiz');
     }
+
+    public function report()
+    {
+        return Inertia::render('Auth/Report');
+    }
 }

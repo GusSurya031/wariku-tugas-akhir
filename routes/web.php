@@ -26,6 +26,7 @@ Route::get('/lessons/1', [DashboardController::class, 'showLesson'])->name('dash
 Route::get('/exercise', [DashboardController::class, 'exercise'])->name('dashboard.exercise');
 Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
 Route::get('/quiz', [DashboardController::class, 'quiz'])->name('dashboard.quiz');
+Route::get('/report', [DashboardController::class, 'report'])->name('dashboard.report');
 
 
 
