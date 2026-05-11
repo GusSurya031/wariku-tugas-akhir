@@ -50,6 +50,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
 
+    Route::get('/quiz/{variantId}/info', [QuizController::class, 'preQuizInfo'])->name('quiz.info');
+
     Route::get('/quiz/{variantId}', [DashboardController::class, 'quiz'])->name('dashboard.quiz');
 
     Route::post('/quiz', [QuizController::class, 'store'])->name('quiz.store');

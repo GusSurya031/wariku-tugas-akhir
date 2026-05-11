@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MaterialHasVariant;
 use App\Models\MoodLog;
 use App\Models\Question;
 use App\Models\QuestionOption;
@@ -12,9 +13,67 @@ use App\Models\RecommendationRule;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class QuizController extends Controller
 {
+    public function preQuizInfo($variantId)
+    {
+        /** @var \App\Models\User $user */
+        $user    = Auth::user();
+        $variant = MaterialHasVariant::with(['material'])->findOrFail($variantId);
+
+        // Resolve theme from latest recommendation log
+        $latestLog = RecommendationLog::where('user_id', $user->id)->with('rule')->latest()->first();
+        $themeDay  = null;
+        if ($latestLog?->rule) {
+            $themeDay = OnBoardingController::resolveThemeDay(
+                $latestLog->rule->theme_day_offset,
+                $latestLog->created_at
+            );
+        }
+
+        // Check if user has any prior attempt for this material (any variant)
+        $hasAttempt = QuizAttempt::where('user_id', $user->id)
+            ->whereHas('materialHasVariant', fn($q) => $q->where('material_id', $variant->material_id))
+            ->exists();
+
+        // Determine quiz difficulty based on the two rules
+        if ($hasAttempt) {
+            // Rule 2: use recommended_quiz_difficulty from the latest log
+            $rawDiff        = $latestLog?->rule?->recommended_quiz_difficulty ?? $variant->difficulty_level;
+            $mixMap         = ['mix_easy_medium' => 'medium', 'mix_medium_hard' => 'hard'];
+            $quizDifficulty = $mixMap[$rawDiff] ?? $rawDiff;
+        } else {
+            // Rule 1: same difficulty as the material variant the user just studied
+            $quizDifficulty = $variant->difficulty_level;
+        }
+
+        // Find quiz variant: same material + same learning_type + resolved difficulty
+        $quizVariant = MaterialHasVariant::where('material_id', $variant->material_id)
+            ->where('difficulty_level', $quizDifficulty)
+            ->where('learning_type', $variant->learning_type)
+            ->first() ?? $variant;
+
+        return Inertia::render('Auth/PreQuiz', [
+            'auth' => [
+                'user' => [
+                    'name'     => $user->username,
+                    'fullname' => $user->fullname,
+                ],
+            ],
+            'sourceMaterial' => [
+                'title'      => $variant->material->title,
+                'topic'      => $variant->material->topic,
+                'difficulty' => $variant->difficulty_level,
+            ],
+            'quizVariantId'  => $quizVariant->id,
+            'quizDifficulty' => $quizDifficulty,
+            'isFirstAttempt' => !$hasAttempt,
+            'themeDay'       => $themeDay,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

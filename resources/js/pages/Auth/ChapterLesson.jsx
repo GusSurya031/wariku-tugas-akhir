@@ -277,7 +277,7 @@ const QuizCTA = ({ variantId, difficulty }) => {
                     className="text-center bg-white/20 hover:bg-white/30 text-white font-semibold text-sm px-6 py-2.5 rounded-full transition-colors">
                     Kembali ke Lesson
                 </Link>
-                <Link href={`/quiz/${variantId}`}
+                <Link href={`/quiz/${variantId}/info`}
                     className="text-center bg-white hover:opacity-90 font-bold text-sm px-6 py-2.5 rounded-full transition-opacity shadow-md text-(--theme-primary)">
                     Mulai Latihan Soal →
                 </Link>
