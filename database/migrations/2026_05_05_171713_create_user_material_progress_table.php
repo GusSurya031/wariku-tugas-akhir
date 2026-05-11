@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('progress_percentage')->default(0);
             $table->enum('status', ['not_started', 'in_progress', 'completed'])->default('not_started');
             $table->timestamp('last_accessed_at')->nullable();
+            $table->timestamps();
         });
     }
 

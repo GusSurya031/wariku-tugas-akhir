@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { Head, Link } from "@inertiajs/react";
 
+// ─── Theme ────────────────────────────────────────────────────────────────────
+const THEME_MAP = {
+    Minggu: "redite", Senin: "soma",    Selasa: "anggara", Rabu: "buda",
+    Kamis: "wrespati", Jumat: "sukra",  Sabtu: "saniscara",
+};
+
 // ─── Icons ────────────────────────────────────────────────────────────────────
 const HomeIcon = ({ className }) => (
     <svg
@@ -258,45 +264,22 @@ const CheckCircleIcon = ({ className }) => (
 const MathThumbnail = ({ size = "normal" }) => {
     const h = size === "large" ? "h-52" : "h-36";
     return (
-        <div
-            className={`relative w-full ${h} rounded-xl overflow-hidden bg-gradient-to-br from-yellow-50 to-orange-50 flex items-center justify-center`}
-        >
+        <div className={`relative w-full ${h} rounded-xl overflow-hidden bg-(--theme-soft) flex items-center justify-center`}>
             <div className="relative select-none" aria-hidden="true">
-                <span className="absolute -top-4 -left-6 text-2xl font-black text-red-500 rotate-[-15deg]">
-                    5
-                </span>
-                <span className="absolute -top-6 left-2 text-xl font-black text-green-500 rotate-[10deg]">
-                    2
-                </span>
-                <span className="absolute -top-3 left-10 text-2xl font-black text-blue-500 rotate-[-8deg]">
-                    ×
-                </span>
-                <span className="absolute top-0 -right-6 text-xl font-black text-purple-500 rotate-[12deg]">
-                    4
-                </span>
-                <span className="absolute -bottom-2 -left-4 text-xl font-black text-orange-500 rotate-[-10deg]">
-                    3
-                </span>
-                <span className="absolute bottom-0 right-0 text-2xl font-black text-pink-500 rotate-[8deg]">
-                    +
-                </span>
-                <div className="bg-gradient-to-br from-blue-700 to-blue-900 rounded-lg px-5 py-2 shadow-lg">
-                    <span
-                        className="text-yellow-300 font-black text-2xl tracking-wider"
-                        style={{ textShadow: "2px 2px 0 #1e3a8a" }}
-                    >
+                <span className="absolute -top-4 -left-6 text-2xl font-black text-red-500 rotate-[-15deg]">5</span>
+                <span className="absolute -top-6 left-2 text-xl font-black text-green-500 rotate-10">2</span>
+                <span className="absolute -top-3 left-10 text-2xl font-black text-blue-500 rotate-[-8deg]">×</span>
+                <span className="absolute top-0 -right-6 text-xl font-black text-purple-500 rotate-12">4</span>
+                <span className="absolute -bottom-2 -left-4 text-xl font-black text-orange-500 rotate-[-10deg]">3</span>
+                <span className="absolute bottom-0 right-0 text-2xl font-black text-pink-500 rotate-[8deg]">+</span>
+                <div className="rounded-lg px-5 py-2 shadow-lg" style={{ background: "var(--theme-gradient)" }}>
+                    <span className="text-white font-black text-2xl tracking-wider" style={{ fontFamily: "'Fredoka One', 'Nunito', sans-serif" }}>
                         MATH
                     </span>
                 </div>
-                <span className="absolute -bottom-3 -right-5 text-xl font-black text-yellow-500 rotate-[-12deg]">
-                    9
-                </span>
-                <span className="absolute top-1 -left-8 text-lg font-black text-teal-500 rotate-[15deg]">
-                    6
-                </span>
-                <span className="absolute -bottom-4 left-3 text-2xl font-black text-violet-500 rotate-[5deg]">
-                    8
-                </span>
+                <span className="absolute -bottom-3 -right-5 text-xl font-black text-yellow-500 -rotate-12">9</span>
+                <span className="absolute top-1 -left-8 text-lg font-black text-teal-500 rotate-15">6</span>
+                <span className="absolute -bottom-4 left-3 text-2xl font-black text-violet-500 rotate-[5deg]">8</span>
             </div>
         </div>
     );
@@ -403,38 +386,47 @@ const Sidebar = ({ open, onClose }) => {
     );
 };
 // ─── Detail Drawer ────────────────────────────────────────────────────────────
-const DetailDrawer = ({ course, onClose }) => {
-    const chapters = [
-        { title: "Pengenalan Penjumlahan", duration: "15 menit", done: true },
-        { title: "Penjumlahan 1–10", duration: "20 menit", done: true },
-        { title: "Penjumlahan 10–100", duration: "25 menit", done: false },
-        { title: "Latihan Soal Dasar", duration: "30 menit", done: false },
-        { title: "Kuis Akhir Materi", duration: "20 menit", done: false },
-    ];
+const DIFFICULTY_ORDER = ["easy", "medium", "hard"];
+const DIFFICULTY_LABEL = { easy: "Mudah", medium: "Menengah", hard: "Lanjutan" };
+
+const DetailDrawer = ({ course, onClose, themeSlug, userLearningType = "text", recommendedDifficulty = null }) => {
+    const variants = course?.variants ?? [];
+
+    const availableDiffs = DIFFICULTY_ORDER.filter((d) =>
+        variants.some((v) => v.difficulty_level === d)
+    );
+    const [selectedDiff, setSelectedDiff] = useState(availableDiffs[0] ?? "easy");
+
+    // Chapter titles come from any variant of the selected difficulty (titles are the same across learning types)
+    const refVariant    = variants.find((v) => v.difficulty_level === selectedDiff);
+    const chapterTitles = refVariant?.chapter_titles ?? [];
+
+    // CTA target: variant matching selected difficulty + user's learning type
+    const targetVariant = variants.find(
+        (v) => v.difficulty_level === selectedDiff && v.learning_type === userLearningType
+    ) ?? refVariant;
+
+    const totalChapters = availableDiffs.reduce((sum, d) => {
+        const v = variants.find((x) => x.difficulty_level === d && x.learning_type === userLearningType);
+        return sum + (v?.chapter_count ?? 0);
+    }, 0);
+
+    const estMinutes = course?.estimated_duration ?? 0;
+    const estLabel   = estMinutes >= 60
+        ? `${Math.floor(estMinutes / 60)} jam${estMinutes % 60 > 0 ? ` ${estMinutes % 60} menit` : ""}`
+        : `${estMinutes} menit`;
 
     return (
         <>
-            {/* Backdrop */}
-            <div
-                className="fixed inset-0 bg-black/30 z-40 transition-opacity duration-300"
-                onClick={onClose}
-            />
+            <div className="fixed inset-0 bg-black/30 z-40 transition-opacity duration-300" onClick={onClose} />
 
-            {/* Drawer panel */}
-            <div
-                className="fixed top-0 right-0 h-full z-50 bg-white shadow-2xl flex flex-col
-          w-full sm:w-[420px] lg:w-1/3
-          animate-slide-in-right overflow-y-auto"
-                style={{
-                    animation:
-                        "slideInRight 0.3s cubic-bezier(0.32,0.72,0,1) both",
-                }}
-            >
-                {/* Close button */}
-                <button
-                    onClick={onClose}
-                    className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors z-10"
-                >
+            {/* Panel gets data-theme so CSS variables work inside the fixed element */}
+            <div data-theme={themeSlug}
+                className="fixed top-0 right-0 h-full z-50 bg-white shadow-2xl flex flex-col w-full sm:w-105 lg:w-1/3 overflow-y-auto"
+                style={{ animation: "slideInRight 0.3s cubic-bezier(0.32,0.72,0,1) both" }}>
+
+                <button onClick={onClose}
+                    className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors z-10">
                     <XIcon className="w-4 h-4 text-gray-600" />
                 </button>
 
@@ -443,82 +435,95 @@ const DetailDrawer = ({ course, onClose }) => {
                     <MathThumbnail size="large" />
                 </div>
 
-                {/* Content */}
                 <div className="px-6 py-5 flex-1">
-                    {/* Badge */}
-                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-violet-600 bg-violet-50 px-3 py-1 rounded-full mb-3">
-                        <BookIcon className="w-3 h-3" /> Matematika Dasar
+                    {/* Topic badge */}
+                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-(--theme-primary) bg-(--theme-soft) px-3 py-1 rounded-full mb-3">
+                        <BookIcon className="w-3 h-3" /> {course?.topic ?? "Matematika"}
                     </span>
 
                     <h2 className="font-bold text-gray-900 text-xl leading-snug mb-2">
-                        {course?.title ?? "Penjumlahan Dasar"}
+                        {course?.title ?? "Materi"}
                     </h2>
                     <p className="text-sm text-gray-500 leading-relaxed mb-5">
-                        {course?.description ??
-                            "Pelajari konsep dasar penjumlahan dan cara melakukannya dengan mudah."}
+                        {course?.description ?? ""}
                     </p>
 
-                    {/* Stats row */}
+                    {/* Stats */}
                     <div className="flex items-center gap-4 mb-5 text-xs text-gray-500">
                         <div className="flex items-center gap-1.5">
-                            <BookIcon className="w-4 h-4 text-violet-400" />
-                            <span>8 Lessons</span>
+                            <BookIcon className="w-4 h-4 text-(--theme-primary)" />
+                            <span>{totalChapters} Chapter</span>
                         </div>
                         <div className="flex items-center gap-1.5">
                             <ClockIcon className="w-4 h-4 text-amber-400" />
-                            <span>2 jam 30 menit</span>
+                            <span>{estLabel}</span>
                         </div>
                     </div>
 
-
-                    {/* Divider */}
                     <div className="border-t border-gray-100 mb-5" />
 
-                    {/* Chapter list */}
-                    <h3 className="font-bold text-gray-800 text-sm mb-3">
-                        Daftar Materi
-                    </h3>
-                    <div className="space-y-2 mb-6">
-                        {chapters.map((ch, i) => (
-                            <div
-                                key={i}
-                                className={`flex items-center gap-3 p-3 rounded-xl border transition-colors
-                  ${ch.done ? "bg-violet-50 border-violet-100" : "bg-gray-50 border-gray-100 hover:bg-gray-100"}`}
-                            >
-                                <div
-                                    className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${ch.done ? "bg-violet-500" : "bg-gray-200"}`}
-                                >
-                                    {ch.done ? (
-                                        <CheckCircleIcon className="w-4 h-4 text-white" />
-                                    ) : (
-                                        <PlayCircleIcon className="w-4 h-4 text-gray-400" />
+                    {/* Difficulty selector */}
+                    <h3 className="font-bold text-gray-800 text-sm mb-3">Pilih Tingkat Belajar</h3>
+                    <div className="flex gap-2 mb-5">
+                        {availableDiffs.map((diff) => {
+                            const diffVariant   = variants.find((v) => v.difficulty_level === diff && v.learning_type === userLearningType)
+                                ?? variants.find((v) => v.difficulty_level === diff);
+                            const progress      = diffVariant?.progress ?? null;
+                            const isRecommended = diff === recommendedDifficulty;
+
+                            return (
+                                <div key={diff} className="flex-1 flex flex-col items-center gap-1">
+                                    <button onClick={() => setSelectedDiff(diff)}
+                                        className={`w-full py-2 px-3 rounded-xl border text-xs font-semibold transition-all
+                                            ${selectedDiff === diff
+                                                ? "border-transparent text-white shadow-sm"
+                                                : "bg-gray-50 border-gray-200 text-gray-600 hover:bg-(--theme-soft) hover:border-(--theme-secondary)"
+                                            }`}
+                                        style={selectedDiff === diff ? { background: "var(--theme-gradient)" } : {}}>
+                                        {DIFFICULTY_LABEL[diff]}
+                                    </button>
+
+                                    {isRecommended && (
+                                        <div className="relative group">
+                                            <span className="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-amber-100 text-amber-700 whitespace-nowrap cursor-help inline-block">
+                                                ★ Rekomendasi
+                                            </span>
+                                            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-48 p-2 text-[10px] leading-snug bg-gray-800 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity z-20 shadow-lg">
+                                                Direkomendasikan berdasarkan kondisi dan hasil belajarmu
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {progress && (
+                                        <span className={`text-[9px] font-medium ${
+                                            progress.status === "completed" ? "text-green-600" : "text-(--theme-primary)"
+                                        }`}>
+                                            {progress.status === "completed" ? "✓ Selesai" : `${progress.percentage}%`}
+                                        </span>
                                     )}
                                 </div>
-                                <div className="flex-1 min-w-0">
-                                    <p
-                                        className={`text-xs font-semibold truncate ${ch.done ? "text-violet-700" : "text-gray-700"}`}
-                                    >
-                                        {ch.title}
-                                    </p>
-                                    <p className="text-[10px] text-gray-400">
-                                        {ch.duration}
-                                    </p>
-                                </div>
-                                {ch.done && (
-                                    <span className="text-[10px] font-bold text-violet-500 bg-violet-100 px-2 py-0.5 rounded-full">
-                                        Selesai
-                                    </span>
-                                )}
+                            );
+                        })}
+                    </div>
+
+                    {/* Chapter list for selected difficulty */}
+                    <div className="space-y-2 mb-6">
+                        {chapterTitles.length > 0 ? chapterTitles.map((title, i) => (
+                            <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-gray-100">
+                                <span className="w-6 h-6 rounded-full bg-(--theme-soft) text-(--theme-primary) text-[10px] font-bold flex items-center justify-center shrink-0">
+                                    {i + 1}
+                                </span>
+                                <p className="text-xs text-gray-700 font-medium">{title}</p>
                             </div>
-                        ))}
+                        )) : (
+                            <p className="text-xs text-gray-400 text-center py-4">Belum ada chapter tersedia.</p>
+                        )}
                     </div>
 
                     {/* CTA */}
-                    <Link
-                        href={`/lessons/${course.id}` || "#"}
-                        className="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold text-sm py-3.5 rounded-2xl transition-colors flex items-center justify-center gap-2 shadow-lg shadow-violet-200"
-
-                        >
+                    <Link href={targetVariant ? `/lessons/${targetVariant.id}` : "#"}
+                        className="w-full text-white font-bold text-sm py-3.5 rounded-2xl transition-opacity hover:opacity-90 flex items-center justify-center gap-2 shadow-lg"
+                        style={{ background: "var(--theme-gradient)" }}>
                         <PlayCircleIcon className="w-5 h-5" />
                         Mulai Belajar Sekarang
                     </Link>
@@ -526,11 +531,11 @@ const DetailDrawer = ({ course, onClose }) => {
             </div>
 
             <style>{`
-        @keyframes slideInRight {
-          from { transform: translateX(100%); opacity: 0; }
-          to   { transform: translateX(0);    opacity: 1; }
-        }
-      `}</style>
+                @keyframes slideInRight {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to   { transform: translateX(0);    opacity: 1; }
+                }
+            `}</style>
         </>
     );
 };
@@ -543,14 +548,15 @@ const CourseCard = ({ title, desc, onClick }) => (
     >
         <MathThumbnail />
         <div className="p-4 flex flex-col flex-1">
-            <h3 className="font-bold text-gray-800 text-sm mb-1 group-hover:text-violet-600 transition-colors">
+            <h3 className="font-bold text-gray-800 text-sm mb-1 group-hover:text-(--theme-primary) transition-colors">
                 {title}
             </h3>
             <p className="text-xs text-gray-500 leading-relaxed flex-1">
                 {desc}
             </p>
             <div className="mt-3">
-                <button className="flex items-center gap-1.5 bg-amber-400 hover:bg-amber-500 text-white text-xs font-semibold px-3.5 py-2 rounded-full transition-colors">
+                <button className="flex items-center gap-1.5 text-white text-xs font-semibold px-3.5 py-2 rounded-full transition-opacity hover:opacity-90"
+                    style={{ background: "var(--theme-gradient)" }}>
                     Selengkapnya
                     <ArrowUpRightIcon className="w-3 h-3" />
                 </button>
@@ -592,11 +598,13 @@ const ProfileCard = ({ user }) => {
 };
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
-export default function Lesson({ auth, allMaterials = [] }) {
-    const user = auth?.user;
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+export default function Lesson({ auth, allMaterials = [], themeDay = null, userLearningType = "text", recommendedDifficulty = null }) {
+    const user      = auth?.user;
+    const themeSlug = THEME_MAP[themeDay] ?? null;
+
+    const [sidebarOpen,    setSidebarOpen]    = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
-    const [search, setSearch] = useState("");
+    const [search,         setSearch]         = useState("");
 
     const filtered = allMaterials.filter((c) =>
         c.title.toLowerCase().includes(search.toLowerCase()),
@@ -606,7 +614,7 @@ export default function Lesson({ auth, allMaterials = [] }) {
         <>
             <Head title="Lesson" />
 
-            <div className="min-h-screen bg-gray-50 flex">
+            <div data-theme={themeSlug} className="min-h-screen bg-gray-50 flex">
                 {/* Sticky Sidebar */}
                 <Sidebar
                     open={sidebarOpen}
@@ -647,7 +655,7 @@ export default function Lesson({ auth, allMaterials = [] }) {
                                 placeholder="Search your course here..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                className="w-full pl-11 pr-4 py-3 rounded-2xl border border-gray-200 bg-white text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-transparent transition-all shadow-sm"
+                                className="w-full pl-11 pr-4 py-3 rounded-2xl border border-gray-200 bg-white text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-(--theme-secondary) focus:border-transparent transition-all shadow-sm"
                             />
                             </div>
                             <div className="hidden md:block ml-6 w-48">
@@ -665,13 +673,13 @@ export default function Lesson({ auth, allMaterials = [] }) {
                                 Dashboard
                             </Link>
                             <span>/</span>
-                            <span className="text-violet-600 font-semibold">
+                            <span className="text-(--theme-primary) font-semibold">
                                 Lesson
                             </span>
                         </div>
 
                         {/* Title */}
-                        <h1 className="text-xl font-bold text-violet-600 mb-6">
+                        <h1 className="text-xl font-bold text-(--theme-primary) mb-6">
                             Pilihan Materi Belajarmu
                         </h1>
 
@@ -709,6 +717,9 @@ export default function Lesson({ auth, allMaterials = [] }) {
                 <DetailDrawer
                     course={selectedCourse}
                     onClose={() => setSelectedCourse(null)}
+                    themeSlug={themeSlug}
+                    userLearningType={userLearningType}
+                    recommendedDifficulty={recommendedDifficulty}
                 />
             )}
         </>

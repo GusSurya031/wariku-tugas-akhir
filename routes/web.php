@@ -44,6 +44,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/lessons/{id}', [LessonController::class, 'show'])->name('lessons.show');
 
+    Route::post('/lessons/{variantId}/progress', [LessonController::class, 'updateProgress'])->name('lessons.progress');
+
     Route::get('/exercise', [DashboardController::class, 'exercise'])->name('dashboard.exercise');
 
     Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');

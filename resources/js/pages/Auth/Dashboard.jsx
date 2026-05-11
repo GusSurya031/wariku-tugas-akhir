@@ -685,11 +685,6 @@ export default function Dashboard({
                             <JourneyTable rows={recentAttempts} />
                         </section>
 
-                        {/* Mobile profile */}
-                        <div className="xl:hidden">
-                            <ProfileCard user={user} />
-                        </div>
-
                         <div className="pb-4" />
                     </main>
                 </div>

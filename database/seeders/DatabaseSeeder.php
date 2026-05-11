@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             RecommendationRuleSeeder::class,
             RecommendationRulePostQuizSeeder::class,
             MaterialSeeder::class,
+            ChapterSeeder::class,
             QuestionSeeder::class,
         ]);
     }
