@@ -6,6 +6,7 @@ use App\Models\Material;
 use App\Models\MaterialHasVariant;
 use App\Models\QuizAttempt;
 use App\Models\RecommendationLog;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -107,9 +108,31 @@ class DashboardController extends Controller
         return Inertia::render('Auth/Profile');
     }
 
-    public function quiz()
+    public function quiz(int $variantId)
     {
-        return Inertia::render('Auth/Quiz');
+        $variant = MaterialHasVariant::with(['material', 'questions.options'])
+            ->findOrFail($variantId);
+
+        // Shuffle options server-side so correct answer position varies each load
+        $questions = $variant->questions->map(fn($q) => [
+            'id'                 => $q->id,
+            'question_text'      => $q->question_text,
+            'estimated_duration' => $q->estimated_duration,
+            'options'            => $q->options
+                ->map(fn($o) => ['id' => $o->id, 'option_text' => $o->option_text])
+                ->shuffle()
+                ->values(),
+        ]);
+
+        return Inertia::render('Auth/Quiz', [
+            'variant' => [
+                'id'            => $variant->id,
+                'materialTitle' => $variant->material->title,
+                'difficulty'    => $variant->difficulty_level,
+                'learningType'  => $variant->learning_type,
+            ],
+            'questions' => $questions,
+        ]);
     }
 
     public function report()

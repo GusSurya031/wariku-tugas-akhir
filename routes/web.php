@@ -25,7 +25,7 @@ Route::get('/lessons', [DashboardController::class, 'lessons'])->name('dashboard
 Route::get('/lessons/1', [DashboardController::class, 'showLesson'])->name('dashboard.showLesson');
 Route::get('/exercise', [DashboardController::class, 'exercise'])->name('dashboard.exercise');
 Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
-Route::get('/quiz', [DashboardController::class, 'quiz'])->name('dashboard.quiz');
+Route::get('/quiz/{variantId}', [DashboardController::class, 'quiz'])->name('dashboard.quiz');
 Route::post('/quiz', [QuizController::class, 'store'])->name('quiz.store');
 Route::get('/report', [DashboardController::class, 'report'])->name('dashboard.report');
 

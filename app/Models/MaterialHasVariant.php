@@ -17,6 +17,11 @@ class MaterialHasVariant extends Model
         return $this->belongsTo(Material::class);
     }
 
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
+
     public function chapters()
     {
         return $this->hasMany(Chapter::class);
