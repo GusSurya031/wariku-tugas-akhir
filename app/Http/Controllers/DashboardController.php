@@ -7,8 +7,11 @@ use App\Models\MaterialHasVariant;
 use App\Models\MoodLog;
 use App\Models\QuizAttempt;
 use App\Models\RecommendationLog;
+use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -145,7 +148,81 @@ class DashboardController extends Controller
 
     public function profile()
     {
-        return Inertia::render('Auth/Profile');
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        $latestLog = RecommendationLog::where('user_id', $user->id)->with('rule')->latest()->first();
+        $themeDay  = null;
+        if ($latestLog?->rule) {
+            $themeDay = OnBoardingController::resolveThemeDay(
+                $latestLog->rule->theme_day_offset,
+                $latestLog->created_at
+            );
+        }
+
+        return Inertia::render('Auth/Profile', [
+            'auth' => [
+                'user' => [
+                    'name'     => $user->username,
+                    'fullname' => $user->fullname,
+                ],
+            ],
+            'userData' => [
+                'username'   => $user->username,
+                'fullname'   => $user->fullname,
+                'email'      => $user->email,
+                'profil_url' => $user->profil_path ? Storage::url($user->profil_path) : null,
+                'gender'     => $user->userProfile?->gender,
+                'birth_date' => $user->userProfile?->birth_date
+                    ? \Carbon\Carbon::parse($user->userProfile->birth_date)->format('Y-m-d')
+                    : null,
+            ],
+            'themeDay' => $themeDay,
+        ]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        $request->validate([
+            'username' => ['required', 'string', 'max:255', Rule::unique('users', 'username')->ignore($user->id)],
+            'fullname' => ['required', 'string', 'max:255'],
+            'email'    => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
+            'password' => ['nullable', 'string', 'min:8'],
+            'gender'   => ['nullable', 'in:male,female'],
+            'photo'    => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+        ]);
+
+        $user->username = $request->username;
+        $user->fullname = $request->fullname;
+        $user->email    = $request->email;
+
+        if ($request->filled('password')) {
+            $user->password = $request->password;
+        }
+
+        if ($request->boolean('remove_photo')) {
+            if ($user->profil_path) {
+                Storage::disk('public')->delete($user->profil_path);
+            }
+            $user->profil_path = null;
+        } elseif ($request->hasFile('photo')) {
+            if ($user->profil_path) {
+                Storage::disk('public')->delete($user->profil_path);
+            }
+            $user->profil_path = $request->file('photo')->store('profiles', 'public');
+        }
+
+        $user->save();
+
+        UserProfile::updateOrCreate(
+            ['user_id' => $user->id],
+            ['gender'  => $request->gender ?: null]
+        );
+
+        return redirect()->route('dashboard.profile')->with('success', 'Profil berhasil diperbarui!');
     }
 
     public function quiz(int $variantId)

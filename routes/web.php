@@ -49,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/exercise', [DashboardController::class, 'exercise'])->name('dashboard.exercise');
 
     Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
+    Route::post('/profile', [DashboardController::class, 'updateProfile'])->name('profile.update');
 
     Route::get('/quiz/result/{attemptId}', [QuizController::class, 'result'])->name('quiz.result');
 

@@ -506,9 +506,11 @@ const JourneyTable = ({ rows = [] }) => (
                                     </span>
                                 </td>
                                 <td className="px-5 py-3.5">
-                                    <button className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-(--theme-soft) hover:border-(--theme-secondary) transition-all group">
+                                    <Link
+                                        href={`/quiz/result/${row.id}`}
+                                        className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-(--theme-soft) hover:border-(--theme-secondary) transition-all group">
                                         <ArrowUpRightIcon className="w-3 h-3 text-gray-400 group-hover:text-(--theme-primary)" />
-                                    </button>
+                                    </Link>
                                 </td>
                             </tr>
                         ))
