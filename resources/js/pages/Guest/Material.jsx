@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { router } from "@inertiajs/react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "@/../css/app.css";
@@ -139,33 +140,31 @@ const MaterialCard = ({
 };
 
 // ─────────────────────────────────────────────
-//  DATA: Materials list
+//  DATA: Filter & topic helpers
 // ─────────────────────────────────────────────
-const CATEGORIES = ["Semua", "Dasar", "Menengah", "Lanjut", "Geometri", "Statistik"];
+const CATEGORIES = ["Semua", "Geometri", "Statistik"];
 
-const MATERIALS = [
-    { id: 1, title: "Penjumlahan Dasar", description: "Pelajari konsep dasar penjumlahan sebagai fondasi dalam memahami operasi matematika.", category: "Dasar", categoryColor: "#16A34A", level: 1, duration: "30 Menit" },
-    { id: 2, title: "Pengurangan Bilangan", description: "Pelajari teknik pengurangan bilangan bulat dan desimal dengan latihan bertahap.", category: "Dasar", categoryColor: "#16A34A", level: 1, duration: "25 Menit" },
-    { id: 3, title: "Perkalian & Pembagian", description: "Kuasai operasi perkalian dan pembagian dasar untuk memperkuat fondasi matematikamu.", category: "Dasar", categoryColor: "#16A34A", level: 1, duration: "40 Menit" },
-    { id: 4, title: "Pecahan & Desimal", description: "Memahami konsep pecahan biasa, campuran, dan desimal serta konversinya.", category: "Menengah", categoryColor: "#D97706", level: 2, duration: "45 Menit" },
-    { id: 5, title: "Persamaan Linear", description: "Belajar menyelesaikan persamaan linear satu dan dua variabel secara sistematis.", category: "Menengah", categoryColor: "#D97706", level: 2, duration: "50 Menit" },
-    { id: 6, title: "Bilangan Bulat Negatif", description: "Operasi bilangan bulat negatif dalam garis bilangan dan konteks nyata.", category: "Menengah", categoryColor: "#D97706", level: 2, duration: "35 Menit" },
-    { id: 7, title: "Aljabar Dasar", description: "Pengenalan variabel, ekspresi aljabar, dan cara menyederhanakan bentuk aljabar.", category: "Lanjut", categoryColor: "#7C3AED", level: 3, duration: "60 Menit" },
-    { id: 8, title: "Fungsi & Grafik", description: "Memahami konsep fungsi matematika dan cara menggambar grafiknya di bidang koordinat.", category: "Lanjut", categoryColor: "#7C3AED", level: 3, duration: "55 Menit" },
-    { id: 9, title: "Luas & Keliling Bangun Datar", description: "Hitung luas dan keliling berbagai bangun datar: persegi, segitiga, lingkaran, dan trapesium.", category: "Geometri", categoryColor: "#0369A1", level: 2, duration: "40 Menit" },
-];
+const TOPIC_COLOR = { geometri: "#16A34A", statistik: "#7C3AED" };
+const TOPIC_LABEL = { geometri: "Geometri", statistik: "Statistik" };
 
 // ─────────────────────────────────────────────
 //  PAGE: Material Page
 // ─────────────────────────────────────────────
-export default function MaterialPage() {
+export default function MaterialPage({ materials = [] }) {
     const [activeFilter, setActiveFilter] = useState("Semua");
     const [visibleCount, setVisibleCount] = useState(9);
     const [heroRef, heroVisible] = useInView(0.1);
 
+    // Normalise each DB material to the shape MaterialCard expects
+    const normalised = materials.map((m) => ({
+        ...m,
+        category:      TOPIC_LABEL[m.topic?.toLowerCase()] ?? m.topic,
+        categoryColor: TOPIC_COLOR[m.topic?.toLowerCase()] ?? "#D97706",
+    }));
+
     const filtered = activeFilter === "Semua"
-        ? MATERIALS
-        : MATERIALS.filter((m) => m.category === activeFilter);
+        ? normalised
+        : normalised.filter((m) => m.category === activeFilter);
 
     const visible = filtered.slice(0, visibleCount);
     const hasMore = visibleCount < filtered.length;
@@ -278,7 +277,7 @@ export default function MaterialPage() {
                                 key={mat.id}
                                 {...mat}
                                 delay={(idx % 3) * 0.1}
-                                onSelect={() => console.log("Selected:", mat.title)}
+                                onSelect={() => router.visit(`/material/${mat.id}`)}
                             />
                         ))}
                     </div>

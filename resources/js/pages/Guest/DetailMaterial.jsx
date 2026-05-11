@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { Link, router } from "@inertiajs/react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "@/../css/app.css";
@@ -370,149 +371,24 @@ const MaterialCard = ({
 
 
 // ─────────────────────────────────────────────
-//  DATA
+//  Helpers
 // ─────────────────────────────────────────────
-const MATERIAL = {
-    title: "Perkalian Dasar",
-    category: "Dasar",
-    categoryColor: "#16A34A",
-    level: 1,
-    duration: "45 Menit",
-    totalTopics: 8,
-    progress: 37,
-    description: [
-        "Materi ini dirancang untuk membantu kamu memahami konsep dasar perkalian secara menyeluruh, dimulai dari pengenalan konsep hingga penerapannya dalam berbagai bentuk soal. Pembelajaran disusun secara bertahap agar kamu dapat mengikuti alur materi dengan lebih mudah, terutama jika masih dalam tahap memahami dasar-dasar matematika.",
-        "Selain itu, materi ini juga menekankan pada pemahaman konsep, bukan sekadar menghafal. Melalui kombinasi penjelasan, contoh soal, dan latihan, kamu akan dilatih untuk berpikir logis dan sistematis dalam menyelesaikan permasalahan matematika. Dengan pendekatan ini, diharapkan kamu tidak hanya mampu menyelesaikan soal, tetapi juga memahami konsep di balik setiap perhitungan.",
-    ],
-    tools: [
-        { icon: "📝", label: "Alat tulis untuk mencatat dan berhitung" },
-        { icon: "⏰", label: "Fokus dan waktu belajar yang cukup" },
-    ],
-    methods: [
-        "Penjelasan konsep dasar",
-        "Contoh soal yang mudah dipahami",
-        "Latihan bertahap sesuai level",
-        "Evaluasi pemahaman di akhir sesi",
-    ],
-    syllabus: [
-        {
-            week: 1,
-            title: "Pengenalan Konsep Perkalian",
-            topics: [
-                {
-                    id: 1,
-                    title: "Apa itu Perkalian?",
-                    duration: "10 mnt",
-                    done: true,
-                },
-                {
-                    id: 2,
-                    title: "Perkalian sebagai Penjumlahan Berulang",
-                    duration: "12 mnt",
-                    done: true,
-                },
-                {
-                    id: 3,
-                    title: "Simbol dan Notasi Perkalian",
-                    duration: "8 mnt",
-                    done: false,
-                },
-            ],
-        },
-        {
-            week: 2,
-            title: "Tabel Perkalian 1–5",
-            topics: [
-                {
-                    id: 4,
-                    title: "Perkalian Bilangan 1 dan 2",
-                    duration: "10 mnt",
-                    done: false,
-                },
-                {
-                    id: 5,
-                    title: "Perkalian Bilangan 3 dan 4",
-                    duration: "12 mnt",
-                    done: false,
-                },
-                {
-                    id: 6,
-                    title: "Perkalian Bilangan 5",
-                    duration: "10 mnt",
-                    done: false,
-                },
-            ],
-        },
-        {
-            week: 3,
-            title: "Tabel Perkalian 6–10",
-            topics: [
-                {
-                    id: 7,
-                    title: "Perkalian Bilangan 6, 7, dan 8",
-                    duration: "15 mnt",
-                    done: false,
-                },
-                {
-                    id: 8,
-                    title: "Perkalian Bilangan 9 dan 10",
-                    duration: "12 mnt",
-                    done: false,
-                },
-            ],
-        },
-        {
-            week: 4,
-            title: "Latihan & Evaluasi",
-            topics: [
-                {
-                    id: 9,
-                    title: "Latihan Soal Campuran",
-                    duration: "20 mnt",
-                    done: false,
-                },
-                {
-                    id: 10,
-                    title: "Kuis Akhir Materi",
-                    duration: "15 mnt",
-                    done: false,
-                },
-            ],
-        },
-    ],
-};
+const TOPIC_COLOR      = { geometri: "#16A34A", statistik: "#7C3AED" };
+const TOPIC_LABEL      = { geometri: "Geometri", statistik: "Statistik" };
+const DIFFICULTY_LABEL = { easy: "Pemula", medium: "Menengah", hard: "Lanjut" };
+const DIFFICULTY_ABBR  = { easy: "P", medium: "M", hard: "L" };
+const DIFFICULTY_COLOR = { easy: "#10B981", medium: "#F59E0B", hard: "#EF4444" };
 
-const RELATED = [
-    {
-        id: 1,
-        title: "Penjumlahan Dasar",
-        description:
-            "Pelajari konsep dasar penjumlahan sebagai fondasi dalam memahami operasi matematika.",
-        category: "Dasar",
-        categoryColor: "#16A34A",
-        level: 1,
-        duration: "30 Menit",
-    },
-    {
-        id: 2,
-        title: "Pengurangan Bilangan",
-        description:
-            "Kuasai teknik pengurangan bilangan bulat dan desimal dengan latihan bertahap.",
-        category: "Dasar",
-        categoryColor: "#16A34A",
-        level: 1,
-        duration: "25 Menit",
-    },
-    {
-        id: 3,
-        title: "Pecahan & Desimal",
-        description:
-            "Memahami konsep pecahan biasa, campuran, dan desimal serta cara konversinya.",
-        category: "Menengah",
-        categoryColor: "#D97706",
-        level: 2,
-        duration: "45 Menit",
-    },
+const STATIC_TOOLS = [
+    { icon: "📝", label: "Alat tulis untuk mencatat dan berhitung" },
+    { icon: "⏰", label: "Fokus dan waktu belajar yang cukup" },
+];
+
+const STATIC_METHODS = [
+    "Penjelasan konsep dasar",
+    "Contoh soal yang mudah dipahami",
+    "Latihan bertahap sesuai level",
+    "Evaluasi pemahaman di akhir sesi",
 ];
 
 // ─────────────────────────────────────────────
@@ -806,7 +682,7 @@ const SilabusTab = ({ syllabus }) => {
                             <div
                                 key={wi}
                                 style={{
-                                    border: `1.5px solid ${isOpen ? "#FBBF24" : "#F0EDE6"}`,
+                                    border: `1.5px solid ${isOpen ? (week.color ?? "#FBBF24") : "#F0EDE6"}`,
                                     borderRadius: 16,
                                     overflow: "hidden",
                                     background: isOpen ? "#FFFBEB" : "#fff",
@@ -843,7 +719,7 @@ const SilabusTab = ({ syllabus }) => {
                                                 height: 36,
                                                 borderRadius: 10,
                                                 background: isOpen
-                                                    ? "#F59E0B"
+                                                    ? (week.color ?? "#F59E0B")
                                                     : "#F3F4F6",
                                                 display: "flex",
                                                 alignItems: "center",
@@ -861,7 +737,7 @@ const SilabusTab = ({ syllabus }) => {
                                                         : "#6B7280",
                                                 }}
                                             >
-                                                W{week.week}
+                                                {week.abbr ?? week.week}
                                             </span>
                                         </div>
                                         <div>
@@ -958,7 +834,7 @@ const SilabusTab = ({ syllabus }) => {
                                                                 color: "#9CA3AF",
                                                             }}
                                                         >
-                                                            {topic.id}
+                                                            {ti + 1}
                                                         </span>
                                                     )}
                                                 </div>
@@ -1065,9 +941,9 @@ const SilabusTab = ({ syllabus }) => {
                     </h3>
                     {[
                         {
-                            label: "Total Minggu",
+                            label: "Total Level",
                             value: syllabus.length,
-                            icon: "📅",
+                            icon: "🎯",
                         },
                         {
                             label: "Total Topik",
@@ -1226,23 +1102,66 @@ const SilabusTab = ({ syllabus }) => {
 // ─────────────────────────────────────────────
 //  PAGE: Detail Material
 // ─────────────────────────────────────────────
-export default function DetailMaterialPage() {
+export default function DetailMaterialPage({ material = {}, related = [] }) {
     const [activeTab, setActiveTab] = useState("deskripsi");
     const [heroRef, heroVisible] = useInView(0.05);
     const [relRef, relVisible] = useInView(0.05);
+
+    const variants = material.variants ?? [];
+    const totalChapters = useMemo(
+        () => variants.reduce((sum, v) => sum + (v.chapters?.length ?? 0), 0),
+        [variants],
+    );
+
+    // Split description string into paragraphs on double newlines
+    const descParagraphs = useMemo(() => {
+        const raw = material.description ?? "";
+        const parts = raw.split(/\n\n+/).filter(Boolean);
+        return parts.length > 0 ? parts : (raw ? [raw] : ["Deskripsi belum tersedia."]);
+    }, [material.description]);
+
+    // One accordion section per difficulty variant
+    const silabusData = useMemo(() =>
+        variants.map((v, i) => ({
+            week:   i + 1,
+            abbr:   DIFFICULTY_ABBR[v.difficulty] ?? `${i + 1}`,
+            color:  DIFFICULTY_COLOR[v.difficulty] ?? "#F59E0B",
+            title:  DIFFICULTY_LABEL[v.difficulty] ?? v.difficulty,
+            topics: (v.chapters ?? []).map((c) => ({
+                id:       c.id,
+                title:    c.title,
+                duration: "—",
+                done:     false,
+            })),
+        })),
+    [variants]);
+
+    const materialForTab = {
+        description: descParagraphs,
+        progress: 0,
+        totalTopics: totalChapters,
+        tools: STATIC_TOOLS,
+        methods: STATIC_METHODS,
+    };
+
+    const topicKey    = material.topic?.toLowerCase() ?? "";
+    const catLabel    = TOPIC_LABEL[topicKey] ?? material.topic ?? "—";
+    const catColor    = TOPIC_COLOR[topicKey] ?? "#D97706";
+    const diffLabel   = DIFFICULTY_LABEL[material.difficulty] ?? "Pemula";
+
+    const relatedNorm = related.map((m) => ({
+        ...m,
+        category:      TOPIC_LABEL[m.topic?.toLowerCase()] ?? m.topic,
+        categoryColor: TOPIC_COLOR[m.topic?.toLowerCase()] ?? "#D97706",
+        level:         1,
+    }));
 
     return (
         <div style={{ minHeight: "100vh", background: "#fafaf8" }}>
             <GlobalStyles />
             <Navbar />
 
-            <div
-                style={{
-                    maxWidth: 1152,
-                    margin: "0 auto",
-                    padding: "88px 24px 0",
-                }}
-            >
+            <div style={{ maxWidth: 1152, margin: "0 auto", padding: "88px 24px 0" }}>
                 {/* ══ HERO ══════════════════════════════════════ */}
                 <div
                     ref={heroRef}
@@ -1257,216 +1176,65 @@ export default function DetailMaterialPage() {
                     }}
                 >
                     {/* Glow blobs */}
-                    <div
-                        className="glow-blob"
-                        style={{
-                            width: 300,
-                            height: 300,
-                            background: "#FEF08A",
-                            top: -80,
-                            left: -60,
-                        }}
-                    />
-                    <div
-                        className="glow-blob"
-                        style={{
-                            width: 200,
-                            height: 200,
-                            background: "#A5F3FC",
-                            bottom: -40,
-                            right: 200,
-                        }}
-                    />
-                    <div
-                        className="glow-blob"
-                        style={{
-                            width: 160,
-                            height: 160,
-                            background: "#FCA5A5",
-                            top: 40,
-                            right: 50,
-                        }}
-                    />
+                    <div className="glow-blob" style={{ width: 300, height: 300, background: "#FEF08A", top: -80, left: -60 }} />
+                    <div className="glow-blob" style={{ width: 200, height: 200, background: "#A5F3FC", bottom: -40, right: 200 }} />
+                    <div className="glow-blob" style={{ width: 160, height: 160, background: "#FCA5A5", top: 40, right: 50 }} />
 
                     {/* Back btn */}
-                    <a
-                        href="#"
+                    <Link
+                        href="/material"
                         className="back-btn"
-                        style={{
-                            marginBottom: 28,
-                            display: "inline-flex",
-                            position: "relative",
-                            zIndex: 1,
-                        }}
+                        style={{ marginBottom: 28, display: "inline-flex", position: "relative", zIndex: 1 }}
                     >
-                        <svg
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2.5"
-                        >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                             <path d="M19 12H5M5 12l7 7M5 12l7-7" />
                         </svg>
                         Kembali
-                    </a>
+                    </Link>
 
                     <div
                         className="hero-cols"
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            gap: 32,
-                            position: "relative",
-                            zIndex: 1,
-                        }}
+                        style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32, position: "relative", zIndex: 1 }}
                     >
                         {/* Left text */}
                         <div style={{ flex: "1 1 340px", minWidth: 0 }}>
-                            {/* Category + level badges */}
-                            <div
-                                style={{
-                                    display: "flex",
-                                    gap: 8,
-                                    marginBottom: 16,
-                                    flexWrap: "wrap",
-                                }}
-                            >
-                                <span
-                                    style={{
-                                        background: MATERIAL.categoryColor,
-                                        color: "#fff",
-                                        borderRadius: 999,
-                                        padding: "4px 14px",
-                                        fontSize: 12,
-                                        fontWeight: 700,
-                                    }}
-                                >
-                                    {MATERIAL.category}
+                            {/* Badges */}
+                            <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
+                                <span style={{ background: catColor, color: "#fff", borderRadius: 999, padding: "4px 14px", fontSize: 12, fontWeight: 700 }}>
+                                    {catLabel}
                                 </span>
-                                <span
-                                    style={{
-                                        background: "#EFF6FF",
-                                        color: "#1D4ED8",
-                                        borderRadius: 999,
-                                        padding: "4px 14px",
-                                        fontSize: 12,
-                                        fontWeight: 700,
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 4,
-                                    }}
-                                >
-                                    <svg
-                                        width="11"
-                                        height="11"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="#1D4ED8"
-                                        strokeWidth="2.5"
-                                    >
-                                        <circle cx="12" cy="12" r="10" />
-                                        <path d="M12 6v6l4 2" />
+                                <span style={{ background: "#EFF6FF", color: "#1D4ED8", borderRadius: 999, padding: "4px 14px", fontSize: 12, fontWeight: 700, display: "flex", alignItems: "center", gap: 4 }}>
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" strokeWidth="2.5">
+                                        <circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" />
                                     </svg>
-                                    {MATERIAL.duration}
+                                    {material.duration ?? "—"}
                                 </span>
                             </div>
 
                             {/* Title */}
-                            <h1
-                                style={{
-                                    fontSize: "clamp(1.8rem,4vw,2.8rem)",
-                                    fontWeight: 900,
-                                    color: "#111827",
-                                    lineHeight: 1.2,
-                                    marginBottom: 16,
-                                }}
-                            >
-                                <span
-                                    style={{
-                                        fontFamily: "'Caveat', cursive",
-                                        color: "#111827",
-                                        position: "relative",
-                                    }}
-                                >
-                                    Perkalian
-                                    <svg
-                                        style={{
-                                            position: "absolute",
-                                            bottom: -6,
-                                            left: 0,
-                                            width: "100%",
-                                        }}
-                                        height="10"
-                                        viewBox="0 0 120 10"
-                                        preserveAspectRatio="none"
-                                    >
-                                        <ellipse
-                                            cx="60"
-                                            cy="7"
-                                            rx="58"
-                                            ry="4"
-                                            stroke="#F59E0B"
-                                            strokeWidth="3"
-                                            fill="none"
-                                        />
+                            <h1 style={{ fontSize: "clamp(1.8rem,4vw,2.8rem)", fontWeight: 900, color: "#111827", lineHeight: 1.2, marginBottom: 16 }}>
+                                <span style={{ fontFamily: "'Caveat', cursive", color: "#111827", position: "relative" }}>
+                                    {material.title ?? ""}
+                                    <svg style={{ position: "absolute", bottom: -6, left: 0, width: "100%" }} height="10" viewBox="0 0 120 10" preserveAspectRatio="none">
+                                        <ellipse cx="60" cy="7" rx="58" ry="4" stroke="#F59E0B" strokeWidth="3" fill="none" />
                                     </svg>
-                                </span>{" "}
-                                Dasar
+                                </span>
                             </h1>
 
-                            <p
-                                style={{
-                                    color: "#6B7280",
-                                    fontSize: 15,
-                                    lineHeight: 1.75,
-                                    maxWidth: 420,
-                                }}
-                            >
-                                Pelajari konsep dasar perkalian untuk membantu
-                                kamu memahami operasi hitung dengan lebih cepat
-                                dan efisien.
+                            <p style={{ color: "#6B7280", fontSize: 15, lineHeight: 1.75, maxWidth: 420 }}>
+                                {descParagraphs[0]}
                             </p>
 
                             {/* Meta row */}
-                            <div
-                                style={{
-                                    display: "flex",
-                                    gap: 20,
-                                    marginTop: 24,
-                                    flexWrap: "wrap",
-                                }}
-                            >
+                            <div style={{ display: "flex", gap: 20, marginTop: 24, flexWrap: "wrap" }}>
                                 {[
-                                    {
-                                        icon: "📚",
-                                        label: `${MATERIAL.totalTopics} Topik`,
-                                    },
-                                    { icon: "⭐", label: "Pemula" },
-                                    { icon: "👤", label: "1.2k Pelajar" },
+                                    { icon: "📚", label: `${totalChapters} Bab` },
+                                    { icon: "⭐", label: diffLabel },
+                                    { icon: "🕐", label: material.duration ?? "—" },
                                 ].map((m, i) => (
-                                    <div
-                                        key={i}
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            gap: 6,
-                                        }}
-                                    >
-                                        <span style={{ fontSize: 15 }}>
-                                            {m.icon}
-                                        </span>
-                                        <span
-                                            style={{
-                                                fontSize: 13,
-                                                fontWeight: 600,
-                                                color: "#374151",
-                                            }}
-                                        >
-                                            {m.label}
-                                        </span>
+                                    <div key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                                        <span style={{ fontSize: 15 }}>{m.icon}</span>
+                                        <span style={{ fontSize: 13, fontWeight: 600, color: "#374151" }}>{m.label}</span>
                                     </div>
                                 ))}
                             </div>
@@ -1474,18 +1242,7 @@ export default function DetailMaterialPage() {
 
                         {/* Right: thumbnail */}
                         <div style={{ flex: "0 0 auto" }}>
-                            <div
-                                className="float-sm"
-                                style={{
-                                    background: "#fff",
-                                    borderRadius: 24,
-                                    padding: "24px 28px",
-                                    boxShadow: "0 16px 48px rgba(0,0,0,0.12)",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                }}
-                            >
+                            <div className="float-sm" style={{ background: "#fff", borderRadius: 24, padding: "24px 28px", boxShadow: "0 16px 48px rgba(0,0,0,0.12)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <MathThumbnail size="lg" />
                             </div>
                         </div>
@@ -1493,30 +1250,16 @@ export default function DetailMaterialPage() {
                 </div>
 
                 {/* ══ TABS ══════════════════════════════════════ */}
-                <div
-                    style={{
-                        display: "flex",
-                        gap: 4,
-                        marginBottom: 36,
-                        background: "#F3F4F6",
-                        borderRadius: 999,
-                        padding: 4,
-                        width: "fit-content",
-                    }}
-                >
+                <div style={{ display: "flex", gap: 4, marginBottom: 36, background: "#F3F4F6", borderRadius: 999, padding: 4, width: "fit-content" }}>
                     {[
                         { key: "deskripsi", label: "Deskripsi", icon: "📄" },
-                        { key: "silabus", label: "Silabus", icon: "📋" },
+                        { key: "silabus",   label: "Silabus",   icon: "📋" },
                     ].map((tab) => (
                         <button
                             key={tab.key}
                             className={`tab-btn ${activeTab === tab.key ? "active" : "inactive"}`}
                             onClick={() => setActiveTab(tab.key)}
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 6,
-                            }}
+                            style={{ display: "flex", alignItems: "center", gap: 6 }}
                         >
                             <span style={{ fontSize: 14 }}>{tab.icon}</span>
                             {tab.label}
@@ -1526,86 +1269,43 @@ export default function DetailMaterialPage() {
 
                 {/* ══ TAB CONTENT ═══════════════════════════════ */}
                 <div style={{ marginBottom: 72 }}>
-                    {activeTab === "deskripsi" && (
-                        <DeskripsiTab material={MATERIAL} />
-                    )}
-                    {activeTab === "silabus" && (
-                        <SilabusTab syllabus={MATERIAL.syllabus} />
+                    {activeTab === "deskripsi" && <DeskripsiTab material={materialForTab} />}
+                    {activeTab === "silabus"   && (
+                        silabusData.length > 0
+                            ? <SilabusTab syllabus={silabusData} />
+                            : <p style={{ color: "#9CA3AF", fontSize: 14, padding: "32px 0" }}>Silabus belum tersedia.</p>
                     )}
                 </div>
 
                 {/* ══ RELATED MATERIALS ═════════════════════════ */}
-                <div
-                    ref={relRef}
-                    style={{
-                        marginBottom: 64,
-                        opacity: relVisible ? 1 : 0,
-                        transform: relVisible ? "none" : "translateY(24px)",
-                        transition: "opacity 0.7s ease, transform 0.7s ease",
-                    }}
-                >
+                {relatedNorm.length > 0 && (
                     <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            marginBottom: 28,
-                            flexWrap: "wrap",
-                            gap: 12,
-                        }}
+                        ref={relRef}
+                        style={{ marginBottom: 64, opacity: relVisible ? 1 : 0, transform: relVisible ? "none" : "translateY(24px)", transition: "opacity 0.7s ease, transform 0.7s ease" }}
                     >
-                        <h2
-                            style={{
-                                fontSize: "clamp(1.4rem,2.5vw,1.8rem)",
-                                fontWeight: 900,
-                                color: "#111827",
-                            }}
-                        >
-                            Pilih Materi Belajarmu
-                        </h2>
-                        <a
-                            href="#"
-                            style={{
-                                fontSize: 13,
-                                fontWeight: 700,
-                                color: "#2563EB",
-                                textDecoration: "none",
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 4,
-                            }}
-                        >
-                            Lihat Lainnya
-                            <svg
-                                width="14"
-                                height="14"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2.5"
-                            >
-                                <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                        </a>
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 28, flexWrap: "wrap", gap: 12 }}>
+                            <h2 style={{ fontSize: "clamp(1.4rem,2.5vw,1.8rem)", fontWeight: 900, color: "#111827" }}>
+                                Materi Lainnya
+                            </h2>
+                            <Link href="/material" style={{ fontSize: 13, fontWeight: 700, color: "#2563EB", textDecoration: "none", display: "flex", alignItems: "center", gap: 4 }}>
+                                Lihat Semua
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </Link>
+                        </div>
+                        <div className="related-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
+                            {relatedNorm.map((mat, i) => (
+                                <MaterialCard
+                                    key={mat.id}
+                                    {...mat}
+                                    delay={i * 0.1}
+                                    onSelect={() => router.visit(`/material/${mat.id}`)}
+                                />
+                            ))}
+                        </div>
                     </div>
-                    <div
-                        className="related-grid"
-                        style={{
-                            display: "grid",
-                            gridTemplateColumns: "repeat(3,1fr)",
-                            gap: 24,
-                        }}
-                    >
-                        {RELATED.map((mat, i) => (
-                            <MaterialCard
-                                key={mat.id}
-                                {...mat}
-                                delay={i * 0.1}
-                                onSelect={() => {}}
-                            />
-                        ))} 
-                    </div>
-                </div>
+                )}
             </div>
 
             <Footer />

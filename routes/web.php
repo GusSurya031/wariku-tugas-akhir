@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'home'])->name('home.index');
 Route::get('/material', [HomeController::class, 'material'])->name('home.material');
-Route::get('/material/1', [HomeController::class, 'showMaterial'])->name('home.showMaterial');
+Route::get('/material/{id}', [HomeController::class, 'showMaterial'])->name('home.showMaterial');
 Route::get('/about', [HomeController::class, 'about'])->name('home.about');
 Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
