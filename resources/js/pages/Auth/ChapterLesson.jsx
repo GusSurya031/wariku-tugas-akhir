@@ -319,14 +319,19 @@ const MathHeroImage = () => (
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
 const Sidebar = ({ open, onClose }) => {
     const navMain = [
-        { label: "Dashboard", icon: HomeIcon, href: "#" },
-        { label: "Lesson", icon: BookIcon, active: true, href: "#" },
-        { label: "Exercise", icon: PencilIcon, href: "#" },
-        { label: "Report", icon: ChartIcon, href: "#" },
+        {
+            label: "Dashboard",
+            icon: HomeIcon,
+            active: true,
+            href: "/dashboard",
+        },
+        { label: "Lesson", icon: BookIcon, href: "/lessons" },
+        { label: "Exercise", icon: PencilIcon, href: "/exercise" },
+        { label: "Report", icon: ChartIcon, href: "/report" },
     ];
     const navSettings = [
-        { label: "Settings", icon: SettingsIcon, href: "#" },
-        { label: "Logout", icon: LogoutIcon, href: "#", danger: true },
+        { label: "Profile", icon: SettingsIcon, href: "/profile" },
+        { label: "Logout", icon: LogoutIcon, href: "/logout", danger: true },
     ];
 
     return (
@@ -337,16 +342,11 @@ const Sidebar = ({ open, onClose }) => {
                     onClick={onClose}
                 />
             )}
-
             <aside
-                className={`
-        fixed top-0 left-0 h-full z-40 w-56 bg-white border-r border-gray-100
-        flex flex-col py-6 px-4 transition-transform duration-300
-        lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 lg:z-auto
-        ${open ? "translate-x-0" : "-translate-x-full"}
-      `}
+                className={`fixed top-0 left-0 h-full z-40 w-56 bg-white border-r border-gray-100 flex flex-col py-6 px-4 transition-transform duration-300
+                lg:translate-x-0 lg:sticky lg:z-auto lg:flex lg:h-screen
+                ${open ? "translate-x-0" : "-translate-x-full"}`}
             >
-                {/* Logo */}
                 <div className="flex items-center gap-2 mb-8 px-1">
                     <div className="w-8 h-8 rounded-full bg-gray-900 flex items-center justify-center">
                         <span className="text-white text-xs font-bold">✦</span>
@@ -370,39 +370,43 @@ const Sidebar = ({ open, onClose }) => {
                         <nav className="space-y-0.5">
                             {navMain.map(
                                 ({ label, icon: Icon, active, href }) => (
-                                    <a
+                                    <Link
                                         key={label}
                                         href={href}
                                         className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group
-                    ${active ? "bg-violet-50 text-violet-600" : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"}`}
+                                        ${active ? "bg-(--theme-soft) text-(--theme-primary)" : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"}`}
                                     >
                                         <Icon
-                                            className={`w-4 h-4 flex-shrink-0 ${active ? "text-violet-500" : "text-gray-400 group-hover:text-gray-600"}`}
+                                            className={`w-4.5 h-4.5 shrink-0 ${active ? "text-(--theme-primary)" : "text-gray-400 group-hover:text-gray-600"}`}
                                         />
                                         {label}
-                                    </a>
+                                    </Link>
                                 ),
                             )}
                         </nav>
                     </div>
-                    <div>
+
+                    <div className="mt-auto">
                         <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 px-2 mb-2">
                             Settings
                         </p>
                         <nav className="space-y-0.5">
                             {navSettings.map(
                                 ({ label, icon: Icon, href, danger }) => (
-                                    <a
+                                    <Link
                                         key={label}
                                         href={href}
+                                        {...(danger
+                                            ? { method: "post", as: "button" }
+                                            : {})}
                                         className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group
-                    ${danger ? "text-red-400 hover:bg-red-50" : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"}`}
+                                        ${danger ? "text-red-400 hover:bg-red-50 hover:text-red-500" : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"}`}
                                     >
                                         <Icon
-                                            className={`w-4 h-4 flex-shrink-0 ${danger ? "text-red-400" : "text-gray-400 group-hover:text-gray-600"}`}
+                                            className={`w-4.5 h-4.5 shrink-0 ${danger ? "text-red-400" : "text-gray-400 group-hover:text-gray-600"}`}
                                         />
                                         {label}
-                                    </a>
+                                    </Link>
                                 ),
                             )}
                         </nav>
@@ -558,7 +562,9 @@ const FinishedBanner = () => (
 );
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
-export default function ChapterLesson({ auth }) {
+export default function ChapterLesson({ auth, material }) {
+    const user = auth.user;
+
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [chapterOpen, setChapterOpen] = useState(false);
     const [activeId, setActiveId] = useState(1); // current chapter
@@ -661,19 +667,19 @@ export default function ChapterLesson({ auth }) {
                         {/* Breadcrumb */}
                         <div className="flex items-center gap-2 text-sm text-gray-400 mb-5 flex-wrap">
                             <HomeSmIcon className="w-4 h-4 flex-shrink-0" />
-                            <a
-                                href="#"
+                            <Link
+                                href="/dashboard"
                                 className="hover:text-gray-600 transition-colors"
                             >
                                 Dashboard
-                            </a>
+                            </Link>
                             <span>/</span>
-                            <a
-                                href="#"
+                            <Link
+                                href="/lessons"
                                 className="hover:text-gray-600 transition-colors"
                             >
                                 Lesson
-                            </a>
+                            </Link>
                             <span>/</span>
                             <span className="text-violet-600 font-semibold">
                                 Penjumlahan Dasar

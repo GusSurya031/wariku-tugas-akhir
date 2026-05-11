@@ -305,14 +305,19 @@ const MathThumbnail = ({ size = "normal" }) => {
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
 const Sidebar = ({ open, onClose }) => {
     const navMain = [
-        { label: "Dashboard", icon: HomeIcon, href: "#" },
-        { label: "Lesson", icon: BookIcon, active: true, href: "#" },
-        { label: "Exercise", icon: PencilIcon, href: "#" },
-        { label: "Report", icon: ChartIcon, href: "#" },
+        {
+            label: "Dashboard",
+            icon: HomeIcon,
+            active: true,
+            href: "/dashboard",
+        },
+        { label: "Lesson", icon: BookIcon, href: "/lessons" },
+        { label: "Exercise", icon: PencilIcon, href: "/exercise" },
+        { label: "Report", icon: ChartIcon, href: "/report" },
     ];
     const navSettings = [
-        { label: "Settings", icon: SettingsIcon, href: "#" },
-        { label: "Logout", icon: LogoutIcon, href: "#", danger: true },
+        { label: "Profile", icon: SettingsIcon, href: "/profile" },
+        { label: "Logout", icon: LogoutIcon, href: "/logout", danger: true },
     ];
 
     return (
@@ -324,13 +329,10 @@ const Sidebar = ({ open, onClose }) => {
                 />
             )}
             <aside
-                className={`
-        fixed top-0 left-0 h-full z-40 w-56 bg-white border-r border-gray-100 flex flex-col py-6 px-4 transition-transform duration-300
-        lg:translate-x-0 lg:sticky lg:top-0 lg:z-auto lg:flex lg:h-screen
-        ${open ? "translate-x-0" : "-translate-x-full"}
-      `}
+                className={`fixed top-0 left-0 h-full z-40 w-56 bg-white border-r border-gray-100 flex flex-col py-6 px-4 transition-transform duration-300
+                lg:translate-x-0 lg:sticky lg:z-auto lg:flex lg:h-screen
+                ${open ? "translate-x-0" : "-translate-x-full"}`}
             >
-                {/* Logo */}
                 <div className="flex items-center gap-2 mb-8 px-1">
                     <div className="w-8 h-8 rounded-full bg-gray-900 flex items-center justify-center">
                         <span className="text-white text-xs font-bold">✦</span>
@@ -354,40 +356,43 @@ const Sidebar = ({ open, onClose }) => {
                         <nav className="space-y-0.5">
                             {navMain.map(
                                 ({ label, icon: Icon, active, href }) => (
-                                    <a
+                                    <Link
                                         key={label}
                                         href={href}
                                         className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group
-                    ${active ? "bg-violet-50 text-violet-600" : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"}`}
+                                        ${active ? "bg-(--theme-soft) text-(--theme-primary)" : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"}`}
                                     >
                                         <Icon
-                                            className={`w-4 h-4 flex-shrink-0 ${active ? "text-violet-500" : "text-gray-400 group-hover:text-gray-600"}`}
+                                            className={`w-4.5 h-4.5 shrink-0 ${active ? "text-(--theme-primary)" : "text-gray-400 group-hover:text-gray-600"}`}
                                         />
                                         {label}
-                                    </a>
+                                    </Link>
                                 ),
                             )}
                         </nav>
                     </div>
 
-                    <div>
+                    <div className="mt-auto">
                         <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 px-2 mb-2">
                             Settings
                         </p>
                         <nav className="space-y-0.5">
                             {navSettings.map(
                                 ({ label, icon: Icon, href, danger }) => (
-                                    <a
+                                    <Link
                                         key={label}
                                         href={href}
+                                        {...(danger
+                                            ? { method: "post", as: "button" }
+                                            : {})}
                                         className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group
-                    ${danger ? "text-red-400 hover:bg-red-50 hover:text-red-500" : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"}`}
+                                        ${danger ? "text-red-400 hover:bg-red-50 hover:text-red-500" : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"}`}
                                     >
                                         <Icon
-                                            className={`w-4 h-4 flex-shrink-0 ${danger ? "text-red-400" : "text-gray-400 group-hover:text-gray-600"}`}
+                                            className={`w-4.5 h-4.5 shrink-0 ${danger ? "text-red-400" : "text-gray-400 group-hover:text-gray-600"}`}
                                         />
                                         {label}
-                                    </a>
+                                    </Link>
                                 ),
                             )}
                         </nav>
@@ -397,7 +402,6 @@ const Sidebar = ({ open, onClose }) => {
         </>
     );
 };
-
 // ─── Detail Drawer ────────────────────────────────────────────────────────────
 const DetailDrawer = ({ course, onClose }) => {
     const chapters = [
@@ -450,10 +454,8 @@ const DetailDrawer = ({ course, onClose }) => {
                         {course?.title ?? "Penjumlahan Dasar"}
                     </h2>
                     <p className="text-sm text-gray-500 leading-relaxed mb-5">
-                        Pelajari konsep dasar penjumlahan sebagai fondasi dalam
-                        memahami operasi matematika. Materi ini dirancang untuk
-                        pemula dengan pendekatan yang menyenangkan dan
-                        interaktif.
+                        {course?.description ??
+                            "Pelajari konsep dasar penjumlahan dan cara melakukannya dengan mudah."}
                     </p>
 
                     {/* Stats row */}
@@ -466,30 +468,8 @@ const DetailDrawer = ({ course, onClose }) => {
                             <ClockIcon className="w-4 h-4 text-amber-400" />
                             <span>2 jam 30 menit</span>
                         </div>
-                        <div className="flex items-center gap-1.5">
-                            <UsersIcon className="w-4 h-4 text-green-400" />
-                            <span>1.2k Pelajar</span>
-                        </div>
                     </div>
 
-                    {/* Rating */}
-                    <div className="flex items-center gap-2 mb-6">
-                        <div className="flex">
-                            {[1, 2, 3, 4, 5].map((i) => (
-                                <StarIcon
-                                    key={i}
-                                    className="w-4 h-4 text-amber-400"
-                                    filled={i <= 4}
-                                />
-                            ))}
-                        </div>
-                        <span className="text-xs font-semibold text-gray-700">
-                            4.0
-                        </span>
-                        <span className="text-xs text-gray-400">
-                            (248 ulasan)
-                        </span>
-                    </div>
 
                     {/* Divider */}
                     <div className="border-t border-gray-100 mb-5" />
@@ -534,10 +514,14 @@ const DetailDrawer = ({ course, onClose }) => {
                     </div>
 
                     {/* CTA */}
-                    <button className="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold text-sm py-3.5 rounded-2xl transition-colors flex items-center justify-center gap-2 shadow-lg shadow-violet-200">
+                    <Link
+                        href={`/lessons/${course.id}` || "#"}
+                        className="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold text-sm py-3.5 rounded-2xl transition-colors flex items-center justify-center gap-2 shadow-lg shadow-violet-200"
+
+                        >
                         <PlayCircleIcon className="w-5 h-5" />
                         Mulai Belajar Sekarang
-                    </button>
+                    </Link>
                 </div>
             </div>
 
@@ -575,26 +559,46 @@ const CourseCard = ({ title, desc, onClick }) => (
     </div>
 );
 
-// ─── Dummy Data ───────────────────────────────────────────────────────────────
-const COURSES = Array.from({ length: 15 }, (_, i) => ({
-    id: i + 1,
-    title: [
-        "Penjumlahan Dasar",
-        "Pengurangan Dasar",
-        "Perkalian Dasar",
-        "Pembagian Dasar",
-        "Pecahan Sederhana",
-    ][i % 5],
-    desc: "Pelajari konsep dasar penjumlahan sebagai fondasi dalam memahami operasi matematika.",
-}));
+// ─── Profile Card ─────────────────────────────────────────────────────────────
+const ProfileCard = ({ user }) => {
+    const initial = user?.name?.charAt(0)?.toUpperCase() ?? "W";
+    return (
+        <div className="space-y-4">
+            <div className="flex items-center gap-4">
+                <div>
+                    <div className="w-10 h-10 rounded-full mx-auto overflow-hidden ring-4 ring-(--theme-soft)">
+                        <div
+                            className="w-full h-full flex items-center justify-center"
+                            style={{ background: "var(--theme-gradient)" }}
+                        >
+                            <span className="text-white text-2xl font-bold">
+                                {initial}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div className="">
+                    <h2 className="font-bold text-gray-800">
+                        {user?.fullname ?? user?.name ?? "Pelajar"}
+                    </h2>
+                    <h4 className="text-sm font-light text-gray-800">
+                        Sang Pelajar
+                    </h4>
+                </div>
+            </div>
+            {/* <Calendar /> */}
+        </div>
+    );
+};
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
-export default function Lesson({ auth }) {
+export default function Lesson({ auth, allMaterials = [] }) {
+    const user = auth?.user;
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [search, setSearch] = useState("");
 
-    const filtered = COURSES.filter((c) =>
+    const filtered = allMaterials.filter((c) =>
         c.title.toLowerCase().includes(search.toLowerCase()),
     );
 
@@ -632,9 +636,11 @@ export default function Lesson({ auth }) {
                     </div>
 
                     {/* Scrollable content */}
-                    <main className="flex-1 overflow-y-auto px-4 py-6 md:px-8">
-                        {/* Search */}
-                        <div className="relative max-w-2xl mb-6">
+                    <main className="flex-1 overflow-y-auto px-4 py-6 md:px-8 space-y-7">
+
+                                                {/* Search */}
+                        <div className="flex items-center">
+                            <div className="relative w-full">
                             <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                             <input
                                 type="text"
@@ -643,17 +649,21 @@ export default function Lesson({ auth }) {
                                 onChange={(e) => setSearch(e.target.value)}
                                 className="w-full pl-11 pr-4 py-3 rounded-2xl border border-gray-200 bg-white text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-transparent transition-all shadow-sm"
                             />
+                            </div>
+                            <div className="hidden md:block ml-6 w-48">
+                                <ProfileCard user={user} />
+                            </div>
                         </div>
 
                         {/* Breadcrumb */}
                         <div className="flex items-center gap-2 text-sm text-gray-400 mb-5">
                             <HomeSmIcon className="w-4 h-4 text-gray-400" />
-                            <a
-                                href="#"
+                            <Link
+                                href="/dashboard"
                                 className="hover:text-gray-600 transition-colors"
                             >
                                 Dashboard
-                            </a>
+                            </Link>
                             <span>/</span>
                             <span className="text-violet-600 font-semibold">
                                 Lesson
@@ -671,6 +681,9 @@ export default function Lesson({ auth }) {
                                 {filtered.map((course) => (
                                     <CourseCard
                                         key={course.id}
+                                        title={course.title}
+                                        desc={course.description}
+                                        topic={course.topic}
                                         {...course}
                                         onClick={() =>
                                             setSelectedCourse(course)

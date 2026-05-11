@@ -87,12 +87,6 @@ class DashboardController extends Controller
             'recentAttempts'       => $recentAttempts,
         ]);
     }
-
-    public function lessons()
-    {
-        return Inertia::render('Auth/Lesson');
-    }
-
     public function showLesson()
     {
         return Inertia::render('Auth/ChapterLesson');
