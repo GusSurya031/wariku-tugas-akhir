@@ -67,6 +67,11 @@ class AuthController extends Controller
         $request->session()->regenerate();
         $user = Auth::user();
 
+        // Teachers go directly to their dashboard
+        if ($user->role_id === 1) {
+            return redirect()->route('dashboard.teacher');
+        }
+
         // No profile yet: hasn't completed step 1 of onboarding
         if (!$user->userProfile) {
             return redirect()->route('onboarding.index');

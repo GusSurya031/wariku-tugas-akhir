@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Material;
 use App\Models\MaterialHasVariant;
 use App\Models\MoodLog;
+use App\Models\Question;
 use App\Models\QuizAttempt;
 use App\Models\RecommendationLog;
+use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -319,7 +322,205 @@ class DashboardController extends Controller
 
     public function dashboardTeacher()
     {
-        return Inertia::render('Auth/DashboardTeacher');
+        /** @var \App\Models\User $teacher */
+        $teacher = Auth::user();
+
+        $latestLog = RecommendationLog::where('user_id', $teacher->id)->with('rule')->latest()->first();
+        $themeDay  = null;
+        if ($latestLog?->rule) {
+            $themeDay = OnBoardingController::resolveThemeDay(
+                $latestLog->rule->theme_day_offset,
+                $latestLog->created_at
+            );
+        }
+
+        // ── Stats ────────────────────────────────────────────────────────────
+        $totalStudents  = User::where('role_id', 2)->count();
+        $totalMaterials = Material::count();
+        $totalQuestions = Question::count();
+
+        // ── Mood chart data grouped by date (students only) ──────────────────
+        $moodRows = DB::table('mood_logs')
+            ->join('users', 'users.id', '=', 'mood_logs.user_id')
+            ->select(DB::raw('DATE(mood_logs.created_at) as log_date'), 'mood_logs.mood_label', DB::raw('COUNT(*) as value'))
+            ->where('users.role_id', 2)
+            ->groupBy('log_date', 'mood_logs.mood_label')
+            ->orderBy('log_date')
+            ->get();
+
+        $moodByDate = [];
+        foreach ($moodRows as $row) {
+            $moodByDate[$row->log_date][] = ['label' => $row->mood_label, 'value' => (int) $row->value];
+        }
+
+        // ── Wariga chart data grouped by date (students active on that date) ──
+        $warigaRows = DB::table('mood_logs')
+            ->join('users', 'users.id', '=', 'mood_logs.user_id')
+            ->join('wariga_profiles', 'wariga_profiles.user_id', '=', 'users.id')
+            ->select(
+                DB::raw('DATE(mood_logs.created_at) as log_date'),
+                'wariga_profiles.catur_bekel_kahuripan',
+                DB::raw('COUNT(*) as value')
+            )
+            ->where('users.role_id', 2)
+            ->whereNotNull('wariga_profiles.catur_bekel_kahuripan')
+            ->groupBy('log_date', 'catur_bekel_kahuripan')
+            ->orderBy('log_date')
+            ->get();
+
+        $warigaByDate = [];
+        foreach ($warigaRows as $row) {
+            $warigaByDate[$row->log_date][] = [
+                'label' => ucfirst($row->catur_bekel_kahuripan),
+                'value' => (int) $row->value,
+            ];
+        }
+
+        $availableDates = array_values(array_unique(
+            array_merge(array_keys($moodByDate), array_keys($warigaByDate))
+        ));
+        sort($availableDates);
+
+        // ── Export data: per date → per student row ───────────────────────────
+        $latestScorePerUser = DB::table('quiz_attempts')
+            ->select('user_id', DB::raw('MAX(score_performance) as score_performance'))
+            ->groupBy('user_id')
+            ->get()
+            ->keyBy('user_id');
+
+        $latestRecoPerUser = DB::table('recommendation_logs')
+            ->join('recommendation_rules', 'recommendation_rules.id', '=', 'recommendation_logs.recommendation_rules_id')
+            ->select('recommendation_logs.user_id', 'recommendation_rules.rule_code', 'recommendation_rules.description')
+            ->orderByDesc('recommendation_logs.created_at')
+            ->get()
+            ->unique('user_id')
+            ->keyBy('user_id');
+
+        $exportByDate = [];
+        $moodLogsForExport = DB::table('mood_logs')
+            ->join('users', 'users.id', '=', 'mood_logs.user_id')
+            ->leftJoin('wariga_profiles', 'wariga_profiles.user_id', '=', 'users.id')
+            ->select(
+                DB::raw('DATE(mood_logs.created_at) as log_date'),
+                'users.id as user_id',
+                'users.fullname',
+                'users.username',
+                'mood_logs.mood_label',
+                'mood_logs.mood_level',
+                'wariga_profiles.catur_bekel_kahuripan'
+            )
+            ->where('users.role_id', 2)
+            ->orderBy('mood_logs.created_at')
+            ->get();
+
+        foreach ($moodLogsForExport as $row) {
+            $score = $latestScorePerUser->get($row->user_id);
+            $reco  = $latestRecoPerUser->get($row->user_id);
+            $exportByDate[$row->log_date][] = [
+                'user_name'           => $row->fullname ?: $row->username,
+                'mood_label'          => $row->mood_label,
+                'mood_level'          => $row->mood_level,
+                'score_performance'   => $score?->score_performance ?? '-',
+                'recommendation_rule' => $reco?->rule_code ?? '-',
+                'wariga_condition'    => $row->catur_bekel_kahuripan
+                    ? ucfirst($row->catur_bekel_kahuripan)
+                    : '-',
+            ];
+        }
+
+        // ── Performance: overall per student ─────────────────────────────────
+        $totalVariants = MaterialHasVariant::count();
+
+        $attemptStats = DB::table('quiz_attempts')
+            ->select(
+                'user_id',
+                DB::raw('COUNT(*) as total_attempts'),
+                DB::raw('AVG(score) as avg_score'),
+                DB::raw('AVG(score_performance) as avg_score_performance'),
+                DB::raw('COUNT(DISTINCT material_has_variant_id) as distinct_variants')
+            )
+            ->groupBy('user_id')
+            ->get()
+            ->keyBy('user_id');
+
+        $students = User::where('role_id', 2)->get();
+
+        $performanceGeneral = $students->map(function ($u) use ($attemptStats, $totalVariants) {
+            $stat = $attemptStats->get($u->id);
+            return [
+                'id'                  => $u->id,
+                'name'                => $u->fullname ?: $u->username,
+                'attempts'            => (int) ($stat?->total_attempts ?? 0),
+                'progress'            => $totalVariants > 0
+                    ? (int) round(($stat?->distinct_variants ?? 0) / $totalVariants * 100)
+                    : 0,
+                'avg_score'           => (int) round($stat?->avg_score ?? 0),
+                'avg_score_performance' => (int) round($stat?->avg_score_performance ?? 0),
+            ];
+        })->sortByDesc('avg_score')->values();
+
+        // ── Performance: per material ─────────────────────────────────────────
+        $materialAttempts = DB::table('quiz_attempts')
+            ->join('material_has_variants', 'material_has_variants.id', '=', 'quiz_attempts.material_has_variant_id')
+            ->join('materials', 'materials.id', '=', 'material_has_variants.material_id')
+            ->select(
+                'materials.id as material_id',
+                'materials.title as material_title',
+                'quiz_attempts.user_id',
+                DB::raw('COUNT(*) as total_attempts'),
+                DB::raw('AVG(quiz_attempts.score) as avg_score'),
+                DB::raw('MAX(quiz_attempts.score) as highest_score')
+            )
+            ->groupBy('materials.id', 'materials.title', 'quiz_attempts.user_id')
+            ->get();
+
+        $studentNameMap = $students->keyBy('id')->map(fn($u) => $u->fullname ?: $u->username);
+
+        $performanceByMaterial = [];
+        foreach ($materialAttempts as $row) {
+            if (!isset($performanceByMaterial[$row->material_id])) {
+                $performanceByMaterial[$row->material_id] = ['title' => $row->material_title, 'rows' => []];
+            }
+            $performanceByMaterial[$row->material_id]['rows'][] = [
+                'id'            => $row->user_id,
+                'name'          => $studentNameMap->get($row->user_id, '-'),
+                'attempts'      => (int) $row->total_attempts,
+                'avg_score'     => (int) round($row->avg_score),
+                'highest_score' => (int) round($row->highest_score),
+            ];
+        }
+
+        foreach ($performanceByMaterial as &$matData) {
+            usort($matData['rows'], fn($a, $b) => $b['highest_score'] - $a['highest_score']);
+        }
+        unset($matData);
+
+        $materials = Material::select('id', 'title')
+            ->get()
+            ->map(fn($m) => ['id' => $m->id, 'title' => $m->title])
+            ->values();
+
+        return Inertia::render('Auth/DashboardTeacher', [
+            'auth' => [
+                'user' => [
+                    'name'     => $teacher->username,
+                    'fullname' => $teacher->fullname,
+                ],
+            ],
+            'themeDay'              => $themeDay,
+            'stats'                 => [
+                'totalStudents'  => $totalStudents,
+                'totalMaterials' => $totalMaterials,
+                'totalQuestions' => $totalQuestions,
+            ],
+            'moodByDate'            => $moodByDate,
+            'warigaByDate'          => $warigaByDate,
+            'availableDates'        => $availableDates,
+            'exportByDate'          => $exportByDate,
+            'performanceGeneral'    => $performanceGeneral,
+            'performanceByMaterial' => $performanceByMaterial,
+            'materials'             => $materials,
+        ]);
     }
 
     public function result()
