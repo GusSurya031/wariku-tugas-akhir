@@ -22,7 +22,6 @@ use Illuminate\Support\Facades\Route;
     Route::post('/register', [AuthController::class, 'store'])->name('auth.store');
     Route::post('/login', [AuthController::class, 'authenticate'])->name('login');
     Route::get('/dashboard/teacher', [DashboardController::class, 'dashboardTeacher'])->name('dashboard.teacher');
-    Route::get('/reesult', [DashboardController::class, 'result']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');

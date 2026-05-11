@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Material;
 use App\Models\MaterialHasVariant;
+use App\Models\MoodLog;
 use App\Models\QuizAttempt;
 use App\Models\RecommendationLog;
 use Illuminate\Http\Request;
@@ -176,7 +177,67 @@ class DashboardController extends Controller
 
     public function report()
     {
-        return Inertia::render('Auth/Report');
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        $latestLog = RecommendationLog::where('user_id', $user->id)
+            ->with('rule')
+            ->latest()
+            ->first();
+
+        $themeDay = null;
+        if ($latestLog?->rule) {
+            $themeDay = OnBoardingController::resolveThemeDay(
+                $latestLog->rule->theme_day_offset,
+                $latestLog->created_at
+            );
+        }
+
+        $todayMood = MoodLog::where('user_id', $user->id)
+            ->whereDate('created_at', today())
+            ->latest()
+            ->first();
+
+        $attempts = QuizAttempt::where('user_id', $user->id)
+            ->with('materialHasVariant.material')
+            ->withSum('quizAnswers', 'duration_answering')
+            ->latest()
+            ->get()
+            ->map(function ($a) {
+                $totalSec = (int) ($a->quiz_answers_sum_duration_answering ?? 0);
+                $mins     = intdiv($totalSec, 60);
+                $secs     = $totalSec % 60;
+                $duration = $mins > 0 ? "{$mins} mnt {$secs} dtk" : "{$secs} dtk";
+
+                return [
+                    'id'             => $a->id,
+                    'date'           => $a->created_at->format('D, d M Y'),
+                    'duration'       => $duration,
+                    'material_title' => $a->materialHasVariant?->material?->title ?? '-',
+                    'score'          => $a->score,
+                ];
+            })
+            ->values();
+
+        return Inertia::render('Auth/Report', [
+            'auth' => [
+                'user' => [
+                    'name'     => $user->username,
+                    'fullname' => $user->fullname,
+                ],
+            ],
+            'userData' => [
+                'name'       => $user->username,
+                'fullname'   => $user->fullname,
+                'email'      => $user->email,
+                'sapta_wara' => $user->warigaProfile?->sapta_wara,
+                'wuku'       => $user->warigaProfile?->wuku,
+                'mood_label' => $todayMood?->mood_label,
+                'mood_level' => $todayMood?->mood_level,
+            ],
+            'attempts' => $attempts,
+            'themeDay' => $themeDay,
+        ]);
     }
 
     public function dashboardTeacher()
