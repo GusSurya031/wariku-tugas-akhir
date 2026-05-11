@@ -288,13 +288,8 @@ const MathThumbnail = ({ size = "normal" }) => {
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
 const Sidebar = ({ open, onClose }) => {
     const navMain = [
-        {
-            label: "Dashboard",
-            icon: HomeIcon,
-            active: true,
-            href: "/dashboard",
-        },
-        { label: "Lesson", icon: BookIcon, href: "/lessons" },
+        { label: "Dashboard",icon: HomeIcon,href: "/dashboard"},
+        { label: "Lesson", active: true, icon: BookIcon, href: "/lessons" },
         { label: "Exercise", icon: PencilIcon, href: "/exercise" },
         { label: "Report", icon: ChartIcon, href: "/report" },
     ];

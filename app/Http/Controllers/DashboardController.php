@@ -94,7 +94,52 @@ class DashboardController extends Controller
 
     public function exercise()
     {
-        return Inertia::render('Auth/Exercise');
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        $userProfile      = $user->userProfile;
+        $userLearningType = $userProfile?->learning_type ?? 'text';
+
+        $latestLog = RecommendationLog::where('user_id', $user->id)->with('rule')->latest()->first();
+        $themeDay  = null;
+        if ($latestLog?->rule) {
+            $themeDay = OnBoardingController::resolveThemeDay(
+                $latestLog->rule->theme_day_offset,
+                $latestLog->created_at
+            );
+        }
+
+        $variants = MaterialHasVariant::with(['material'])
+            ->withCount('questions')
+            ->where('learning_type', $userLearningType)
+            ->get();
+
+        $attemptStats = QuizAttempt::where('user_id', $user->id)
+            ->selectRaw('material_has_variant_id, COUNT(*) as attempt_count, MAX(score) as best_score')
+            ->groupBy('material_has_variant_id')
+            ->get()
+            ->keyBy('material_has_variant_id');
+
+        $variants = $variants->map(fn($v) => [
+            'id'             => $v->id,
+            'material_title' => $v->material->title,
+            'material_topic' => $v->material->topic,
+            'difficulty'     => $v->difficulty_level,
+            'question_count' => $v->questions_count,
+            'attempt_count'  => $attemptStats->get($v->id)?->attempt_count ?? 0,
+            'best_score'     => $attemptStats->get($v->id)?->best_score ?? null,
+        ])->values();
+
+        return Inertia::render('Auth/Exercise', [
+            'auth' => [
+                'user' => [
+                    'name'     => $user->username,
+                    'fullname' => $user->fullname,
+                ],
+            ],
+            'variants' => $variants,
+            'themeDay' => $themeDay,
+        ]);
     }
 
     public function profile()
@@ -137,5 +182,10 @@ class DashboardController extends Controller
     public function dashboardTeacher()
     {
         return Inertia::render('Auth/DashboardTeacher');
+    }
+
+    public function result()
+    {
+        return Inertia::render('Auth/ExerciseResult');
     }
 }

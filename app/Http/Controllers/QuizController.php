@@ -152,7 +152,7 @@ class QuizController extends Controller
             ->first();
 
         if (!$moodLog || !$user->warigaProfile) {
-            return redirect()->route('dashboard.index');
+            return redirect()->route('quiz.result', $attempt->id);
         }
 
         $rule = RecommendationRule::active()
@@ -164,7 +164,7 @@ class QuizController extends Controller
             ->first();
 
         if (!$rule) {
-            return redirect()->route('dashboard.index');
+            return redirect()->route('quiz.result', $attempt->id);
         }
 
         $finalContentType = $rule->recommended_content_type === 'random'
@@ -180,11 +180,118 @@ class QuizController extends Controller
         );
 
         // New row — preserves First Login log history
-        RecommendationLog::create([
+        $log = RecommendationLog::create([
             'user_id'                 => $user->id,
             'recommendation_rules_id' => $rule->id,
         ]);
 
-        return redirect()->route('dashboard.index');
+        return redirect()->route('quiz.result', $attempt->id)
+            ->with('rec_log_id', $log->id);
+    }
+
+    public function result($attemptId)
+    {
+        /** @var \App\Models\User $user */
+        $user    = Auth::user();
+        $attempt = QuizAttempt::with(['materialHasVariant.material', 'quizAnswers'])
+            ->where('user_id', $user->id)
+            ->findOrFail($attemptId);
+
+        $variant      = $attempt->materialHasVariant;
+        $answers      = $attempt->quizAnswers;
+        $correctCount = $answers->where('is_correct', true)->count();
+        $wrongCount   = $answers->where('is_correct', false)->count();
+        $totalSeconds = $answers->sum('duration_answering');
+        $minutes      = intdiv($totalSeconds, 60);
+        $seconds      = $totalSeconds % 60;
+        $durationStr  = $minutes > 0 ? "{$minutes} menit {$seconds} detik" : "{$seconds} detik";
+
+        // Retrieve recommendation log created for this attempt (via flash or latest)
+        $logId     = session('rec_log_id');
+        $latestLog = $logId
+            ? RecommendationLog::with('rule')->find($logId)
+            : RecommendationLog::where('user_id', $user->id)->with('rule')->latest()->first();
+
+        // Resolve theme
+        $themeDay = null;
+        if ($latestLog?->rule) {
+            $themeDay = OnBoardingController::resolveThemeDay(
+                $latestLog->rule->theme_day_offset,
+                $latestLog->created_at
+            );
+        }
+
+        $recommendation       = null;
+        $recommendedMaterials = [];
+
+        if ($latestLog?->rule) {
+            $rule        = $latestLog->rule;
+            $contentType = $rule->recommended_content_type === 'random'
+                ? ($user->userProfile?->learning_type ?? 'text')
+                : $rule->recommended_content_type;
+
+            $diffMap = ['easy' => 'Mudah', 'medium' => 'Menengah', 'hard' => 'Lanjutan'];
+            $quizDiffMap = [
+                'easy'             => 'Mudah',
+                'medium'           => 'Menengah',
+                'hard'             => 'Lanjutan',
+                'mix_easy_medium'  => 'Campuran Mudah-Menengah',
+                'mix_medium_hard'  => 'Campuran Menengah-Lanjutan',
+            ];
+
+            $recVariants = MaterialHasVariant::with('material')
+                ->where('difficulty_level', $rule->recommended_difficulty)
+                ->where('learning_type', $contentType)
+                ->get();
+
+            foreach ($recVariants as $rv) {
+                $recommendedMaterials[] = [
+                    'label'      => 'Materi',
+                    'title'      => $rv->material->title,
+                    'difficulty' => $diffMap[$rule->recommended_difficulty] ?? $rule->recommended_difficulty,
+                    'type'       => 'materi',
+                    'href'       => "/lessons/{$rv->id}",
+                ];
+                $recommendedMaterials[] = [
+                    'label'      => 'Latihan Soal',
+                    'title'      => $rv->material->title,
+                    'difficulty' => $quizDiffMap[$rule->recommended_quiz_difficulty ?? ''] ?? ($diffMap[$rule->recommended_difficulty] ?? '-'),
+                    'type'       => 'latihan',
+                    'href'       => "/quiz/{$rv->id}",
+                ];
+            }
+
+            $recommendation = [
+                'description'    => $rule->description,
+                'difficulty'     => $diffMap[$rule->recommended_difficulty] ?? $rule->recommended_difficulty,
+                'content_type'   => $contentType,
+                'quiz_difficulty' => $quizDiffMap[$rule->recommended_quiz_difficulty ?? ''] ?? null,
+            ];
+        }
+
+        $diffLabel = ['easy' => 'Mudah', 'medium' => 'Menengah', 'hard' => 'Lanjutan'];
+
+        return Inertia::render('Auth/ExerciseResult', [
+            'auth' => [
+                'user' => [
+                    'name'     => $user->username,
+                    'fullname' => $user->fullname,
+                ],
+            ],
+            'result' => [
+                'material_title'    => $variant?->material?->title ?? '-',
+                'difficulty'        => $diffLabel[$variant?->difficulty_level] ?? '-',
+                'total_questions'   => $answers->count(),
+                'correct_count'     => $correctCount,
+                'wrong_count'       => $wrongCount,
+                'duration'          => $durationStr,
+                'score'             => $attempt->score,
+                'score_performance' => $attempt->score_performance,
+                'variant_id'        => $variant?->id,
+            ],
+            'recommendation'       => $recommendation,
+            'recommendedMaterials' => $recommendedMaterials,
+            'themeDay'             => $themeDay,
+        ]);
     }
 }

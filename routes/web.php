@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
     Route::post('/register', [AuthController::class, 'store'])->name('auth.store');
     Route::post('/login', [AuthController::class, 'authenticate'])->name('login');
     Route::get('/dashboard/teacher', [DashboardController::class, 'dashboardTeacher'])->name('dashboard.teacher');
+    Route::get('/reesult', [DashboardController::class, 'result']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
@@ -49,6 +50,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/exercise', [DashboardController::class, 'exercise'])->name('dashboard.exercise');
 
     Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
+
+    Route::get('/quiz/result/{attemptId}', [QuizController::class, 'result'])->name('quiz.result');
 
     Route::get('/quiz/{variantId}/info', [QuizController::class, 'preQuizInfo'])->name('quiz.info');
 
