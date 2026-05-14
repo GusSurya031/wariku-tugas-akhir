@@ -172,7 +172,7 @@ class RecommendationRulePostQuizSeeder extends Seeder
                 'recommended_difficulty'      => 'easy',
                 'recommended_quiz_difficulty' => 'easy',
                 'theme_day_offset'           => 'current',
-                'description'                => 'Kluster A + mood netral (2) + catur bekel apapun → acak, bobot easy, soal easy',
+                'description'                => 'Kluster A + mood netral (2) + catur bekel guru/ratu → acak, bobot easy, soal easy',
                 'priority'                    => 13,
             ],
             // mood=2, catur_bekel=lara/pati
@@ -185,7 +185,7 @@ class RecommendationRulePostQuizSeeder extends Seeder
                 'recommended_difficulty'      => 'easy',
                 'recommended_quiz_difficulty' => 'easy',
                 'theme_day_offset'           => 'next',
-                'description'                => 'Kluster A + mood netral (2) + catur bekel apapun → acak, bobot easy, soal easy',
+                'description'                => 'Kluster A + mood netral (2) + catur bekel lara/pati → acak, bobot easy, soal easy',
                 'priority'                    => 14,
             ],
 
@@ -199,7 +199,7 @@ class RecommendationRulePostQuizSeeder extends Seeder
                 'recommended_difficulty'      => 'medium',
                 'recommended_quiz_difficulty' => 'medium',
                 'theme_day_offset'           => 'current',
-                'description'                => 'Kluster B + mood netral (2) + catur bekel apapun → acak, bobot medium, soal medium',
+                'description'                => 'Kluster B + mood netral (2) + catur bekel guru/ratu → acak, bobot medium, soal medium',
                 'priority'                    => 15,
             ],
 
@@ -213,7 +213,7 @@ class RecommendationRulePostQuizSeeder extends Seeder
                 'recommended_difficulty'      => 'medium',
                 'recommended_quiz_difficulty' => 'medium',
                 'theme_day_offset'           => 'next',
-                'description'                => 'Kluster B + mood netral (2) + catur bekel apapun → acak, bobot medium, soal medium',
+                'description'                => 'Kluster B + mood netral (2) + catur bekel lara/pati → acak, bobot medium, soal medium',
                 'priority'                    => 16,
             ],
 
@@ -227,7 +227,7 @@ class RecommendationRulePostQuizSeeder extends Seeder
                 'recommended_difficulty'      => 'hard',
                 'recommended_quiz_difficulty' => 'hard',
                 'theme_day_offset'           => 'current',
-                'description'                => 'Kluster C + mood netral (2) + catur bekel apapun → acak, bobot hard, soal hard',
+                'description'                => 'Kluster C + mood netral (2) + catur bekel guru/ratu → acak, bobot hard, soal hard',
                 'priority'                    => 17,
             ],
 
@@ -241,7 +241,7 @@ class RecommendationRulePostQuizSeeder extends Seeder
                 'recommended_difficulty'      => 'hard',
                 'recommended_quiz_difficulty' => 'hard',
                 'theme_day_offset'           => 'next',
-                'description'                => 'Kluster C + mood netral (2) + catur bekel apapun → acak, bobot hard, soal hard',
+                'description'                => 'Kluster C + mood netral (2) + catur bekel lara/pati → acak, bobot hard, soal hard',
                 'priority'                    => 18,
             ],
         ];

@@ -12,7 +12,7 @@ export default function Onboarding() {
        - Returning users (hasProfile) langsung ke step 2 dengan data terisi
        - User baru mulai dari step 1 dengan form kosong
     ============================================= */
-    const [step, setStep] = hasProfile ? useState(2) : useState(1);
+const [step, setStep] = hasProfile ? useState(2) : useState(1);
 
     /* =============================================
        STEP 1 STATE — diisi dari props jika returning user
@@ -26,6 +26,7 @@ export default function Onboarding() {
     ============================================= */
     const [selectedMood, setSelectedMood] = useState(null);
 
+    // Diganti pakai 5 kategori yaitu Motivated, Relaxed, Neutral, Bored, dan Stressed
     const moods = [
         { label: "Sangat Semangat", value: 3, emoji: "🔥" },
         { label: "Semangat",        value: 3, emoji: "😄" },
