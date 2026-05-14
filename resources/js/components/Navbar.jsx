@@ -20,9 +20,9 @@ export default function Navbar() {
 
 
     return (
-        <nav className="fixed top-5 left-5 right-5 z-50 transition-all duration-300">
+        <nav className="fixed top-5 left-5 right-5 md:left-16 md:right-16 z-50 transition-all duration-300">
             <div
-                className={`max-w-360 mx-auto px-4 sm:px-6 lg:px-8 rounded-lg ${scrolled ? "bg-white/80 backdrop-blur-md shadow-md" : menuOpen ? "bg-white/80" : "bg-transparent"}`}
+                className={`mx-auto px-4 rounded-lg ${scrolled ? "bg-white/80 backdrop-blur-md shadow-md" : menuOpen ? "bg-white/80" : "bg-transparent"}`}
             >
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}

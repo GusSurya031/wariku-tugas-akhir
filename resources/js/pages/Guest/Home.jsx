@@ -12,6 +12,9 @@ import LineElement2 from "@/assets/icon/line-element2.svg";
 import VectorLine from "@/assets/icon/vector-line.svg";
 import VectorBlub from "@/assets/icon/vector-blub.svg";
 import VectorDot from "@/assets/icon/vector-dot.svg";
+import AssetsIconKiri from "@/assets/icon/AssetsIconKiri";
+import AssetsIconKanan from "@/assets/icon/AssetsIconKanan";
+import LineHero from "@/assets/icon/LineHero";
 // images
 import IconAdaptive from "@/assets/images/adaptation.png";
 import IconBali from "@/assets/images/bali.png";
@@ -21,8 +24,10 @@ import IlustrasiKanan from "@/assets/images/ilustrasi-kanan.png";
 import Education from "@/assets/images/education.png";
 import IconBook1 from "@/assets/images/icon-book-1.png";
 import IconBook2 from "@/assets/images/icon-book-2.png";
-import HeroKiri from "@/assets/images/hero-kiri.png";
-import HeroKanan from "@/assets/images/hero-kanan.png";
+import AssetCards1 from "@/assets/images/asset-card-1.png";
+import AssetCards2 from "@/assets/images/asset-card-2.png";
+import AssetCards3 from "@/assets/images/asset-card-3.png";
+import AssetCards4 from "@/assets/images/asset-card-4.png";
 
 const cardItems = [
     {
@@ -45,12 +50,51 @@ const cardItems = [
     },
 ];
 
+const features = [
+    {
+        number: "01",
+        title: "Materi Adaptif",
+        description:
+            "Materi yang ditampilkan di sistem akan disesuaikan dengan performa kamu agar lebih adaptif",
+        imageSrc: AssetCards1,
+        imageAlt: "Materi Adaptif Preview",
+        colspan: 1,
+    },
+    {
+        number: "02",
+        title: "Budaya Lokal Bali",
+        description:
+            "Pendekatan holistik berbasis kearifan lokal Bali khususnya mengenai Wariga pada komponen wewaran",
+        imageSrc: AssetCards2,
+        imageAlt: "Budaya Lokal Bali Preview",
+        colspan: 2,
+    },
+    {
+        number: "03",
+        title: "Analisis Performa",
+        description:
+            "Setiap latihan yang kamu kerjakan dianalisis berdasarkan tingkat ketepatan dan waktu pengerjaan untuk dapat menentukan tingkat pemahamanmu",
+        imageSrc: AssetCards3,
+        imageAlt: "Analisis Performa Preview",
+        colspan:2,
+    },
+    {
+        number: "04",
+        title: "Rekomendasi Cerdas",
+        description:
+            "Rekomendasi materi yang sesuai dari hasil performa kamu agar kamu masih bisa tetap belajar",
+        imageSrc: AssetCards4,
+        imageAlt: "Rekomendasi Cerdas Preview",
+        colspan: 1,
+    },
+];
+
 // ── Main Component ────────────────────────────────────────────────
 export default function Home() {
     return (
-        <div className="min-h-screen font-sans text-gray-800 overflow-x-hidden">
+        <div className="min-h-screen font-sans text-gray-800 overflow-x-hidden ">
+            <LineHero className="absolute" />
             <Navbar />
-
             {/* ══════════════════════════════════════════ HERO ══ */}
             <section className="hero-bg min-h-screen pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
                 <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-8">
@@ -73,17 +117,13 @@ export default function Home() {
                             <ItemFadeIn
                                 direction="left"
                                 delay={0.2}
-                                className="hidden md:flex float-anim absolute left-0"
+                                className="hidden md:flex float-anim absolute md:-left-40 lg:-left-25"
                             >
-                                <img
-                                    src={HeroKiri}
-                                    alt="Hero Illustration Left"
-                                    className="w-72"
-                                />
+                                <AssetsIconKiri />
                             </ItemFadeIn>
 
                             {/* Headline */}
-                            <div className="flex-1 max-w-3xl relative z-10 font-serif gap-8">
+                            <div className="flex-1 max-w-3xl relative z-10 font-serif gap-12">
                                 <ItemFadeIn delay={0.1}>
                                     <h1 className="text-4xl md:text-5xl lg:text-6xl leading-snug text-gray-900 mb-4">
                                         Belajar Lebih{" "}
@@ -117,17 +157,17 @@ export default function Home() {
                                 <ItemFadeIn delay={0.35}>
                                     <div className="flex flex-col sm:flex-row gap-3 justify-center font-sans">
                                         <Link
-                                            href="/"
+                                            href="/login"
                                             className="btn-primary px-7 py-3 rounded-full font-semibold text-white text-sm shadow-lg"
                                         >
                                             Mulai Belajar
                                         </Link>
-                                        <Link
-                                            href="#"
+                                        <a
+                                            href="#detail"
                                             className="btn-outline px-7 py-3 rounded-full font-semibold text-sm text-gray-700"
                                         >
                                             Lihat Selengkapnya
-                                        </Link>
+                                        </a>
                                     </div>
                                 </ItemFadeIn>
                             </div>
@@ -136,43 +176,24 @@ export default function Home() {
                             <ItemFadeIn
                                 direction="right"
                                 delay={0.2}
-                                className="hidden md:flex float-anim-slow absolute right-0"
+                                className="hidden md:flex float-anim-slow absolute md:-right-40 lg:-right-30"
                             >
-                                <img
-                                    src={HeroKanan}
-                                    alt="Hero Illustration Right"
-                                    className="w-72"
-                                />
+                                <AssetsIconKanan />
                             </ItemFadeIn>
-                        </div>
-
-                        {/* Mobile illustrations */}
-                        <div className="flex md:hidden justify-center gap-8 mt-6">
-                            <div className="float-anim">
-                                <img
-                                    src={HeroKiri}
-                                    alt="Hero Illustration Left"
-                                    className="w-100"
-                                />
-                            </div>
-                            <div className="float-anim-slow">
-                                <img
-                                    src={HeroKanan}
-                                    alt="Hero Illustration Right"
-                                    className="w-100"
-                                />
-                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
             {/* ══════════════════════════════════════════ WHY SECTION ══ */}
-            <section className="py-16 md:py-24 bg-white">
-                <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-col md:flex-row gap-10 md:gap-20 md:justify-between mb-14">
+            <section className="py-16 md:py-24 bg-white ">
+                <div className="max-w-360 mx-auto px-6 sm:px-8 lg:px-16">
+                    <div className="flex flex-col md:flex-row gap-4 md:gap-20 md:justify-between mb-6 md:mb-14">
                         <ItemFadeIn direction="left" className="md:w-5/12">
-                            <h2 className="text-3xl md:text-4xl text-gray-900 leading-tight font-serif">
+                            <h2
+                                id="detail"
+                                className="text-3xl md:text-4xl text-gray-900 leading-tight font-serif scroll-mt-16 md:scroll-mt-36"
+                            >
                                 Kenapa Sistem <br /> Ini Berbeda?
                             </h2>
                         </ItemFadeIn>
@@ -194,7 +215,7 @@ export default function Home() {
                     </div>
 
                     {/* Feature Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-12">
                         {cardItems.map((card, i) => (
                             <ItemFadeIn key={i} delay={i * 0.15}>
                                 <div
@@ -222,95 +243,78 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* ══════════════════════════════════════════ FEATURE 1 ══ */}
-            <section className="py-16 md:py-24 bg-gray-50">
-                <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
-                        <ItemFadeIn
-                            direction="left"
-                            className="md:w-1/2 flex justify-center"
-                        >
-                            <img src={IlustrasiKiri} alt="" />
+            {/* ══════════════════════════════════════════ FEATURE CARDS ══ */}
+            <section className="py-16 md:py-24 bg-white ">
+                <div className="max-w-360 mx-auto px-6 sm:px-8 lg:px-16">
+                    <div className="flex flex-col md:flex-row gap-4 md:gap-20 md:justify-between mb-6 md:mb-14">
+                        <ItemFadeIn direction="left" className="md:w-5/12">
+                            <h2
+                                id="detail"
+                                className="text-3xl md:text-4xl text-gray-900 leading-tight font-serif scroll-mt-16 md:scroll-mt-36"
+                            >
+                                Belajar Sesuai Gaya <br /> dan Preferensimu
+                            </h2>
                         </ItemFadeIn>
                         <ItemFadeIn
                             direction="right"
-                            delay={0.2}
-                            className="md:w-1/2"
+                            delay={0.15}
+                            className="md:w-6/12"
                         >
-                            <h2 className="text-3xl md:text-4xl text-gray-900 leading-tight mb-4 font-serif">
-                                Belajar Sesuai Gaya dan Preferensimu
-                            </h2>
-                            <p className="text-gray-500 text-sm md:text-base leading-relaxed">
+                            <p className="text-gray-500 leading-relaxed text-sm md:text-lg text-justify">
                                 Sistem memahami preferensi belajarmu melalui
-                                pendekatan Wariga Bali, sehingga materi dapat
-                                disajikan dalam bentuk yang lebih mudah kamu
-                                pahami, baik visual, numerik, maupun naratif.
+                                pendekatan{" "}
+                                <strong className="text-gray-800">
+                                    Wariga Bali,
+                                </strong>{" "}
+                                sehingga materi dapat disajikan dalam bentuk
+                                yang lebih mudah kamu pahami, baik visual,
+                                numerik, maupun naratif.
                             </p>
-                            <div className="mt-6 flex gap-3">
-                                <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2" />
-                                <p className="text-sm md:text-base text-gray-500">
-                                    Materi disesuaikan dengan karakteristik
-                                    belajarmu secara otomatis
-                                </p>
-                            </div>
-                            <div className="mt-3 flex gap-3">
-                                <div className="w-2 h-2 bg-blue-400 rounded-full mt-2" />
-                                <p className="text-sm md:text-base text-gray-500">
-                                    Pendekatan holistik berbasis kearifan lokal
-                                    Bali
-                                </p>
-                            </div>
                         </ItemFadeIn>
                     </div>
-                </div>
-            </section>
 
-            {/* ══════════════════════════════════════════ FEATURE 2 ══ */}
-            <section className="py-16 md:py-24 bg-gray-50">
-                <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
-                        <ItemFadeIn
-                            direction="right"
-                            delay={0.2}
-                            className="md:w-1/2"
-                        >
-                            <h2 className="text-3xl md:text-4xl text-gray-900 leading-tight mb-4 font-serif">
-                                Latihan yang Menyesuaikan Kemampuanmu
-                            </h2>
-                            <p className="text-gray-500 text-sm md:text-base leading-relaxed">
-                                Setiap latihan yang kamu kerjakan dianalisis
-                                berdasarkan tingkat ketepatan dan waktu
-                                pengerjaan. Sistem kemudian menentukan tingkat
-                                pemahamanmu untuk memberikan rekomendasi materi
-                                yang sesuai.
-                            </p>
-                            <div className="mt-6 flex gap-3">
-                                <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2" />
-                                <p className="text-sm md:text-base text-gray-500">
-                                    Analisis real-time berdasarkan performa
-                                    latihan kamu
-                                </p>
-                            </div>
-                            <div className="mt-3 flex gap-3">
-                                <div className="w-2 h-2 bg-blue-400 rounded-full mt-2" />
-                                <p className="text-sm md:text-base text-gray-500">
-                                    Rekomendasi cerdas untuk materi selanjutnya
-                                </p>
-                            </div>
-                        </ItemFadeIn>
-                        <ItemFadeIn
-                            direction="left"
-                            className="md:w-1/2 flex justify-center"
-                        >
-                            <img src={IlustrasiKanan} alt="" />
-                        </ItemFadeIn>
+                    {/* Feature Cards */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {features.map((feature, idx) => (
+                            <ItemFadeIn key={idx} delay={idx * 0.15} className={`lg:${feature.colspan === 2 ? "col-span-2" : "col-span-1"}`}>
+                                <div
+                                    className="bg-white h-full rounded-2xl p-6 flex flex-col gap-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
+                                >
+                                    {/* Card Header */}
+                                    <div className="flex items-center gap-3">
+                                        <div className="flex items-center justify-center w-10 h-10 rounded-full border-2 border-gray-800 shrink-0">
+                                            <span className="text-sm font-semibold text-gray-800 leading-none">
+                                                {feature.number}
+                                            </span>
+                                        </div>
+                                        <h3 className="text-lg font-bold leading-tight">
+                                            {feature.title}
+                                        </h3>
+                                    </div>
+
+                                    {/* Description */}
+                                    <p className="text-gray-600 text-sm leading-relaxed text-justify">
+                                        {feature.description}
+                                    </p>
+
+                                    {/* Image Preview Area */}
+                                    <div className="w-full rounded-xl overflow-hidden bg-gray-50 min-h-40 flex items-center justify-center">
+                                        <img
+                                            src={feature.imageSrc}
+                                            alt={feature.imageAlt}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                </div>
+                            </ItemFadeIn>
+                        ))}
                     </div>
                 </div>
             </section>
 
             {/* ══════════════════════════════════════════ QUOTE ══ */}
             <section className="py-16 md:py-20 relative overflow-hidden bg-[#F4F3F0]">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                <div className="mx-12 px-6 sm:px-8 lg:px-16 text-center relative z-10">
                     <img
                         src={VectorDot}
                         alt=""
@@ -327,7 +331,7 @@ export default function Home() {
                         className="absolute top-1/2 -right-50 transform"
                     />
                     <ItemFadeIn>
-                        <p className="text-black text-lg md:text-2xl font-semibold leading-relaxed">
+                        <p className="text-black text-md md:text-2xl font-semibold leading-relaxed">
                             " Sistem memahami preferensi belajarmu melalui
                             pendekatan Wariga Bali, sehingga materi dapat
                             disajikan dalam bentuk yang lebih mudah kamu pahami,
@@ -338,32 +342,32 @@ export default function Home() {
             </section>
 
             {/* ══════════════════════════════════════════ CTA BANNER ══ */}
-            <section className="py-12 md:py-16">
-                <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-8 bg-linear-to-r from-[#274F8E] to-[#4388F4] md:rounded-2xl shadow-lg">
-                    <div className="flex justify-end relative min-h-56 md:min-h-96">
+            <section className="py-16 md:py-20 ">
+                <div className="max-w-360 mx-auto md:mx-16 px-4 sm:px-6 lg:px-16 bg-linear-to-r from-[#274F8E] to-[#4388F4] md:rounded-2xl shadow-lg">
+                    <div className="grid grid-cols-2 relative min-h-56 md:min-h-96">
                         <ItemFadeIn
                             direction="left"
-                            className="hidden lg:block lg:absolute left-0 -top-10"
+                            className="hidden md:block md:absolute md:-left-30 lg:left-0 lg:-top-10"
                         >
-                            <img src={Education} alt="Education" />
+                            <img src={Education} alt="Education" className="md:w-3/4 lg:w-full"/>
                         </ItemFadeIn>
                         <ItemFadeIn
                             direction="right"
                             delay={0.2}
-                            className="relative self-center text-center md:text-left md:min-w-2xl"
+                            className="self-center col-span-2 text-white relative z-10 text-center md:text-right"
                         >
                             <h2 className="text-2xl md:text-4xl text-white leading-tight mb-3 font-serif">
                                 Mulai Perjalanan
                                 <br />
                                 Belajarmu Sekarang
                             </h2>
-                            <p className="text-blue-200 text-sm md:text-base mb-6 md:min-w-md">
-                                Kenali bagaimana sistem ini bekerja untuk
+                            <p className="text-white text-sm md:text-base mb-6 md:min-w-md">
+                                Kenali bagaimana sistem ini bekerja untuk <br/>
                                 mendukung proses belajarmu.
                             </p>
                             <Link
                                 href="#"
-                                className="text-sm md:text-base inline-block px-8 py-3 bg-white text-blue-700 font-bold rounded-full shadow-lg hover:bg-blue-50 transition-all duration-200"
+                                className="text-sm md:text-base inline-block px-8 py-3 bg-white text-primary-blue font-bold rounded-full shadow-lg hover:bg-blue-50 transition-all duration-200"
                             >
                                 Mulai Sekarang
                             </Link>
@@ -373,12 +377,12 @@ export default function Home() {
             </section>
 
             {/* ══════════════════════════════════════════ BOTTOM CARDS ══ */}
-            <section className="py-12 md:py-16 bg-white">
-                <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-8">
+            <section className="py-16 md:py-20 bg-white">
+                <div className="max-w-360 mx-6 md:mx-16">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         {/* Lihat Materi */}
                         <ItemFadeIn direction="left">
-                            <div className="card-hover bg-[#FFD25D] border border-gray-100 rounded-2xl p-8 md:p-16 shadow-md">
+                            <div className="w-full card-hover bg-[#FFD25D] border border-gray-100 rounded-2xl p-8 lg:p-16 shadow-md">
                                 <div className="w-16 h-16 md:w-18 md:h-18 bg-white rounded-full flex items-center justify-center mb-4">
                                     <img
                                         src={IconBook1}
@@ -405,7 +409,7 @@ export default function Home() {
 
                         {/* Coba Latihan */}
                         <ItemFadeIn direction="right" delay={0.1}>
-                            <div className="card-hover bg-[#F8F7F2] rounded-2xl p-8 md:p-16 shadow-md">
+                            <div className="w-full card-hover bg-[#F8F7F2] rounded-2xl p-8 lg:p-16 shadow-md">
                                 <div className="w-16 h-16 md:w-18 md:h-18 bg-blue-500 rounded-full flex items-center justify-center mb-4">
                                     <img
                                         src={IconBook2}
