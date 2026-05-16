@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, router } from "@inertiajs/react";
 import "@/../css/app.css";
+import Logo from "@/assets/icon/logo.svg";
+import SingleLogo from "@/assets/icon/single_logo";
 
 const GlobalStyles = () => (
     <style>{`
@@ -8,7 +10,6 @@ const GlobalStyles = () => (
       min-height: 100vh; width: 100%;
       display: flex; align-items: center; justify-content: center;
       padding: 24px;
-      background: linear-gradient(135deg, #fef9e7 0%, #fdf4ca 40%, #f0f4ff 100%);
       position: relative; overflow: hidden;
     }
     .bg-blob {
@@ -139,57 +140,57 @@ const GlobalStyles = () => (
   `}</style>
 );
 
-const Logo = () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
-            <circle cx="14" cy="14" r="13" stroke="rgba(255,255,255,0.7)" strokeWidth="2" />
-            <path d="M8 10 Q14 6 20 10 Q14 14 8 10Z" fill="#FDE68A" />
-            <path d="M8 14 Q14 10 20 14 Q14 18 8 14Z" fill="rgba(255,255,255,0.6)" />
-            <path d="M8 18 Q14 14 20 18 Q14 22 8 18Z" fill="#FDE68A" opacity="0.6" />
-        </svg>
-        <span style={{ fontWeight: 800, fontSize: 17, color: "#fff", letterSpacing: "-0.02em" }}>
-            Wariku
-        </span>
-    </div>
-);
-
 const LeftPanel = () => (
-    <div className="auth-left">
-        <div className="panel-blob float-el" style={{ width: 220, height: 220, background: "rgba(167,139,250,0.6)", top: -60, left: -60 }} />
-        <div className="panel-blob float-el2" style={{ width: 180, height: 180, background: "rgba(96,165,250,0.45)", top: 100, right: -40 }} />
-        <div className="panel-blob float-el" style={{ width: 140, height: 140, background: "rgba(251,191,36,0.25)", bottom: 60, left: 20, animationDelay: "1s" }} />
+    <div className="auth-left relative hidden w-[320px] shrink-0 overflow-hidden bg-[linear-gradient(160deg,#a78bfa_0%,#7c3aed_35%,#4338ca_65%,#312e81_100%)] px-9 py-10 lg:flex lg:flex-col lg:justify-between">
+        <div className="panel-blob float-el absolute -left-[60px] -top-[60px] h-[220px] w-[220px] rounded-full bg-violet-400/60" />
 
-        <div style={{ position: "relative", zIndex: 2 }}>
-            <Logo />
+        <div className="panel-blob float-el2 absolute -right-10 top-[100px] h-[180px] w-[180px] rounded-full bg-blue-400/45" />
+
+        <div className="panel-blob float-el absolute bottom-[60px] left-5 h-[140px] w-[140px] rounded-full bg-amber-400/25 [animation-delay:1s]" />
+
+        <div className="relative z-[2]">
             <div className="wariga-badge float-el2">
-                <span style={{ fontSize: 14 }}>🌟</span>
-                <span style={{ fontSize: 11, color: "rgba(255,255,255,0.9)", fontWeight: 700 }}>
+                <span className="text-sm">🌟</span>
+                <span className="text-[11px] font-bold text-white/90">
                     Wariga-Powered
                 </span>
             </div>
         </div>
 
-        <div style={{ position: "relative", zIndex: 2, flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div className="spin-el" style={{ width: 120, height: 120, border: "2px dashed rgba(255,255,255,0.2)", borderRadius: "50%", position: "absolute" }} />
-            <div style={{ width: 80, height: 80, background: "rgba(255,255,255,0.12)", backdropFilter: "blur(8px)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid rgba(255,255,255,0.2)" }}>
-                <span style={{ fontSize: 32 }}>📚</span>
+        <div className="relative z-[2] flex flex-1 items-center justify-center">
+            <div className="spin-el absolute h-[120px] w-[120px] rounded-full border-2 border-dashed border-white/20" />
+
+            <div className="flex h-20 w-20 items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur">
+                <span className="text-[32px]">
+                    <SingleLogo className="w-10 h-10" />
+                </span>
             </div>
-            <div className="float-el" style={{ position: "absolute", top: -20, right: 10, background: "rgba(255,255,255,0.15)", backdropFilter: "blur(8px)", borderRadius: 10, padding: "6px 12px", border: "1px solid rgba(255,255,255,0.2)" }}>
-                <span style={{ fontSize: 11, color: "#fff", fontWeight: 700 }}>✦ Adaptif</span>
+
+            <div className="float-el absolute -top-5 right-2.5 rounded-[10px] border border-white/20 bg-white/15 px-3 py-1.5 backdrop-blur">
+                <span className="text-[11px] font-bold text-white">
+                    ✦ Adaptif
+                </span>
             </div>
-            <div className="float-el2" style={{ position: "absolute", bottom: -10, left: 0, background: "rgba(251,191,36,0.25)", backdropFilter: "blur(8px)", borderRadius: 10, padding: "6px 12px", border: "1px solid rgba(251,191,36,0.3)" }}>
-                <span style={{ fontSize: 11, color: "#FDE68A", fontWeight: 700 }}>✦ Personal</span>
+
+            <div className="float-el2 absolute -bottom-2.5 left-0 rounded-[10px] border border-amber-400/30 bg-amber-400/25 px-3 py-1.5 backdrop-blur">
+                <span className="text-[11px] font-bold text-amber-200">
+                    ✦ Personal
+                </span>
             </div>
-            <div className="float-el" style={{ position: "absolute", bottom: 30, right: -10, background: "rgba(255,255,255,0.12)", backdropFilter: "blur(8px)", borderRadius: 10, padding: "6px 12px", border: "1px solid rgba(255,255,255,0.2)", animationDelay: "1.5s" }}>
-                <span style={{ fontSize: 11, color: "#fff", fontWeight: 700 }}>✦ Wariga</span>
+
+            <div className="float-el absolute bottom-[30px] -right-2.5 rounded-[10px] border border-white/20 bg-white/10 px-3 py-1.5 backdrop-blur [animation-delay:1.5s]">
+                <span className="text-[11px] font-bold text-white">
+                    ✦ Wariga
+                </span>
             </div>
         </div>
 
-        <div style={{ position: "relative", zIndex: 2 }}>
-            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", marginBottom: 6, fontWeight: 500 }}>
+        <div className="relative z-[2]">
+            <p className="mb-1.5 text-xs font-medium text-white/60">
                 Selamat datang kembali
             </p>
-            <h2 style={{ fontSize: 18, fontWeight: 900, color: "#fff", lineHeight: 1.4 }}>
+
+            <h2 className="text-lg font-black leading-[1.4] text-white">
                 Belajar lebih cerdas sesuai dirimu
             </h2>
         </div>
@@ -200,16 +201,17 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPw, setShowPw] = useState(false);
-    const [remember, setRemember] = useState(false);
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
 
     const validate = () => {
         const e = {};
         if (!email) e.email = "Email tidak boleh kosong";
-        else if (!/\S+@\S+\.\S+/.test(email)) e.email = "Format email tidak valid";
+        else if (!/\S+@\S+\.\S+/.test(email))
+            e.email = "Format email tidak valid";
         if (!password) e.password = "Password tidak boleh kosong";
-        else if (password.length < 6) e.password = "Password minimal 6 karakter";
+        else if (password.length < 6)
+            e.password = "Password minimal 6 karakter";
         return e;
     };
 
@@ -228,39 +230,67 @@ export default function Login() {
         setLoading(true);
 
         // 3. Kirim data ke backend
-        router.post("/login", {
-            email,
-            password,
-            remember,
-        }, {
-            // Inertia akan otomatis menangani pengiriman data
-            onError: (backendErrors) => {
-                setErrors(backendErrors);
-                setLoading(false);
+        router.post(
+            "/login",
+            {
+                email,
+                password,
             },
-            onSuccess: () => {
-                setSuccess(true);
+            {
+                // Inertia akan otomatis menangani pengiriman data
+                onError: (backendErrors) => {
+                    setErrors(backendErrors);
+                    setLoading(false);
+                },
+                onSuccess: () => {
+                    setSuccess(true);
+                },
+                onFinish: () => {
+                    setLoading(false);
+                },
+                // Penting: Cegah scroll jump
+                preserveScroll: true,
             },
-            onFinish: () => {
-                setLoading(false);
-            },
-            // Penting: Cegah scroll jump
-            preserveScroll: true,
-        });
+        );
     };
 
     return (
-        <div className="auth-page">
+        <div className="auth-page hero-bg">
             <GlobalStyles />
 
-            <div className="bg-blob" style={{ width: 400, height: 400, background: "#FEF08A", opacity: 0.25, top: -120, left: -100 }} />
-            <div className="bg-blob" style={{ width: 300, height: 300, background: "#C4B5FD", opacity: 0.2, top: 100, right: -80 }} />
-            <div className="bg-blob" style={{ width: 250, height: 250, background: "#A5F3FC", opacity: 0.18, bottom: -80, left: 200 }} />
-
-            <div className="float-el" style={{ position: "fixed", top: "15%", left: "8%", color: "#FBBF24", fontSize: 20, opacity: 0.5, zIndex: 0 }}>★</div>
-            <div className="float-el2" style={{ position: "fixed", top: "70%", right: "6%", color: "#C4B5FD", fontSize: 16, opacity: 0.5, zIndex: 0 }}>✦</div>
-            <div className="float-el" style={{ position: "fixed", bottom: "20%", left: "5%", color: "#FDE68A", fontSize: 14, opacity: 0.4, zIndex: 0, animationDelay: "1s" }}>✦</div>
-
+            <div
+                className="bg-blob"
+                style={{
+                    width: 400,
+                    height: 400,
+                    background: "#FEF08A",
+                    opacity: 0.25,
+                    top: -120,
+                    left: -100,
+                }}
+            />
+            <div
+                className="bg-blob"
+                style={{
+                    width: 300,
+                    height: 300,
+                    background: "#C4B5FD",
+                    opacity: 0.2,
+                    top: 100,
+                    right: -80,
+                }}
+            />
+            <div
+                className="bg-blob"
+                style={{
+                    width: 250,
+                    height: 250,
+                    background: "#A5F3FC",
+                    opacity: 0.18,
+                    bottom: -80,
+                    left: 200,
+                }}
+            />
             <div className="auth-card">
                 <LeftPanel />
 
@@ -268,47 +298,87 @@ export default function Login() {
                     <div className="slide-in">
                         {/* Header */}
                         <div className="mb-6">
-                            <div style={{ width: 36, height: 36, background: "linear-gradient(135deg,#EDE9FE,#DDD6FE)", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}>
-                                <span style={{ fontSize: 18 }}>✦</span>
+                            <div className="mb-4">
+                                <Link href="/" className="flex items-center gap-2">
+                                    <img src={Logo} alt="Logo" className="w-20" />
+                                </Link>
                             </div>
-                            <h1 style={{ fontSize: "clamp(1.4rem,2.5vw,1.8rem)", fontWeight: 900, color: "#111827", marginBottom: 6 }}>
+                            <h1
+                                style={{
+                                    fontSize: "clamp(1.4rem,2.5vw,1.8rem)",
+                                    fontWeight: 900,
+                                    color: "#111827",
+                                    marginBottom: 6,
+                                }}
+                            >
                                 Selamat Datang Kembali
                             </h1>
-                            <p style={{ fontSize: 13.5, color: "#6B7280", lineHeight: 1.6 }}>
-                                Masuk dan lanjutkan perjalanan belajarmu yang telah disesuaikan dengan Wariga Bali.
+                            <p
+                                style={{
+                                    fontSize: 13.5,
+                                    color: "#6B7280",
+                                    lineHeight: 1.6,
+                                }}
+                            >
+                                Masuk dan lanjutkan perjalanan belajarmu yang
+                                telah disesuaikan dengan Wariga Bali.
                             </p>
                         </div>
 
                         <form onSubmit={handleSubmit}>
                             {/* Email */}
                             <div className="input-group">
-                                <label className="input-label">Email kamu</label>
+                                <label className="input-label">
+                                    Email kamu
+                                </label>
                                 <div className="input-wrap">
                                     <input
                                         className={`auth-input ${errors.email ? "error-state" : email && !errors.email ? "success" : ""}`}
                                         type="email"
                                         placeholder="contoh@email.com"
                                         value={email}
-                                        onChange={(e) => { setEmail(e.target.value); setErrors((p) => ({ ...p, email: "" })); }}
+                                        onChange={(e) => {
+                                            setEmail(e.target.value);
+                                            setErrors((p) => ({
+                                                ...p,
+                                                email: "",
+                                            }));
+                                        }}
                                     />
                                     {email && !errors.email && (
                                         <span className="input-icon">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5"><path d="M20 6L9 17l-5-5" /></svg>
+                                            <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="#10B981"
+                                                strokeWidth="2.5"
+                                            >
+                                                <path d="M20 6L9 17l-5-5" />
+                                            </svg>
                                         </span>
                                     )}
                                 </div>
-                                {errors.email && <p className="input-error">⚠ {errors.email}</p>}
+                                {errors.email && (
+                                    <p className="input-error">
+                                        ⚠ {errors.email}
+                                    </p>
+                                )}
                             </div>
 
                             {/* Password */}
                             <div className="input-group">
-                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                                    <label className="input-label">Password</label>
-                                    <a href="#" style={{ fontSize: 12, color: "#7C3AED", fontWeight: 600, textDecoration: "none" }}
-                                        onMouseEnter={(e) => (e.target.style.textDecoration = "underline")}
-                                        onMouseLeave={(e) => (e.target.style.textDecoration = "none")}>
-                                        Lupa password?
-                                    </a>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <label className="input-label">
+                                        Password
+                                    </label>
                                 </div>
                                 <div className="input-wrap">
                                     <input
@@ -316,55 +386,105 @@ export default function Login() {
                                         type={showPw ? "text" : "password"}
                                         placeholder="••••••••••"
                                         value={password}
-                                        onChange={(e) => { setPassword(e.target.value); setErrors((p) => ({ ...p, password: "" })); }}
+                                        onChange={(e) => {
+                                            setPassword(e.target.value);
+                                            setErrors((p) => ({
+                                                ...p,
+                                                password: "",
+                                            }));
+                                        }}
                                         style={{ paddingRight: 44 }}
                                     />
-                                    <span className="input-icon" onClick={() => setShowPw(!showPw)}>
+                                    <span
+                                        className="input-icon"
+                                        onClick={() => setShowPw(!showPw)}
+                                    >
                                         {showPw ? (
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                            >
                                                 <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22" />
                                             </svg>
                                         ) : (
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                            >
                                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                                                 <circle cx="12" cy="12" r="3" />
                                             </svg>
                                         )}
                                     </span>
                                 </div>
-                                {errors.password && <p className="input-error">⚠ {errors.password}</p>}
+                                {errors.password && (
+                                    <p className="input-error">
+                                        ⚠ {errors.password}
+                                    </p>
+                                )}
                             </div>
-
-                            {/* Remember me */}
-                            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 22 }}>
-                                <div className={`custom-check ${remember ? "checked" : ""}`} onClick={() => setRemember(!remember)}>
-                                    {remember && (
-                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><path d="M20 6L9 17l-5-5" /></svg>
-                                    )}
-                                </div>
-                                <span style={{ fontSize: 13, color: "#374151", fontWeight: 500 }}>Ingat saya di perangkat ini</span>
-                            </div>
-
                             {/* Submit */}
-                            <button className="btn-primary-auth" type="submit" disabled={loading}>
+                            <button
+                                className="btn-primary-auth"
+                                type="submit"
+                                disabled={loading}
+                            >
                                 {loading ? (
-                                    <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ animation: "spin-slow 1s linear infinite" }}>
+                                    <span
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            gap: 8,
+                                        }}
+                                    >
+                                        <svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2.5"
+                                            style={{
+                                                animation:
+                                                    "spin-slow 1s linear infinite",
+                                            }}
+                                        >
                                             <path d="M21 12a9 9 0 11-6.219-8.56" />
                                         </svg>
                                         Masuk...
                                     </span>
-                                ) : "Masuk →"}
+                                ) : (
+                                    "Masuk →"
+                                )}
                             </button>
                         </form>
 
-
-
-
                         {/* Switch to Register */}
-                        <p style={{ textAlign: "center", fontSize: 13, color: "#6B7280" }}>
+                        <p
+                            style={{
+                                textAlign: "center",
+                                fontSize: 13,
+                                color: "#6B7280",
+                            }}
+                        >
                             Belum punya akun?{" "}
-                            <Link href="/register" style={{ color: "#7C3AED", fontWeight: 700, textDecoration: "none" }}>
+                            <Link
+                                href="/register"
+                                style={{
+                                    color: "#7C3AED",
+                                    fontWeight: 700,
+                                    textDecoration: "none",
+                                }}
+                            >
                                 Daftar sekarang
                             </Link>
                         </p>

@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { Link, router } from "@inertiajs/react";
+import "@/../css/app.css";
+import Logo from "@/assets/icon/logo.svg";
+import SingleLogo from "@/assets/icon/single_logo";
 
 const GlobalStyles = () => (
     <style>{`
@@ -140,57 +143,58 @@ const GlobalStyles = () => (
   `}</style>
 );
 
-const Logo = () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
-            <circle cx="14" cy="14" r="13" stroke="rgba(255,255,255,0.7)" strokeWidth="2" />
-            <path d="M8 10 Q14 6 20 10 Q14 14 8 10Z" fill="#FDE68A" />
-            <path d="M8 14 Q14 10 20 14 Q14 18 8 14Z" fill="rgba(255,255,255,0.6)" />
-            <path d="M8 18 Q14 14 20 18 Q14 22 8 18Z" fill="#FDE68A" opacity="0.6" />
-        </svg>
-        <span style={{ fontWeight: 800, fontSize: 17, color: "#fff", letterSpacing: "-0.02em" }}>
-            Wariku
-        </span>
-    </div>
-);
 
 const LeftPanel = () => (
-    <div className="auth-left">
-        <div className="panel-blob float-el" style={{ width: 220, height: 220, background: "rgba(167,139,250,0.6)", top: -60, left: -60 }} />
-        <div className="panel-blob float-el2" style={{ width: 180, height: 180, background: "rgba(96,165,250,0.45)", top: 100, right: -40 }} />
-        <div className="panel-blob float-el" style={{ width: 140, height: 140, background: "rgba(251,191,36,0.25)", bottom: 60, left: 20, animationDelay: "1s" }} />
+    <div className="auth-left relative hidden w-[320px] shrink-0 overflow-hidden bg-[linear-gradient(160deg,#a78bfa_0%,#7c3aed_35%,#4338ca_65%,#312e81_100%)] px-9 py-10 lg:flex lg:flex-col lg:justify-between">
+        <div className="panel-blob float-el absolute -left-[60px] -top-[60px] h-[220px] w-[220px] rounded-full bg-violet-400/60" />
 
-        <div style={{ position: "relative", zIndex: 2 }}>
-            <Logo />
+        <div className="panel-blob float-el2 absolute -right-10 top-[100px] h-[180px] w-[180px] rounded-full bg-blue-400/45" />
+
+        <div className="panel-blob float-el absolute bottom-[60px] left-5 h-[140px] w-[140px] rounded-full bg-amber-400/25 [animation-delay:1s]" />
+
+        <div className="relative z-[2]">
             <div className="wariga-badge float-el2">
-                <span style={{ fontSize: 14 }}>🌟</span>
-                <span style={{ fontSize: 11, color: "rgba(255,255,255,0.9)", fontWeight: 700 }}>
+                <span className="text-sm">🌟</span>
+                <span className="text-[11px] font-bold text-white/90">
                     Wariga-Powered
                 </span>
             </div>
         </div>
 
-        <div style={{ position: "relative", zIndex: 2, flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div className="spin-el" style={{ width: 120, height: 120, border: "2px dashed rgba(255,255,255,0.2)", borderRadius: "50%", position: "absolute" }} />
-            <div style={{ width: 80, height: 80, background: "rgba(255,255,255,0.12)", backdropFilter: "blur(8px)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid rgba(255,255,255,0.2)" }}>
-                <span style={{ fontSize: 32 }}>📚</span>
+        <div className="relative z-[2] flex flex-1 items-center justify-center">
+            <div className="spin-el absolute h-[120px] w-[120px] rounded-full border-2 border-dashed border-white/20" />
+
+            <div className="flex h-20 w-20 items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur">
+                <span className="text-[32px]">
+                    <SingleLogo className="w-10 h-10" />
+                </span>
             </div>
-            <div className="float-el" style={{ position: "absolute", top: -20, right: 10, background: "rgba(255,255,255,0.15)", backdropFilter: "blur(8px)", borderRadius: 10, padding: "6px 12px", border: "1px solid rgba(255,255,255,0.2)" }}>
-                <span style={{ fontSize: 11, color: "#fff", fontWeight: 700 }}>✦ Adaptif</span>
+
+            <div className="float-el absolute -top-5 right-2.5 rounded-[10px] border border-white/20 bg-white/15 px-3 py-1.5 backdrop-blur">
+                <span className="text-[11px] font-bold text-white">
+                    ✦ Adaptif
+                </span>
             </div>
-            <div className="float-el2" style={{ position: "absolute", bottom: -10, left: 0, background: "rgba(251,191,36,0.25)", backdropFilter: "blur(8px)", borderRadius: 10, padding: "6px 12px", border: "1px solid rgba(251,191,36,0.3)" }}>
-                <span style={{ fontSize: 11, color: "#FDE68A", fontWeight: 700 }}>✦ Personal</span>
+
+            <div className="float-el2 absolute -bottom-2.5 left-0 rounded-[10px] border border-amber-400/30 bg-amber-400/25 px-3 py-1.5 backdrop-blur">
+                <span className="text-[11px] font-bold text-amber-200">
+                    ✦ Personal
+                </span>
             </div>
-            <div className="float-el" style={{ position: "absolute", bottom: 30, right: -10, background: "rgba(255,255,255,0.12)", backdropFilter: "blur(8px)", borderRadius: 10, padding: "6px 12px", border: "1px solid rgba(255,255,255,0.2)", animationDelay: "1.5s" }}>
-                <span style={{ fontSize: 11, color: "#fff", fontWeight: 700 }}>✦ Wariga</span>
+
+            <div className="float-el absolute bottom-[30px] -right-2.5 rounded-[10px] border border-white/20 bg-white/10 px-3 py-1.5 backdrop-blur [animation-delay:1.5s]">
+                <span className="text-[11px] font-bold text-white">
+                    ✦ Wariga
+                </span>
             </div>
         </div>
 
-        <div style={{ position: "relative", zIndex: 2 }}>
-            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", marginBottom: 6, fontWeight: 500 }}>
+        <div className="relative z-[2]">
+            <p className="mb-1.5 text-xs font-medium text-white/60">
                 Mulai perjalananmu
             </p>
-            <h2 style={{ fontSize: 18, fontWeight: 900, color: "#fff", lineHeight: 1.4 }}>
+
+            <h2 className="text-lg font-black leading-[1.4] text-white">
                 Dapatkan akses ke sistem belajar adaptif berbasis Wariga Bali
             </h2>
         </div>
@@ -221,7 +225,6 @@ export default function Register() {
     const [confirm, setConfirm] = useState("");
     const [showPw, setShowPw] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
-    const [agree, setAgree] = useState(false);
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -236,7 +239,6 @@ export default function Register() {
         if (!password) e.password = "Password tidak boleh kosong";
         else if (password.length < 8) e.password = "Password minimal 8 karakter";
         if (password !== confirm) e.confirm = "Password tidak cocok";
-        if (!agree) e.agree = "Kamu harus menyetujui syarat & ketentuan";
         return e;
     };
 
@@ -260,7 +262,6 @@ export default function Register() {
             email,
             password,
             password_confirmation: confirm,
-            agree, // Kirim juga status persetujuan jika backend membutuhkannya
         }, {
             // Inertia akan otomatis menangani pengiriman data
             onError: (backendErrors) => {
@@ -324,8 +325,10 @@ export default function Register() {
                     <div className="slide-in">
                         {/* Header */}
                         <div style={{ marginBottom: 24 }}>
-                            <div style={{ width: 36, height: 36, background: "linear-gradient(135deg,#EDE9FE,#DDD6FE)", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}>
-                                <span style={{ fontSize: 18 }}>✦</span>
+                            <div className="mb-4">
+                                <Link href="/" className="flex items-center gap-2">
+                                    <img src={Logo} alt="Logo" className="w-20" />
+                                </Link>
                             </div>
                             <h1 style={{ fontSize: "clamp(1.3rem,2.5vw,1.7rem)", fontWeight: 900, color: "#111827", marginBottom: 6 }}>
                                 Buat Akun Baru
@@ -431,27 +434,6 @@ export default function Register() {
                                 </div>
                                 {errors.confirm && <p className="input-error">⚠ {errors.confirm}</p>}
                             </div>
-
-                            {/* Agree */}
-                            <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 20 }}>
-                                <div
-                                    className={`custom-check ${agree ? "checked" : ""}`}
-                                    onClick={() => { setAgree(!agree); setErrors((p) => ({ ...p, agree: "" })); }}
-                                    style={{ marginTop: 1 }}
-                                >
-                                    {agree && (
-                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><path d="M20 6L9 17l-5-5" /></svg>
-                                    )}
-                                </div>
-                                <span style={{ fontSize: 12.5, color: "#374151", lineHeight: 1.6 }}>
-                                    Saya setuju dengan{" "}
-                                    <a href="#" style={{ color: "#7C3AED", fontWeight: 600, textDecoration: "none" }}>Syarat & Ketentuan</a>{" "}
-                                    dan{" "}
-                                    <a href="#" style={{ color: "#7C3AED", fontWeight: 600, textDecoration: "none" }}>Kebijakan Privasi</a>{" "}
-                                    Wariku
-                                </span>
-                            </div>
-                            {errors.agree && <p className="input-error" style={{ marginTop: -14, marginBottom: 12 }}>⚠ {errors.agree}</p>}
 
                             {/* Submit */}
                             <button className="btn-primary-auth" type="submit" disabled={loading}>
