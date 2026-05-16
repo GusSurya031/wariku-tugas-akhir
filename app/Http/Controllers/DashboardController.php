@@ -49,6 +49,7 @@ class DashboardController extends Controller
                 ->get()
                 ->map(fn($v) => [
                     'id'            => $v->id,
+                    'material_id'   => $v->material->id,
                     'title'         => $v->material->title,
                     'topic'         => $v->material->topic,
                     'learning_type' => $v->learning_type,
@@ -230,8 +231,19 @@ class DashboardController extends Controller
 
     public function quiz(int $variantId)
     {
+        /** @var \App\Models\User $user */
+        $user    = Auth::user();
         $variant = MaterialHasVariant::with(['material', 'questions.options'])
             ->findOrFail($variantId);
+
+        $latestLog = RecommendationLog::where('user_id', $user->id)->with('rule')->latest()->first();
+        $themeDay  = null;
+        if ($latestLog?->rule) {
+            $themeDay = OnBoardingController::resolveThemeDay(
+                $latestLog->rule->theme_day_offset,
+                $latestLog->created_at
+            );
+        }
 
         // Shuffle options server-side so correct answer position varies each load
         $questions = $variant->questions->map(fn($q) => [
@@ -252,6 +264,7 @@ class DashboardController extends Controller
                 'learningType'  => $variant->learning_type,
             ],
             'questions' => $questions,
+            'themeDay'  => $themeDay,
         ]);
     }
 

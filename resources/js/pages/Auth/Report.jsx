@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Head, Link } from "@inertiajs/react";
+import { ArrowUpRightIcon } from "./Dashboard";
+import Logo from "@/assets/icon/logo.svg";
 
 // ─── Theme map ────────────────────────────────────────────────────────────────
 const THEME_MAP = {
@@ -111,10 +113,10 @@ const Sidebar = ({ open, onClose }) => {
                 ${open ? "translate-x-0" : "-translate-x-full"}`}
             >
                 <div className="flex items-center gap-2 mb-8 px-1">
-                    <div className="w-8 h-8 rounded-full bg-gray-900 flex items-center justify-center">
-                        <span className="text-white text-xs font-bold">✦</span>
+                    {/* Logo */}
+                    <div className="flex flex-1 items-center gap-2">
+                        <img src={Logo} alt="Logo" className="w-24 md:w-32"/>
                     </div>
-                    <span className="font-bold text-gray-900 text-lg tracking-tight">Wariku</span>
                     <button className="ml-auto lg:hidden text-gray-400 hover:text-gray-600" onClick={onClose}>
                         <XIcon className="w-5 h-5" />
                     </button>
@@ -311,7 +313,7 @@ const HistoryCard = ({ rows, page, totalPages, totalItems, onPageChange }) => (
             <table className="w-full text-sm min-w-[480px]">
                 <thead>
                     <tr className="border-b border-gray-100">
-                        {["Waktu Pengerjaan", "Durasi", "Materi", "Skor"].map((h) => (
+                        {["Waktu Pengerjaan", "Durasi", "Materi", "Skor", "Action"].map((h) => (
                             <th
                                 key={h}
                                 className="text-left text-xs font-semibold text-gray-400 pb-3 pr-4 first:pl-0 last:pr-0 whitespace-nowrap"
@@ -324,7 +326,7 @@ const HistoryCard = ({ rows, page, totalPages, totalItems, onPageChange }) => (
                 <tbody>
                     {rows.length === 0 && (
                         <tr>
-                            <td colSpan={4} className="py-10 text-center text-sm text-gray-400">
+                            <td colSpan={5} className="py-10 text-center text-sm text-gray-400">
                                 Belum ada riwayat latihan soal.
                             </td>
                         </tr>
@@ -342,6 +344,13 @@ const HistoryCard = ({ rows, page, totalPages, totalItems, onPageChange }) => (
                             <td className="py-3.5">
                                 <ScoreBadge score={row.score} />
                             </td>
+                            <td className="py-3.5 pr-4">
+                                <Link
+                                    href={`/quiz/result/${row.id}`}
+                                    className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-(--theme-soft) hover:border(--theme-secondary) transition-all group">
+                                    <ArrowUpRightIcon className="w-3 h-3 text-gray-400 group-hover:text-(--theme-primary)" />
+                                </Link>
+                            </td>
                         </tr>
                     ))}
 
@@ -349,7 +358,7 @@ const HistoryCard = ({ rows, page, totalPages, totalItems, onPageChange }) => (
                     {rows.length > 0 && rows.length < PER_PAGE &&
                         Array.from({ length: PER_PAGE - rows.length }).map((_, i) => (
                             <tr key={`empty-${i}`} className="border-b last:border-0 border-gray-50">
-                                <td colSpan={4} className="py-3.5" />
+                                <td colSpan={5} className="py-3.5" />
                             </tr>
                         ))
                     }
@@ -398,12 +407,10 @@ export default function Report({ auth, userData = {}, attempts = [], themeDay = 
                         >
                             <MenuIcon className="w-5 h-5" />
                         </button>
-                        <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded-full bg-gray-900 flex items-center justify-center">
-                                <span className="text-white text-[10px] font-bold">✦</span>
-                            </div>
-                            <span className="font-bold text-gray-900">Wariku</span>
-                        </div>
+                    {/* Logo */}
+                    <div className="flex flex-1 items-center gap-2">
+                        <img src={Logo} alt="Logo" className="w-24 md:w-32"/>
+                    </div>
                     </div>
 
                     <div className="px-4 py-6 md:px-8">

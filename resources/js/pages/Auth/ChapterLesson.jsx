@@ -266,10 +266,10 @@ const QuizCTA = ({ variantId, difficulty }) => {
                 <PencilSquareIcon className="w-7 h-7 text-white" />
             </div>
             <h3 className="font-bold text-xl mb-1 text-center">Siap Mengerjakan Latihan?</h3>
-            <p className="text-violet-200 text-sm text-center mb-1">
+            <p className="text(--theme-soft) text-sm text-center mb-1">
                 Kamu telah menyelesaikan semua materi pada bab ini.
             </p>
-            <p className="text-violet-200 text-xs text-center mb-5">
+            <p className="text(--theme-soft) text-xs text-center mb-5">
                 Uji pemahamanmu dengan latihan soal tingkat <span className="font-bold text-white">{diffLabel}</span>.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -438,7 +438,7 @@ export default function ChapterLesson({ auth, variant, themeDay = null }) {
             </div>
 
             {/* Mobile chapter drawer */}
-            <div className="block lg:hidden">
+            <div className="block lg:hidden" data-theme={themeSlug}>
                 <ChapterSidebar
                     chapters={chapters}
                     activeIdx={activeIdx}

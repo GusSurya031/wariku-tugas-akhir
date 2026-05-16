@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { router } from "@inertiajs/react";
+import Logo from "@/assets/icon/logo.svg";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const pad    = (n) => String(n).padStart(2, "0");
@@ -12,11 +13,17 @@ function formatTime(s) {
     return `${pad(h)} : ${pad(m)} : ${pad(sec)}`;
 }
 
+// ─── Sapta Wara theme mapping ─────────────────────────────────────────────────
+const THEME_MAP = {
+    Minggu: "redite", Senin: "soma",    Selasa: "anggara", Rabu: "buda",
+    Kamis: "wrespati", Jumat: "sukra",  Sabtu: "saniscara",
+};
+
 // ─── Colour tokens ────────────────────────────────────────────────────────────
 const C = {
-    purple:      "#6C63FF",
-    purpleLight: "#EDE9FF",
-    purpleMid:   "#8B84FF",
+    purple:      "var(--theme-primary)",
+    purpleLight: "var(--theme-soft)",
+    purpleMid:   "var(--theme-secondary)",
     gray:        "#F5F5F7",
     border:      "#E2E2E6",
     muted:       "#8A8A9A",
@@ -35,7 +42,7 @@ function Btn({ onClick, disabled, children, filled = false, style = {} }) {
                 fontSize: 14, fontWeight: 600, cursor: disabled ? "not-allowed" : "pointer",
                 transition: "all 0.15s",
                 border: filled ? "none" : `1.5px solid ${disabled ? C.border : C.purple}`,
-                background: filled ? (disabled ? "#C9C6F5" : C.purple) : "white",
+                background: filled ? (disabled ? C.purpleLight : "var(--theme-gradient)") : "white",
                 color: filled ? "white" : (disabled ? C.muted : C.purple),
                 opacity: disabled ? 0.65 : 1,
                 ...style,
@@ -47,8 +54,9 @@ function Btn({ onClick, disabled, children, filled = false, style = {} }) {
 }
 
 // ─── Main component ───────────────────────────────────────────────────────────
-export default function QuizPage({ variant, questions = [] }) {
-    const total = questions.length;
+export default function QuizPage({ variant, questions = [], themeDay = null }) {
+    const total     = questions.length;
+    const themeSlug = THEME_MAP[themeDay] ?? null;
 
     // ── state ──────────────────────────────────────────────────────────────────
     const [current,        setCurrent]        = useState(0);
@@ -141,7 +149,7 @@ export default function QuizPage({ variant, questions = [] }) {
     // ─────────────────────────────────────────────────────────────────────────
     if (submitting) {
         return (
-            <div style={{ minHeight: "100vh", background: C.gray, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "system-ui, sans-serif" }}>
+            <div data-theme={themeSlug} style={{ minHeight: "100vh", background: C.gray, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "system-ui, sans-serif" }}>
                 <div style={{ textAlign: "center" }}>
                     <div style={{ width: 64, height: 64, border: `4px solid ${C.purpleLight}`, borderTop: `4px solid ${C.purple}`, borderRadius: "50%", margin: "0 auto 24px", animation: "spin 0.9s linear infinite" }} />
                     <p style={{ color: C.purple, fontWeight: 700, fontSize: 16 }}>Menyimpan jawaban…</p>
@@ -156,7 +164,7 @@ export default function QuizPage({ variant, questions = [] }) {
     // Quiz UI
     // ─────────────────────────────────────────────────────────────────────────
     return (
-        <div style={{ minHeight: "100vh", background: C.gray, fontFamily: "system-ui, sans-serif" }}>
+        <div data-theme={themeSlug} style={{ minHeight: "100vh", background: C.gray, fontFamily: "system-ui, sans-serif" }}>
 
             {/* ── Header ─────────────────────────────────────────────────── */}
             <div style={{ background: "white", borderBottom: `1px solid ${C.border}`, padding: "12px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 10 }}>
@@ -172,7 +180,10 @@ export default function QuizPage({ variant, questions = [] }) {
                         </div>
                     </div>
                 </div>
-                <div style={{ fontWeight: 700, fontSize: 18, color: "#1A1A2E" }}>Wariku ✦</div>
+                                    {/* Logo */}
+                    <div className="flex flex-1 items-center gap-2">
+                        <img src={Logo} alt="Logo" className="w-24 md:w-32"/>
+                    </div>
             </div>
 
             {/* ── Body grid ──────────────────────────────────────────────── */}

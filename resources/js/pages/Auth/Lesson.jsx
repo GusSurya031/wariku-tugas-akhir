@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Head, Link } from "@inertiajs/react";
+import Logo from "@/assets/icon/logo.svg";
 
 // ─── Theme ────────────────────────────────────────────────────────────────────
 const THEME_MAP = {
@@ -312,12 +313,10 @@ const Sidebar = ({ open, onClose }) => {
                 ${open ? "translate-x-0" : "-translate-x-full"}`}
             >
                 <div className="flex items-center gap-2 mb-8 px-1">
-                    <div className="w-8 h-8 rounded-full bg-gray-900 flex items-center justify-center">
-                        <span className="text-white text-xs font-bold">✦</span>
+                    {/* Logo */}
+                    <div className="flex flex-1 items-center gap-2">
+                        <img src={Logo} alt="Logo" className="w-24 md:w-32"/>
                     </div>
-                    <span className="font-bold text-gray-900 text-lg tracking-tight">
-                        Wariku
-                    </span>
                     <button
                         className="ml-auto lg:hidden text-gray-400 hover:text-gray-600"
                         onClick={onClose}
@@ -601,6 +600,15 @@ export default function Lesson({ auth, allMaterials = [], themeDay = null, userL
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [search,         setSearch]         = useState("");
 
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const openId = params.get("open");
+        if (openId) {
+            const course = allMaterials.find((m) => String(m.id) === openId);
+            if (course) setSelectedCourse(course);
+        }
+    }, []);
+
     const filtered = allMaterials.filter((c) =>
         c.title.toLowerCase().includes(search.toLowerCase()),
     );
@@ -627,14 +635,10 @@ export default function Lesson({ auth, allMaterials = [], themeDay = null, userL
                             <MenuIcon className="w-5 h-5" />
                         </button>
                         <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded-full bg-gray-900 flex items-center justify-center">
-                                <span className="text-white text-[10px] font-bold">
-                                    ✦
-                                </span>
-                            </div>
-                            <span className="font-bold text-gray-900">
-                                Wariku
-                            </span>
+                    {/* Logo */}
+                    <div className="flex flex-1 items-center gap-2">
+                        <img src={Logo} alt="Logo" className="w-24 md:w-32"/>
+                    </div>
                         </div>
                     </div>
 

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Head, Link } from "@inertiajs/react";
+import Logo from "@/assets/icon/logo.svg";
+
 
 // ─── Sapta Wara theme mapping ─────────────────────────────────────────────────
 // Maps Indonesian day name (from resolveThemeDay) → data-theme slug in app.css
@@ -13,7 +15,11 @@ const THEME_MAP = {
     Sabtu: "saniscara",
 };
 
-const DIFFICULTY_LABEL = { easy: "Mudah", medium: "Sedang", hard: "Lanjut" };
+const DIFFICULTY_LABEL = {
+    easy: "Mudah",
+    medium: "Menengah",
+    hard: "Lanjutan",
+};
 const DIFFICULTY_COLOR = {
     easy: "bg-emerald-100 text-emerald-700",
     medium: "bg-amber-100 text-amber-700",
@@ -153,7 +159,7 @@ const DotsIcon = ({ className }) => (
         <circle cx="12" cy="19" r="1.5" />
     </svg>
 );
-const ArrowUpRightIcon = ({ className }) => (
+export const ArrowUpRightIcon = ({ className }) => (
     <svg
         className={className}
         fill="none"
@@ -284,12 +290,10 @@ const Sidebar = ({ open, onClose }) => {
                 ${open ? "translate-x-0" : "-translate-x-full"}`}
             >
                 <div className="flex items-center gap-2 mb-8 px-1">
-                    <div className="w-8 h-8 rounded-full bg-gray-900 flex items-center justify-center">
-                        <span className="text-white text-xs font-bold">✦</span>
+                    {/* Logo */}
+                    <div className="flex flex-1 items-center gap-2">
+                        <img src={Logo} alt="Logo" className="w-24 md:w-32"/>
                     </div>
-                    <span className="font-bold text-gray-900 text-lg tracking-tight">
-                        Wariku
-                    </span>
                     <button
                         className="ml-auto lg:hidden text-gray-400 hover:text-gray-600"
                         onClick={onClose}
@@ -381,23 +385,30 @@ const HeroBanner = ({ user = "Pelajar", themeDay = null }) => {
             <p className="text-white/70 text-sm md:text-base mb-5">
                 Siap melanjutkan perjalanan belajarmu hari ini?
             </p>
-            <button className="flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors border border-white/30">
+            <Link
+                className="flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors border border-white/30 w-fit"
+                href="/lessons"
+            >
                 Mulai Belajar
                 <span className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
                     <PlayIcon className="w-3 h-3 ml-0.5" />
                 </span>
-            </button>
+            </Link>
         </div>
     );
 };
 
 // ─── Recommended Card ─────────────────────────────────────────────────────────
 const RecommendedCard = ({
+    materialId,
     title = "Materi",
     difficulty = "easy",
     topic = "",
 }) => (
-    <div className="flex items-center gap-3 bg-white border border-gray-100 rounded-2xl px-4 py-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer group flex-1 min-w-45">
+    <Link
+        className="flex items-center gap-3 bg-white border border-gray-100 rounded-2xl px-4 py-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer group flex-1 min-w-45"
+        href={`/lessons?open=${materialId}`}
+    >
         <div className="w-10 h-10 rounded-xl bg-(--theme-soft) flex items-center justify-center shrink-0">
             <BookIcon className="w-5 h-5 text-(--theme-primary)" />
         </div>
@@ -412,33 +423,38 @@ const RecommendedCard = ({
                 {DIFFICULTY_LABEL[difficulty]}
             </span>
         </div>
-        <button className="text-gray-300 hover:text-gray-500 ml-auto shrink-0">
-            <DotsIcon className="w-4 h-4" />
-        </button>
-    </div>
+        <span className="text-(--theme-primary) ml-auto shrink-0">
+            <ArrowUpRightIcon className="w-4 h-4" />
+        </span>
+    </Link>
 );
 
 // ─── Course Card ──────────────────────────────────────────────────────────────
-const CourseCard = ({ title = "Materi", desc = "", topic = "" }) => (
-    <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer group flex flex-col">
+const CourseCard = ({ id, title = "Materi", desc = "", topic = "" }) => (
+    <Link
+        href={`/lessons?open=${id}`}
+        className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group flex flex-col"
+    >
         <MathThumbnail />
         <div className="p-4 flex flex-col flex-1">
             <p className="text-[10px] text-gray-400 mb-0.5">{topic}</p>
-            <h3 className="font-bold text-gray-800 text-sm mb-1">{title}</h3>
+            <h3 className="font-bold text-gray-800 text-sm mb-1 group-hover:text-(--theme-primary) transition-colors">
+                {title}
+            </h3>
             <p className="text-xs text-gray-500 leading-relaxed flex-1">
                 {desc}
             </p>
             <div className="mt-3">
-                <button
-                    className="flex items-center gap-1.5 text-white text-xs font-semibold px-3.5 py-2 rounded-full transition-colors"
+                <span
+                    className="flex items-center gap-1.5 text-white text-xs font-semibold px-3.5 py-2 rounded-full transition-opacity hover:opacity-90 w-fit"
                     style={{ background: "var(--theme-gradient)" }}
                 >
                     Selengkapnya
                     <ArrowUpRightIcon className="w-3 h-3" />
-                </button>
+                </span>
             </div>
         </div>
-    </div>
+    </Link>
 );
 
 // ─── Journey Table ────────────────────────────────────────────────────────────
@@ -508,7 +524,8 @@ const JourneyTable = ({ rows = [] }) => (
                                 <td className="px-5 py-3.5">
                                     <Link
                                         href={`/quiz/result/${row.id}`}
-                                        className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-(--theme-soft) hover:border-(--theme-secondary) transition-all group">
+                                        className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-(--theme-soft) hover:border-(--theme-secondary) transition-all group"
+                                    >
                                         <ArrowUpRightIcon className="w-3 h-3 text-gray-400 group-hover:text-(--theme-primary)" />
                                     </Link>
                                 </td>
@@ -588,34 +605,19 @@ export default function Dashboard({
                             <MenuIcon className="w-5 h-5" />
                         </button>
                         <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded-full bg-gray-900 flex items-center justify-center">
-                                <span className="text-white text-[10px] font-bold">
-                                    ✦
-                                </span>
+                            {/* Logo */}
+                            <div className="flex flex-1 items-center gap-2">
+                                <img
+                                    src={Logo}
+                                    alt="Logo"
+                                    className="w-24 md:w-32"
+                                />
                             </div>
-                            <span className="font-bold text-gray-900">
-                                Wariku
-                            </span>
                         </div>
                     </div>
 
                     {/* Scrollable content */}
                     <main className="flex-1 overflow-y-auto px-4 py-6 md:px-6 lg:px-8 space-y-7">
-                        {/* Search */}
-                        <div className="flex items-center">
-                            <div className="relative w-full">
-                                <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                                <input
-                                    type="text"
-                                    placeholder="Search your course here..."
-                                    className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-(--theme-secondary) focus:border-transparent transition-all shadow-sm"
-                                />
-                            </div>
-                            <div className="hidden md:block ml-6 w-48">
-                                <ProfileCard user={user} />
-                            </div>
-                        </div>
-
                         {/* Hero */}
                         <HeroBanner user={user?.name} themeDay={themeDay} />
 
@@ -632,6 +634,7 @@ export default function Dashboard({
                                     {recommendedMaterials.map((item) => (
                                         <RecommendedCard
                                             key={item.id}
+                                            materialId={item.material_id}
                                             title={item.title}
                                             difficulty={item.difficulty}
                                             topic={item.topic}
@@ -663,6 +666,7 @@ export default function Dashboard({
                                 {allMaterials.map((m) => (
                                     <CourseCard
                                         key={m.id}
+                                        id={m.id}
                                         title={m.title}
                                         desc={m.description}
                                         topic={m.topic}

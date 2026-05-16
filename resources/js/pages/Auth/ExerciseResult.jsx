@@ -100,7 +100,7 @@ const ScoreDonut = ({ score }) => {
                 <circle cx={CX} cy={CY} r={R} fill="none" stroke="#f3f4f6" strokeWidth={sw} />
                 <circle cx={CX} cy={CY} r={R} fill="none" stroke={stroke} strokeWidth={sw}
                     strokeDasharray={`${(score / 100) * circ} ${circ}`}
-                    strokeDashoffset={circ / 4} strokeLinecap="round"
+                    // strokeDashoffset={circ / 4} strokeLinecap="round"
                     style={{ transition: "stroke-dasharray 1s ease" }} />
                 <text x={CX} y={CY + 6} textAnchor="middle" fontSize="28" fontWeight="900" fill="#1f2937">
                     {score}
@@ -244,6 +244,22 @@ export default function ExerciseResult({
                         {/* ── RIGHT: Analysis & Recommendation (8 cols) ─────────── */}
                         <div className="lg:col-span-8 flex flex-col gap-5">
 
+                            {/* Performance strip */}
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                {[
+                                    { icon: TrophyIcon,      label: "Skor",            value: `${result.score}/100`,          color: "text-(--theme-primary)", bgStyle: "var(--theme-soft)" },
+                                    { icon: CheckCircleIcon, label: "Jawaban Benar",    value: `${result.correct_count} soal`, color: "text-green-600",          bgStyle: "#f0fdf4"           },
+                                    { icon: XCircleIcon,     label: "Jawaban Salah",    value: `${result.wrong_count} soal`,   color: "text-red-500",            bgStyle: "#fef2f2"           },
+                                    { icon: ClockIcon,       label: "Durasi",           value: result.duration,                color: "text-amber-600",          bgStyle: "#fffbeb"           },
+                                ].map(({ icon: Icon, label, value, color, bgStyle }) => (
+                                    <div key={label} className="rounded-2xl p-4 flex flex-col gap-1.5" style={{ backgroundColor: bgStyle }}>
+                                        <Icon className={`w-5 h-5 ${color}`} />
+                                        <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">{label}</p>
+                                        <p className={`text-sm font-black ${color}`}>{value}</p>
+                                    </div>
+                                ))}
+                            </div>
+                            
                             {/* Analysis card */}
                             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
                                 <div className="flex items-start gap-3 mb-4">
@@ -324,21 +340,7 @@ export default function ExerciseResult({
                                 </div>
                             )}
 
-                            {/* Performance strip */}
-                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                                {[
-                                    { icon: TrophyIcon,      label: "Skor",            value: `${result.score}/100`,          color: "text-(--theme-primary)", bgStyle: "var(--theme-soft)" },
-                                    { icon: CheckCircleIcon, label: "Jawaban Benar",    value: `${result.correct_count} soal`, color: "text-green-600",          bgStyle: "#f0fdf4"           },
-                                    { icon: XCircleIcon,     label: "Jawaban Salah",    value: `${result.wrong_count} soal`,   color: "text-red-500",            bgStyle: "#fef2f2"           },
-                                    { icon: ClockIcon,       label: "Durasi",           value: result.duration,                color: "text-amber-600",          bgStyle: "#fffbeb"           },
-                                ].map(({ icon: Icon, label, value, color, bgStyle }) => (
-                                    <div key={label} className="rounded-2xl p-4 flex flex-col gap-1.5" style={{ backgroundColor: bgStyle }}>
-                                        <Icon className={`w-5 h-5 ${color}`} />
-                                        <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">{label}</p>
-                                        <p className={`text-sm font-black ${color}`}>{value}</p>
-                                    </div>
-                                ))}
-                            </div>
+
                         </div>
                     </div>
                 </div>
