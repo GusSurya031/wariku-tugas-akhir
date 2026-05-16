@@ -308,7 +308,7 @@ body {
 }
 .card-thumbnail {
     background: linear-gradient(135deg, #fef9e7, #fff7ed);
-    min-height: 160px;
+    min-height: 180px;
     display: flex;
     align-items: center;
     justify-content: center;

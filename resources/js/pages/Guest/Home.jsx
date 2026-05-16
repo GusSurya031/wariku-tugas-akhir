@@ -58,7 +58,8 @@ const features = [
             "Materi yang ditampilkan di sistem akan disesuaikan dengan performa kamu agar lebih adaptif",
         imageSrc: AssetCards1,
         imageAlt: "Materi Adaptif Preview",
-        colspan: 1,
+        colspan: true,
+        lgColspan: "lg:col-span-1",
     },
     {
         number: "02",
@@ -67,7 +68,8 @@ const features = [
             "Pendekatan holistik berbasis kearifan lokal Bali khususnya mengenai Wariga pada komponen wewaran",
         imageSrc: AssetCards2,
         imageAlt: "Budaya Lokal Bali Preview",
-        colspan: 2,
+        colspan: true,
+        lgColspan: "lg:col-span-2",
     },
     {
         number: "03",
@@ -76,7 +78,8 @@ const features = [
             "Setiap latihan yang kamu kerjakan dianalisis berdasarkan tingkat ketepatan dan waktu pengerjaan untuk dapat menentukan tingkat pemahamanmu",
         imageSrc: AssetCards3,
         imageAlt: "Analisis Performa Preview",
-        colspan:2,
+        colspan: true,
+        lgColspan: "lg:col-span-2",
     },
     {
         number: "04",
@@ -85,7 +88,8 @@ const features = [
             "Rekomendasi materi yang sesuai dari hasil performa kamu agar kamu masih bisa tetap belajar",
         imageSrc: AssetCards4,
         imageAlt: "Rekomendasi Cerdas Preview",
-        colspan: 1,
+        colspan: true,
+        lgColspan: "lg:col-span-1",
     },
 ];
 
@@ -274,9 +278,9 @@ export default function Home() {
                     </div>
 
                     {/* Feature Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {features.map((feature, idx) => (
-                            <ItemFadeIn key={idx} delay={idx * 0.15} className={`lg:${feature.colspan === 2 ? "col-span-2" : "col-span-1"}`}>
+                            <ItemFadeIn key={idx} delay={idx * 0.15} className={`${feature.colspan === true ? feature.lgColspan : ""}`}>
                                 <div
                                     className="bg-white h-full rounded-2xl p-6 flex flex-col gap-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
                                 >
@@ -293,7 +297,7 @@ export default function Home() {
                                     </div>
 
                                     {/* Description */}
-                                    <p className="text-gray-600 text-sm leading-relaxed text-justify">
+                                    <p className="text-gray-600 leading-relaxed text-justify">
                                         {feature.description}
                                     </p>
 
@@ -314,7 +318,7 @@ export default function Home() {
 
             {/* ══════════════════════════════════════════ QUOTE ══ */}
             <section className="py-16 md:py-20 relative overflow-hidden bg-[#F4F3F0]">
-                <div className="mx-12 px-6 sm:px-8 lg:px-16 text-center relative z-10">
+                <div className="max-w-360 mx-auto px-6 sm:px-8 lg:px-16 text-center relative z-10">
                     <img
                         src={VectorDot}
                         alt=""
@@ -343,7 +347,7 @@ export default function Home() {
 
             {/* ══════════════════════════════════════════ CTA BANNER ══ */}
             <section className="py-16 md:py-20 ">
-                <div className="max-w-360 mx-auto md:mx-16 px-4 sm:px-6 lg:px-16 bg-linear-to-r from-[#274F8E] to-[#4388F4] md:rounded-2xl shadow-lg">
+                <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-16 bg-linear-to-r from-[#274F8E] to-[#4388F4] md:rounded-2xl shadow-lg">
                     <div className="grid grid-cols-2 relative min-h-56 md:min-h-96">
                         <ItemFadeIn
                             direction="left"
@@ -378,7 +382,7 @@ export default function Home() {
 
             {/* ══════════════════════════════════════════ BOTTOM CARDS ══ */}
             <section className="py-16 md:py-20 bg-white">
-                <div className="max-w-360 mx-6 md:mx-16">
+                <div className="max-w-360 mx-auto">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         {/* Lihat Materi */}
                         <ItemFadeIn direction="left">

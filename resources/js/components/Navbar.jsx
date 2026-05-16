@@ -20,7 +20,7 @@ export default function Navbar() {
 
 
     return (
-        <nav className="fixed top-5 left-5 right-5 md:left-16 md:right-16 z-50 transition-all duration-300">
+        <nav className=" max-w-360 mx-auto fixed top-5 left-5 right-5 md:left-8 md:right-8  lg:left-16 lg:right-16 z-50 transition-all duration-300">
             <div
                 className={`mx-auto px-4 rounded-lg ${scrolled ? "bg-white/80 backdrop-blur-md shadow-md" : menuOpen ? "bg-white/80" : "bg-transparent"}`}
             >
@@ -31,7 +31,7 @@ export default function Navbar() {
                     </div>
 
                     {/* Desktop Nav */}
-                    <div className="hidden md:flex  items-center gap-14">
+                    <div className="hidden md:flex  items-center gap-8 lg:gap-14">
                         {navItems.map((item) => (
                             <Link
                                 key={item.name}

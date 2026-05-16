@@ -1,8 +1,13 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Link, router } from "@inertiajs/react";
+import ItemFadeIn from "@/components/ItemFadeIn";
 import Navbar from "@/components/Navbar";
+import useInView from "@/components/useInView";
 import Footer from "@/components/Footer";
 import "@/../css/app.css";
+import LineHero from "@/assets/icon/LineHero";
+import LineElement from "@/assets/icon/ellipse.svg";
+import ThumbnailCard from "@/assets/images/thumbnail_card.png";
 
 // ─────────────────────────────────────────────
 //  Global Styles
@@ -77,7 +82,7 @@ const GlobalStyles = () => (
 
     /* Tool/Method item */
     .tool-item {
-      display: flex; align-items: flex-start; gap: 12px;
+      display: flex; gap: 12px;
       padding: 12px 0; border-bottom: 1px solid #F3F4F6;
     }
     .tool-item:last-child { border-bottom: none; }
@@ -129,165 +134,53 @@ const GlobalStyles = () => (
 );
 
 // ─────────────────────────────────────────────
-//  Shared: useInView
-// ─────────────────────────────────────────────
-function useInView(threshold = 0.12) {
-    const ref = useRef(null);
-    const [visible, setVisible] = useState(false);
-    useEffect(() => {
-        const obs = new IntersectionObserver(
-            ([e]) => {
-                if (e.isIntersecting) setVisible(true);
-            },
-            { threshold },
-        );
-        if (ref.current) obs.observe(ref.current);
-        return () => obs.disconnect();
-    }, []);
-    return [ref, visible];
-}
-
-// ─────────────────────────────────────────────
-//  Math Thumbnail (same as MaterialPage)
-// ─────────────────────────────────────────────
-const MathThumbnail = ({ size = "md" }) => {
-    const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
-    const ops = ["+", "−", "×", "÷"];
-    const colors = [
-        "#EF4444",
-        "#3B82F6",
-        "#10B981",
-        "#F59E0B",
-        "#8B5CF6",
-        "#EC4899",
-        "#06B6D4",
-    ];
-    const sz = size === "lg" ? 1.4 : size === "sm" ? 0.75 : 1;
-    return (
-        <div
-            style={{
-                width: `${160 * sz}px`,
-                height: `${120 * sz}px`,
-                position: "relative",
-                userSelect: "none",
-            }}
-        >
-            {numbers.map((n, i) => (
-                <div
-                    key={n}
-                    style={{
-                        position: "absolute",
-                        fontSize: `${(14 + (i % 3) * 4) * sz}px`,
-                        fontWeight: 900,
-                        color: colors[i % colors.length],
-                        left: `${(i * 17) % 80}%`,
-                        top: `${(i * 23 + 5) % 70}%`,
-                        textShadow: "0 2px 4px rgba(0,0,0,0.12)",
-                        transform: `rotate(${i * 13 - 20}deg)`,
-                        lineHeight: 1,
-                    }}
-                >
-                    {n}
-                </div>
-            ))}
-            {ops.map((op, i) => (
-                <div
-                    key={op}
-                    style={{
-                        position: "absolute",
-                        fontSize: `${11 * sz}px`,
-                        fontWeight: 700,
-                        color: colors[(i + 3) % colors.length],
-                        left: `${(i * 19 + 5) % 85}%`,
-                        top: `${(i * 17 + 15) % 75}%`,
-                        transform: `rotate(${i * -11}deg)`,
-                    }}
-                >
-                    {op}
-                </div>
-            ))}
-            <div
-                style={{
-                    position: "absolute",
-                    bottom: "8%",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    fontSize: `${22 * sz}px`,
-                    fontWeight: 900,
-                    color: "#1D4ED8",
-                    textShadow: `2px 2px 0 #93C5FD, -1px -1px 0 #BFDBFE`,
-                    letterSpacing: "3px",
-                    whiteSpace: "nowrap",
-                }}
-            >
-                MATH
-            </div>
-        </div>
-    );
-};
-
-// ─────────────────────────────────────────────
 //  Reusable: MaterialCard (same as MaterialPage)
 // ─────────────────────────────────────────────
 const MaterialCard = ({
-    title,
-    description,
-    category,
+    title = "Penjumlahan Dasar",
+    description = "Pelajari konsep dasar penjumlahan sebagai fondasi dalam memahami operasi matematika.",
+    category = "Dasar",
     categoryColor = "#D97706",
     level = 1,
     duration = "30 Menit",
+    thumbnail = ThumbnailCard,
     onSelect,
     delay = 0,
 }) => {
     const [ref, visible] = useInView(0.1);
     const levelDots = [1, 2, 3];
+
     return (
         <div
             ref={ref}
-            className="material-card fade-in-ready"
+            className="material-card"
             style={{
                 transitionDelay: `${delay}s`,
                 opacity: visible ? 1 : 0,
-                transform: visible ? "none" : "translateY(24px)",
+                transform: visible ? "translateY(0)" : "translateY(24px)",
             }}
             onClick={onSelect}
             role="button"
             tabIndex={0}
+            onKeyDown={(e) => e.key === "Enter" && onSelect?.()}
         >
-            <div className="card-thumbnail">
-                <MathThumbnail />
+            {/* Thumbnail */}
+            <div
+                className="card-thumbnail"
+                style={{ background: `url(${thumbnail}) center/cover` }}
+            >
+                {/* <img src={thumbnail} alt="" className="w-3/4 h-full object-fit" /> */}
+
+                {/* Category badge */}
                 <div
-                    style={{
-                        position: "absolute",
-                        top: 12,
-                        left: 12,
-                        background: categoryColor,
-                        color: "#fff",
-                        borderRadius: 999,
-                        padding: "3px 10px",
-                        fontSize: 11,
-                        fontWeight: 700,
-                    }}
+                    className="absolute top-3 left-3 text-white rounded-full px-[10px] py-[3px] text-[11px] font-bold tracking-wide"
+                    style={{ background: categoryColor }}
                 >
                     {category}
                 </div>
-                <div
-                    style={{
-                        position: "absolute",
-                        top: 12,
-                        right: 12,
-                        background: "rgba(255,255,255,0.9)",
-                        backdropFilter: "blur(4px)",
-                        borderRadius: 999,
-                        padding: "3px 10px",
-                        fontSize: 11,
-                        fontWeight: 600,
-                        color: "#374151",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 4,
-                    }}
-                >
+
+                {/* Duration badge */}
+                <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full px-[10px] py-[3px] text-[11px] font-semibold text-gray-700 flex items-center gap-1">
                     <svg
                         width="11"
                         height="11"
@@ -302,27 +195,21 @@ const MaterialCard = ({
                     {duration}
                 </div>
             </div>
-            <div style={{ padding: "16px 18px 18px" }}>
-                <div style={{ display: "flex", gap: 4, marginBottom: 8 }}>
+
+            {/* Body */}
+            <div className="px-[18px] pt-4 pb-[18px]">
+                {/* Difficulty dots */}
+                <div className="flex items-center gap-1 mb-2">
                     {levelDots.map((d) => (
                         <div
                             key={d}
+                            className="w-2 h-2 rounded-full"
                             style={{
-                                width: 8,
-                                height: 8,
-                                borderRadius: "50%",
                                 background: d <= level ? "#F59E0B" : "#E5E7EB",
                             }}
                         />
                     ))}
-                    <span
-                        style={{
-                            fontSize: 11,
-                            color: "#9CA3AF",
-                            marginLeft: 4,
-                            fontWeight: 500,
-                        }}
-                    >
+                    <span className="text-[11px] text-gray-400 ml-1 font-medium">
                         {level === 1
                             ? "Pemula"
                             : level === 2
@@ -330,29 +217,16 @@ const MaterialCard = ({
                               : "Lanjut"}
                     </span>
                 </div>
-                <h3
-                    style={{
-                        fontSize: 15,
-                        fontWeight: 800,
-                        color: "#111827",
-                        marginBottom: 6,
-                        lineHeight: 1.3,
-                    }}
-                >
+
+                <h3 className="text-[15px] font-extrabold text-gray-900 mb-1.5 leading-tight">
                     {title}
                 </h3>
-                <p
-                    style={{
-                        fontSize: 12.5,
-                        color: "#6B7280",
-                        lineHeight: 1.6,
-                        marginBottom: 14,
-                    }}
-                >
+                <p className="text-[12.5px] text-gray-500 leading-relaxed mb-3.5">
                     {description}
                 </p>
+
                 <button className="card-btn">
-                    Selengkapnya{" "}
+                    Selengkapnya
                     <svg
                         width="12"
                         height="12"
@@ -369,15 +243,18 @@ const MaterialCard = ({
     );
 };
 
-
 // ─────────────────────────────────────────────
 //  Helpers
 // ─────────────────────────────────────────────
-const TOPIC_COLOR      = { geometri: "#16A34A", statistik: "#7C3AED" };
-const TOPIC_LABEL      = { geometri: "Geometri", statistik: "Statistik" };
+const TOPIC_COLOR = { geometri: "#16A34A", statistik: "#7C3AED" };
+const TOPIC_LABEL = { geometri: "Geometri", statistik: "Statistik" };
 const DIFFICULTY_LABEL = { easy: "Pemula", medium: "Menengah", hard: "Lanjut" };
-const DIFFICULTY_ABBR  = { easy: "P", medium: "M", hard: "L" };
-const DIFFICULTY_COLOR = { easy: "#10B981", medium: "#F59E0B", hard: "#EF4444" };
+const DIFFICULTY_ABBR = { easy: "P", medium: "M", hard: "L" };
+const DIFFICULTY_COLOR = {
+    easy: "#10B981",
+    medium: "#F59E0B",
+    hard: "#EF4444",
+};
 
 const STATIC_TOOLS = [
     { icon: "📝", label: "Alat tulis untuk mencatat dan berhitung" },
@@ -396,139 +273,47 @@ const STATIC_METHODS = [
 // ─────────────────────────────────────────────
 const DeskripsiTab = ({ material }) => {
     const [ref, visible] = useInView(0.05);
+
     return (
         <div
             ref={ref}
-            className="tab-content content-cols"
-            style={{
-                display: "flex",
-                gap: 40,
-                alignItems: "flex-start",
-                flexWrap: "wrap",
-            }}
+            className="tab-content grid grid-cols-1 gap-10 lg:grid-cols-12"
         >
             {/* Left: description */}
-            <div style={{ flex: "1 1 340px", minWidth: 0 }}>
-                <h2
-                    style={{
-                        fontSize: "clamp(1.3rem,2.5vw,1.6rem)",
-                        fontWeight: 900,
-                        color: "#111827",
-                        marginBottom: 20,
-                    }}
-                >
+            <div className="min-w-0 lg:col-span-8">
+                <h2 className="mb-5 text-[clamp(1.3rem,2.5vw,1.6rem)] font-black text-gray-900">
                     Tentang Materi Ini
                 </h2>
+
                 {material.description.map((p, i) => (
                     <p
                         key={i}
-                        style={{
-                            color: "#6B7280",
-                            fontSize: 14,
-                            lineHeight: 1.85,
-                            marginBottom: 16,
-                        }}
+                        className="mb-4 text-sm leading-[1.85] text-gray-500"
                     >
                         {p}
                     </p>
                 ))}
-
-                {/* Progress bar */}
-                <div
-                    style={{
-                        marginTop: 28,
-                        padding: "18px 20px",
-                        background: "#FFFBEB",
-                        borderRadius: 16,
-                        border: "1px solid #FDE68A",
-                    }}
-                >
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            marginBottom: 10,
-                        }}
-                    >
-                        <span
-                            style={{
-                                fontSize: 13,
-                                fontWeight: 700,
-                                color: "#92400E",
-                            }}
-                        >
-                            Progress Belajar
-                        </span>
-                        <span
-                            style={{
-                                fontSize: 13,
-                                fontWeight: 800,
-                                color: "#D97706",
-                            }}
-                        >
-                            {material.progress}%
-                        </span>
-                    </div>
-                    <div className="progress-bar-wrap">
-                        <div
-                            className="progress-bar-fill"
-                            style={{
-                                width: visible ? `${material.progress}%` : "0%",
-                            }}
-                        />
-                    </div>
-                    <p style={{ fontSize: 12, color: "#B45309", marginTop: 8 }}>
-                        {Math.round(
-                            (material.totalTopics * material.progress) / 100,
-                        )}{" "}
-                        dari {material.totalTopics} topik selesai
-                    </p>
-                </div>
             </div>
 
             {/* Right: sidebar */}
-            <div
-                style={{
-                    flex: "0 0 280px",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 20,
-                }}
-            >
+            <div className="flex flex-col gap-5 lg:col-span-4">
                 {/* Tools */}
                 <div className="sidebar-card">
-                    <h3
-                        style={{
-                            fontSize: 15,
-                            fontWeight: 800,
-                            color: "#111827",
-                            marginBottom: 6,
-                        }}
-                    >
+                    <h3 className="mb-1.5 text-[15px] font-extrabold text-gray-900">
                         Peralatan Belajar
                     </h3>
-                    <p
-                        style={{
-                            fontSize: 12.5,
-                            color: "#9CA3AF",
-                            marginBottom: 16,
-                        }}
-                    >
+
+                    <p className="text-[12.5px] text-gray-400">
                         Sebelum memulai, pastikan kamu telah menyiapkan:
                     </p>
+
                     {material.tools.map((t, i) => (
-                        <div key={i} className="tool-item">
-                            <span style={{ fontSize: 20, flexShrink: 0 }}>
+                        <div key={i} className="tool-item items-center">
+                            <span className="shrink-0 text-xl">
                                 {t.icon}
                             </span>
-                            <span
-                                style={{
-                                    fontSize: 13,
-                                    color: "#374151",
-                                    lineHeight: 1.5,
-                                }}
-                            >
+
+                            <span className="text-[13px] leading-normal text-gray-700">
                                 {t.label}
                             </span>
                         </div>
@@ -537,50 +322,21 @@ const DeskripsiTab = ({ material }) => {
 
                 {/* Methods */}
                 <div className="sidebar-card">
-                    <h3
-                        style={{
-                            fontSize: 15,
-                            fontWeight: 800,
-                            color: "#111827",
-                            marginBottom: 6,
-                        }}
-                    >
+                    <h3 className="mb-1.5 text-[15px] font-extrabold text-gray-900">
                         Metode Pembelajaran
                     </h3>
-                    <p
-                        style={{
-                            fontSize: 12.5,
-                            color: "#9CA3AF",
-                            marginBottom: 16,
-                        }}
-                    >
+
+                    <p className="mb-4 text-[12.5px] text-gray-400">
                         Materi disampaikan melalui pendekatan bertahap yang
                         mencakup:
                     </p>
+
                     {material.methods.map((m, i) => (
                         <div
                             key={i}
-                            style={{
-                                display: "flex",
-                                alignItems: "flex-start",
-                                gap: 10,
-                                marginBottom: 12,
-                            }}
+                            className="mb-3 flex items-start gap-2.5"
                         >
-                            <div
-                                style={{
-                                    width: 20,
-                                    height: 20,
-                                    borderRadius: "50%",
-                                    background: "#D1FAE5",
-                                    border: "2px solid #10B981",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    flexShrink: 0,
-                                    marginTop: 1,
-                                }}
-                            >
+                            <div className="mt-px flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 border-emerald-500 bg-emerald-100">
                                 <svg
                                     width="10"
                                     height="10"
@@ -592,47 +348,13 @@ const DeskripsiTab = ({ material }) => {
                                     <path d="M20 6L9 17l-5-5" />
                                 </svg>
                             </div>
-                            <span
-                                style={{
-                                    fontSize: 13,
-                                    color: "#374151",
-                                    lineHeight: 1.5,
-                                }}
-                            >
+
+                            <span className="text-[13px] leading-normal text-gray-700">
                                 {m}
                             </span>
                         </div>
                     ))}
                 </div>
-
-                {/* CTA Start */}
-                <button
-                    style={{
-                        width: "100%",
-                        padding: "14px 0",
-                        borderRadius: 999,
-                        background: "linear-gradient(135deg,#F59E0B,#FBBF24)",
-                        color: "#fff",
-                        fontWeight: 800,
-                        fontSize: 15,
-                        border: "none",
-                        cursor: "pointer",
-                        boxShadow: "0 6px 20px rgba(245,158,11,0.35)",
-                        transition: "transform 0.2s, box-shadow 0.2s",
-                    }}
-                    onMouseEnter={(e) => {
-                        e.target.style.transform = "translateY(-2px)";
-                        e.target.style.boxShadow =
-                            "0 10px 28px rgba(245,158,11,0.45)";
-                    }}
-                    onMouseLeave={(e) => {
-                        e.target.style.transform = "none";
-                        e.target.style.boxShadow =
-                            "0 6px 20px rgba(245,158,11,0.35)";
-                    }}
-                >
-                    🚀 Mulai Belajar
-                </button>
             </div>
         </div>
     );
@@ -645,123 +367,60 @@ const SilabusTab = ({ syllabus }) => {
     const [openWeek, setOpenWeek] = useState(0);
 
     return (
-        <div
-            className="tab-content content-cols"
-            style={{
-                display: "flex",
-                gap: 40,
-                flexWrap: "wrap",
-                alignItems: "flex-start",
-            }}
-        >
+        <div className="tab-content grid grid-cols-1 gap-10 lg:grid-cols-12">
             {/* Accordion */}
-            <div style={{ flex: "1 1 340px", minWidth: 0 }}>
-                <h2
-                    style={{
-                        fontSize: "clamp(1.3rem,2.5vw,1.6rem)",
-                        fontWeight: 900,
-                        color: "#111827",
-                        marginBottom: 20,
-                    }}
-                >
+            <div className="min-w-0 lg:col-span-8">
+                <h2 className="mb-5 text-[clamp(1.3rem,2.5vw,1.6rem)] font-black text-gray-900">
                     Silabus Materi
                 </h2>
-                <div
-                    style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 12,
-                    }}
-                >
+
+                <div className="flex flex-col gap-3">
                     {syllabus.map((week, wi) => {
                         const isOpen = openWeek === wi;
-                        const doneCount = week.topics.filter(
-                            (t) => t.done,
-                        ).length;
+                        const doneCount = week.topics.filter((t) => t.done).length;
+
                         return (
                             <div
                                 key={wi}
-                                style={{
-                                    border: `1.5px solid ${isOpen ? (week.color ?? "#FBBF24") : "#F0EDE6"}`,
-                                    borderRadius: 16,
-                                    overflow: "hidden",
-                                    background: isOpen ? "#FFFBEB" : "#fff",
-                                    transition: "all 0.2s",
-                                }}
+                                className={`overflow-hidden rounded-2xl border-[1.5px] transition-all duration-200 ${
+                                    isOpen
+                                        ? "border-amber-300 bg-amber-50"
+                                        : "border-[#F0EDE6] bg-white"
+                                }`}
                             >
-                                {/* Week header */}
                                 <button
-                                    onClick={() =>
-                                        setOpenWeek(isOpen ? -1 : wi)
-                                    }
-                                    style={{
-                                        width: "100%",
-                                        padding: "16px 20px",
-                                        background: "transparent",
-                                        border: "none",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "space-between",
-                                        cursor: "pointer",
-                                        textAlign: "left",
-                                    }}
+                                    onClick={() => setOpenWeek(isOpen ? -1 : wi)}
+                                    className="flex w-full cursor-pointer items-center justify-between border-none bg-transparent px-5 py-4 text-left"
                                 >
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            gap: 14,
-                                        }}
-                                    >
+                                    <div className="flex items-center gap-3.5">
                                         <div
-                                            style={{
-                                                width: 36,
-                                                height: 36,
-                                                borderRadius: 10,
-                                                background: isOpen
-                                                    ? (week.color ?? "#F59E0B")
-                                                    : "#F3F4F6",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                flexShrink: 0,
-                                                transition: "background 0.2s",
-                                            }}
+                                            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] transition-colors duration-200 ${
+                                                isOpen
+                                                    ? "bg-amber-500"
+                                                    : "bg-gray-100"
+                                            }`}
                                         >
                                             <span
-                                                style={{
-                                                    fontWeight: 900,
-                                                    fontSize: 13,
-                                                    color: isOpen
-                                                        ? "#fff"
-                                                        : "#6B7280",
-                                                }}
+                                                className={`text-[13px] font-black ${
+                                                    isOpen
+                                                        ? "text-white"
+                                                        : "text-gray-500"
+                                                }`}
                                             >
                                                 {week.abbr ?? week.week}
                                             </span>
                                         </div>
+
                                         <div>
-                                            <div
-                                                style={{
-                                                    fontWeight: 800,
-                                                    fontSize: 14,
-                                                    color: "#111827",
-                                                }}
-                                            >
+                                            <div className="text-sm font-extrabold text-gray-900">
                                                 {week.title}
                                             </div>
-                                            <div
-                                                style={{
-                                                    fontSize: 12,
-                                                    color: "#9CA3AF",
-                                                    marginTop: 2,
-                                                }}
-                                            >
-                                                {doneCount}/{week.topics.length}{" "}
-                                                topik selesai
+                                            <div className="mt-0.5 text-xs text-gray-400">
+                                                {doneCount}/{week.topics.length} topik selesai
                                             </div>
                                         </div>
                                     </div>
+
                                     <svg
                                         width="18"
                                         height="18"
@@ -769,144 +428,38 @@ const SilabusTab = ({ syllabus }) => {
                                         fill="none"
                                         stroke="#9CA3AF"
                                         strokeWidth="2.5"
-                                        style={{
-                                            transform: isOpen
-                                                ? "rotate(180deg)"
-                                                : "none",
-                                            transition: "transform 0.3s",
-                                            flexShrink: 0,
-                                        }}
+                                        className={`shrink-0 transition-transform duration-300 ${
+                                            isOpen ? "rotate-180" : ""
+                                        }`}
                                     >
                                         <path d="M6 9l6 6 6-6" />
                                     </svg>
                                 </button>
 
-                                {/* Topics */}
                                 {isOpen && (
-                                    <div
-                                        style={{
-                                            padding: "0 14px 14px",
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            gap: 8,
-                                        }}
-                                    >
+                                    <div className="flex flex-col gap-2 px-3.5 pb-3.5">
                                         {week.topics.map((topic, ti) => (
                                             <div
                                                 key={topic.id}
-                                                className={`syllabus-item ${topic.done ? "done" : ""}`}
+                                                className={`syllabus-item ${
+                                                    topic.done ? "done" : ""
+                                                }`}
                                                 style={{
                                                     transitionDelay: `${ti * 0.05}s`,
                                                 }}
                                             >
-                                                {/* Index or check */}
                                                 <div
-                                                    style={{
-                                                        width: 28,
-                                                        height: 28,
-                                                        borderRadius: 8,
-                                                        background: topic.done
-                                                            ? "#D1FAE5"
-                                                            : "#F3F4F6",
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        justifyContent:
-                                                            "center",
-                                                        flexShrink: 0,
-                                                    }}
+                                                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-gray-100"
                                                 >
-                                                    {topic.done ? (
-                                                        <svg
-                                                            width="13"
-                                                            height="13"
-                                                            viewBox="0 0 24 24"
-                                                            fill="none"
-                                                            stroke="#10B981"
-                                                            strokeWidth="3"
-                                                        >
-                                                            <path d="M20 6L9 17l-5-5" />
-                                                        </svg>
-                                                    ) : (
-                                                        <span
-                                                            style={{
-                                                                fontSize: 12,
-                                                                fontWeight: 700,
-                                                                color: "#9CA3AF",
-                                                            }}
-                                                        >
+                                                        <span className="text-xs font-bold text-gray-400">
                                                             {ti + 1}
                                                         </span>
-                                                    )}
                                                 </div>
-                                                <div style={{ flex: 1 }}>
-                                                    <div
-                                                        style={{
-                                                            fontSize: 13,
-                                                            fontWeight: 700,
-                                                            color: topic.done
-                                                                ? "#059669"
-                                                                : "#374151",
-                                                        }}
-                                                    >
+
+                                                <div className="flex-1">
+                                                    <div className="text-[13px] font-bold text-gray-700">
                                                         {topic.title}
                                                     </div>
-                                                </div>
-                                                <div
-                                                    style={{
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        gap: 4,
-                                                        flexShrink: 0,
-                                                    }}
-                                                >
-                                                    <svg
-                                                        width="11"
-                                                        height="11"
-                                                        viewBox="0 0 24 24"
-                                                        fill="none"
-                                                        stroke="#9CA3AF"
-                                                        strokeWidth="2"
-                                                    >
-                                                        <circle
-                                                            cx="12"
-                                                            cy="12"
-                                                            r="10"
-                                                        />
-                                                        <path d="M12 6v6l4 2" />
-                                                    </svg>
-                                                    <span
-                                                        style={{
-                                                            fontSize: 11,
-                                                            color: "#9CA3AF",
-                                                            fontWeight: 600,
-                                                        }}
-                                                    >
-                                                        {topic.duration}
-                                                    </span>
-                                                </div>
-                                                <div
-                                                    style={{
-                                                        width: 28,
-                                                        height: 28,
-                                                        borderRadius: 8,
-                                                        background: "#F3F4F6",
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        justifyContent:
-                                                            "center",
-                                                        flexShrink: 0,
-                                                    }}
-                                                >
-                                                    <svg
-                                                        width="12"
-                                                        height="12"
-                                                        viewBox="0 0 24 24"
-                                                        fill="none"
-                                                        stroke="#6B7280"
-                                                        strokeWidth="2.5"
-                                                    >
-                                                        <path d="M9 18l6-6-6-6" />
-                                                    </svg>
                                                 </div>
                                             </div>
                                         ))}
@@ -919,181 +472,39 @@ const SilabusTab = ({ syllabus }) => {
             </div>
 
             {/* Right: summary sidebar */}
-            <div
-                style={{
-                    flex: "0 0 260px",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 20,
-                }}
-            >
-                {/* Summary stats */}
+            <div className="flex flex-col gap-5 lg:col-span-4">
                 <div className="sidebar-card">
-                    <h3
-                        style={{
-                            fontSize: 15,
-                            fontWeight: 800,
-                            color: "#111827",
-                            marginBottom: 16,
-                        }}
-                    >
+                    <h3 className="mb-4 text-[15px] font-extrabold text-gray-900">
                         Ringkasan Silabus
                     </h3>
+
                     {[
-                        {
-                            label: "Total Level",
-                            value: syllabus.length,
-                            icon: "🎯",
-                        },
+                        { label: "Total Level", value: syllabus.length, icon: "🎯" },
                         {
                             label: "Total Topik",
-                            value: syllabus.reduce(
-                                (a, w) => a + w.topics.length,
-                                0,
-                            ),
+                            value: syllabus.reduce((a, w) => a + w.topics.length, 0),
                             icon: "📖",
                         },
-                        {
-                            label: "Topik Selesai",
-                            value: syllabus.reduce(
-                                (a, w) =>
-                                    a + w.topics.filter((t) => t.done).length,
-                                0,
-                            ),
-                            icon: "✅",
-                        },
-                        {
-                            label: "Estimasi Waktu",
-                            value: "~85 Mnt",
-                            icon: "⏱️",
-                        },
+                        { label: "Estimasi Waktu", value: "~85 Mnt", icon: "⏱️" },
                     ].map((s, i) => (
                         <div
                             key={i}
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 12,
-                                padding: "10px 0",
-                                borderBottom:
-                                    i < 3 ? "1px solid #F3F4F6" : "none",
-                            }}
+                            className={`flex items-center gap-3 py-2.5 ${
+                                i < 3 ? "border-b border-gray-100" : ""
+                            }`}
                         >
-                            <span style={{ fontSize: 18 }}>{s.icon}</span>
-                            <div style={{ flex: 1 }}>
-                                <div
-                                    style={{
-                                        fontSize: 11,
-                                        color: "#9CA3AF",
-                                        fontWeight: 500,
-                                    }}
-                                >
+                            <span className="text-lg">{s.icon}</span>
+                            <div className="flex-1">
+                                <div className="text-[11px] font-medium text-gray-400">
                                     {s.label}
                                 </div>
-                                <div
-                                    style={{
-                                        fontSize: 16,
-                                        fontWeight: 800,
-                                        color: "#111827",
-                                    }}
-                                >
+                                <div className="text-base font-extrabold text-gray-900">
                                     {s.value}
                                 </div>
                             </div>
                         </div>
                     ))}
                 </div>
-
-                {/* Legend */}
-                <div className="sidebar-card">
-                    <h3
-                        style={{
-                            fontSize: 14,
-                            fontWeight: 800,
-                            color: "#111827",
-                            marginBottom: 12,
-                        }}
-                    >
-                        Keterangan Status
-                    </h3>
-                    {[
-                        {
-                            color: "#D1FAE5",
-                            border: "#10B981",
-                            icon: (
-                                <svg
-                                    width="10"
-                                    height="10"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="#10B981"
-                                    strokeWidth="3"
-                                >
-                                    <path d="M20 6L9 17l-5-5" />
-                                </svg>
-                            ),
-                            label: "Topik selesai",
-                        },
-                        {
-                            color: "#F3F4F6",
-                            border: "#E5E7EB",
-                            icon: null,
-                            label: "Belum dikerjakan",
-                        },
-                    ].map((l, i) => (
-                        <div
-                            key={i}
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 10,
-                                marginBottom: i === 0 ? 10 : 0,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    width: 22,
-                                    height: 22,
-                                    borderRadius: 6,
-                                    background: l.color,
-                                    border: `1.5px solid ${l.border}`,
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                }}
-                            >
-                                {l.icon}
-                            </div>
-                            <span style={{ fontSize: 12.5, color: "#6B7280" }}>
-                                {l.label}
-                            </span>
-                        </div>
-                    ))}
-                </div>
-
-                <button
-                    style={{
-                        width: "100%",
-                        padding: "14px 0",
-                        borderRadius: 999,
-                        background: "linear-gradient(135deg,#F59E0B,#FBBF24)",
-                        color: "#fff",
-                        fontWeight: 800,
-                        fontSize: 15,
-                        border: "none",
-                        cursor: "pointer",
-                        boxShadow: "0 6px 20px rgba(245,158,11,0.35)",
-                        transition: "transform 0.2s",
-                    }}
-                    onMouseEnter={(e) => {
-                        e.target.style.transform = "translateY(-2px)";
-                    }}
-                    onMouseLeave={(e) => {
-                        e.target.style.transform = "none";
-                    }}
-                >
-                    🚀 Lanjutkan Belajar
-                </button>
             </div>
         </div>
     );
@@ -1117,24 +528,30 @@ export default function DetailMaterialPage({ material = {}, related = [] }) {
     const descParagraphs = useMemo(() => {
         const raw = material.description ?? "";
         const parts = raw.split(/\n\n+/).filter(Boolean);
-        return parts.length > 0 ? parts : (raw ? [raw] : ["Deskripsi belum tersedia."]);
+        return parts.length > 0
+            ? parts
+            : raw
+              ? [raw]
+              : ["Deskripsi belum tersedia."];
     }, [material.description]);
 
     // One accordion section per difficulty variant
-    const silabusData = useMemo(() =>
-        variants.map((v, i) => ({
-            week:   i + 1,
-            abbr:   DIFFICULTY_ABBR[v.difficulty] ?? `${i + 1}`,
-            color:  DIFFICULTY_COLOR[v.difficulty] ?? "#F59E0B",
-            title:  DIFFICULTY_LABEL[v.difficulty] ?? v.difficulty,
-            topics: (v.chapters ?? []).map((c) => ({
-                id:       c.id,
-                title:    c.title,
-                duration: "—",
-                done:     false,
+    const silabusData = useMemo(
+        () =>
+            variants.map((v, i) => ({
+                week: i + 1,
+                abbr: DIFFICULTY_ABBR[v.difficulty] ?? `${i + 1}`,
+                color: DIFFICULTY_COLOR[v.difficulty] ?? "#F59E0B",
+                title: DIFFICULTY_LABEL[v.difficulty] ?? v.difficulty,
+                topics: (v.chapters ?? []).map((c) => ({
+                    id: c.id,
+                    title: c.title,
+                    duration: "—",
+                    done: false,
+                })),
             })),
-        })),
-    [variants]);
+        [variants],
+    );
 
     const materialForTab = {
         description: descParagraphs,
@@ -1144,169 +561,229 @@ export default function DetailMaterialPage({ material = {}, related = [] }) {
         methods: STATIC_METHODS,
     };
 
-    const topicKey    = material.topic?.toLowerCase() ?? "";
-    const catLabel    = TOPIC_LABEL[topicKey] ?? material.topic ?? "—";
-    const catColor    = TOPIC_COLOR[topicKey] ?? "#D97706";
-    const diffLabel   = DIFFICULTY_LABEL[material.difficulty] ?? "Pemula";
+    const topicKey = material.topic?.toLowerCase() ?? "";
+    const catLabel = TOPIC_LABEL[topicKey] ?? material.topic ?? "—";
+    const catColor = TOPIC_COLOR[topicKey] ?? "#D97706";
+    const diffLabel = DIFFICULTY_LABEL[material.difficulty] ?? "Pemula";
 
     const relatedNorm = related.map((m) => ({
         ...m,
-        category:      TOPIC_LABEL[m.topic?.toLowerCase()] ?? m.topic,
+        category: TOPIC_LABEL[m.topic?.toLowerCase()] ?? m.topic,
         categoryColor: TOPIC_COLOR[m.topic?.toLowerCase()] ?? "#D97706",
-        level:         1,
+        level: 1,
     }));
 
     return (
         <div style={{ minHeight: "100vh", background: "#fafaf8" }}>
             <GlobalStyles />
+            <LineHero className="absolute " />
+
             <Navbar />
 
-            <div style={{ maxWidth: 1152, margin: "0 auto", padding: "88px 24px 0" }}>
-                {/* ══ HERO ══════════════════════════════════════ */}
-                <div
-                    ref={heroRef}
-                    className="hero-detail"
-                    style={{
-                        padding: "40px 40px 48px",
-                        marginBottom: 40,
-                        position: "relative",
-                        opacity: heroVisible ? 1 : 0,
-                        transform: heroVisible ? "none" : "translateY(24px)",
-                        transition: "opacity 0.7s ease, transform 0.7s ease",
-                    }}
-                >
-                    {/* Glow blobs */}
-                    <div className="glow-blob" style={{ width: 300, height: 300, background: "#FEF08A", top: -80, left: -60 }} />
-                    <div className="glow-blob" style={{ width: 200, height: 200, background: "#A5F3FC", bottom: -40, right: 200 }} />
-                    <div className="glow-blob" style={{ width: 160, height: 160, background: "#FCA5A5", top: 40, right: 50 }} />
+            {/* ══ HERO ════════════════════════════ */}
+            <section className="hero-bg relative">
+                <section className="relative z-10 overflow-hidden pt-28 pb-16 md:pt-36 md:pb-24">
+                    <div className="max-w-360 mx-auto px-6 sm:px-8 lg:px-16">
+                        <div className="flex flex-col md:flex-row gap-10 md:gap-20 md:justify-between items-center mb-14 relative">
+                            <ItemFadeIn
+                                direction="left"
+                                className="md:w-6/12 z-10"
+                            >
+                                {/* Back btn */}
+                                <Link
+                                    href="/material"
+                                    className="back-btn"
+                                    style={{
+                                        marginBottom: 28,
+                                        display: "inline-flex",
+                                        position: "relative",
+                                        zIndex: 1,
+                                    }}
+                                >
+                                    <svg
+                                        width="14"
+                                        height="14"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2.5"
+                                    >
+                                        <path d="M19 12H5M5 12l7 7M5 12l7-7" />
+                                    </svg>
+                                    Kembali
+                                </Link>
 
-                    {/* Back btn */}
-                    <Link
-                        href="/material"
-                        className="back-btn"
-                        style={{ marginBottom: 28, display: "inline-flex", position: "relative", zIndex: 1 }}
-                    >
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                            <path d="M19 12H5M5 12l7 7M5 12l7-7" />
-                        </svg>
-                        Kembali
-                    </Link>
+                                <h1 className="text-4xl md:text-5xl lg:text-6xl leading-snug font-serif mb-2">
+                                    <span className="inline-block relative">
+                                        {material.title ?? ""}
+                                        <img
+                                            src={LineElement}
+                                            alt="Line Element"
+                                            className="absolute -bottom-2 left-0 w-3/4 -z-10"
+                                        />
+                                    </span>
+                                </h1>
 
-                    <div
-                        className="hero-cols"
-                        style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32, position: "relative", zIndex: 1 }}
-                    >
-                        {/* Left text */}
-                        <div style={{ flex: "1 1 340px", minWidth: 0 }}>
-                            {/* Badges */}
-                            <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
-                                <span style={{ background: catColor, color: "#fff", borderRadius: 999, padding: "4px 14px", fontSize: 12, fontWeight: 700 }}>
+                                <p className="text-gray-500 text-base md:text-lg leading-relaxed">
+                                    {descParagraphs[0]}
+                                </p>
+                                <span
+                                    className="rounded-full px-6 py-2 text-sm font-bold"
+                                    style={{
+                                        background: catColor,
+                                        color: "#fff",
+                                        marginTop: 12,
+                                        display: "inline-block",
+                                    }}
+                                >
                                     {catLabel}
                                 </span>
-                                <span style={{ background: "#EFF6FF", color: "#1D4ED8", borderRadius: 999, padding: "4px 14px", fontSize: 12, fontWeight: 700, display: "flex", alignItems: "center", gap: 4 }}>
-                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" strokeWidth="2.5">
-                                        <circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" />
-                                    </svg>
-                                    {material.duration ?? "—"}
-                                </span>
-                            </div>
+                            </ItemFadeIn>
+                            <ItemFadeIn
+                                direction="right"
+                                className="md:w-1/2 flex justify-end"
+                            >
+                                <img
+                                    src={ThumbnailCard}
+                                    alt=""
+                                    className="rounded-2xl"
+                                />
+                            </ItemFadeIn>
+                        </div>
+                    </div>
+                </section>
+            </section>
 
-                            {/* Title */}
-                            <h1 style={{ fontSize: "clamp(1.8rem,4vw,2.8rem)", fontWeight: 900, color: "#111827", lineHeight: 1.2, marginBottom: 16 }}>
-                                <span style={{ fontFamily: "'Caveat', cursive", color: "#111827", position: "relative" }}>
-                                    {material.title ?? ""}
-                                    <svg style={{ position: "absolute", bottom: -6, left: 0, width: "100%" }} height="10" viewBox="0 0 120 10" preserveAspectRatio="none">
-                                        <ellipse cx="60" cy="7" rx="58" ry="4" stroke="#F59E0B" strokeWidth="3" fill="none" />
-                                    </svg>
-                                </span>
-                            </h1>
+            <section className="py-8 bg-white relative z-10">
+                <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-16">
+                    {/* ══ TABS ══════════════════════════════════════ */}
+                    <div className="flex gap-2 bg-[#F3F4F6] rounded-full p-1 w-max">
+                        {[
+                            {
+                                key: "deskripsi",
+                                label: "Deskripsi",
+                                icon: "📄",
+                            },
+                            { key: "silabus", label: "Silabus", icon: "📋" },
+                        ].map((tab) => (
+                            <button
+                                key={tab.key}
+                                className={`tab-btn ${activeTab === tab.key ? "active" : "inactive"}`}
+                                onClick={() => setActiveTab(tab.key)}
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 6,
+                                }}
+                            >
+                                <span style={{ fontSize: 14 }}>{tab.icon}</span>
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            </section>
 
-                            <p style={{ color: "#6B7280", fontSize: 15, lineHeight: 1.75, maxWidth: 420 }}>
-                                {descParagraphs[0]}
+            <section className=" bg-white">
+                <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-16">
+                    {activeTab === "deskripsi" && (
+                        <DeskripsiTab material={materialForTab} />
+                    )}
+                    {activeTab === "silabus" &&
+                        (silabusData.length > 0 ? (
+                            <SilabusTab syllabus={silabusData} />
+                        ) : (
+                            <p
+                                style={{
+                                    color: "#9CA3AF",
+                                    fontSize: 14,
+                                    padding: "32px 0",
+                                }}
+                            >
+                                Silabus belum tersedia.
                             </p>
+                        ))}
+                </div>
+            </section>
 
-                            {/* Meta row */}
-                            <div style={{ display: "flex", gap: 20, marginTop: 24, flexWrap: "wrap" }}>
-                                {[
-                                    { icon: "📚", label: `${totalChapters} Bab` },
-                                    { icon: "⭐", label: diffLabel },
-                                    { icon: "🕐", label: material.duration ?? "—" },
-                                ].map((m, i) => (
-                                    <div key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                                        <span style={{ fontSize: 15 }}>{m.icon}</span>
-                                        <span style={{ fontSize: 13, fontWeight: 600, color: "#374151" }}>{m.label}</span>
-                                    </div>
+            {/* ══ RELATED MATERIALS ═════════════════════════ */}
+            <section className="py-16 md:py-20 bg-white">
+                <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-16">
+                    {relatedNorm.length > 0 && (
+                        <div
+                            ref={relRef}
+                            style={{
+                                marginBottom: 64,
+                                opacity: relVisible ? 1 : 0,
+                                transform: relVisible
+                                    ? "none"
+                                    : "translateY(24px)",
+                                transition:
+                                    "opacity 0.7s ease, transform 0.7s ease",
+                            }}
+                        >
+                            <div
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    marginBottom: 28,
+                                    flexWrap: "wrap",
+                                    gap: 12,
+                                }}
+                            >
+                                <h2
+                                    style={{
+                                        fontSize: "clamp(1.4rem,2.5vw,1.8rem)",
+                                        fontWeight: 900,
+                                        color: "#111827",
+                                    }}
+                                >
+                                    Materi Lainnya
+                                </h2>
+                                <Link
+                                    href="/material"
+                                    style={{
+                                        fontSize: 13,
+                                        fontWeight: 700,
+                                        color: "#2563EB",
+                                        textDecoration: "none",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 4,
+                                    }}
+                                >
+                                    Lihat Semua
+                                    <svg
+                                        width="14"
+                                        height="14"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2.5"
+                                    >
+                                        <path d="M5 12h14M12 5l7 7-7 7" />
+                                    </svg>
+                                </Link>
+                            </div>
+                            <div
+                                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                            >
+                                {relatedNorm.map((mat, i) => (
+                                    <MaterialCard
+                                        key={mat.id}
+                                        {...mat}
+                                        delay={i * 0.1}
+                                        onSelect={() =>
+                                            router.visit(`/material/${mat.id}`)
+                                        }
+                                    />
                                 ))}
                             </div>
                         </div>
-
-                        {/* Right: thumbnail */}
-                        <div style={{ flex: "0 0 auto" }}>
-                            <div className="float-sm" style={{ background: "#fff", borderRadius: 24, padding: "24px 28px", boxShadow: "0 16px 48px rgba(0,0,0,0.12)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <MathThumbnail size="lg" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* ══ TABS ══════════════════════════════════════ */}
-                <div style={{ display: "flex", gap: 4, marginBottom: 36, background: "#F3F4F6", borderRadius: 999, padding: 4, width: "fit-content" }}>
-                    {[
-                        { key: "deskripsi", label: "Deskripsi", icon: "📄" },
-                        { key: "silabus",   label: "Silabus",   icon: "📋" },
-                    ].map((tab) => (
-                        <button
-                            key={tab.key}
-                            className={`tab-btn ${activeTab === tab.key ? "active" : "inactive"}`}
-                            onClick={() => setActiveTab(tab.key)}
-                            style={{ display: "flex", alignItems: "center", gap: 6 }}
-                        >
-                            <span style={{ fontSize: 14 }}>{tab.icon}</span>
-                            {tab.label}
-                        </button>
-                    ))}
-                </div>
-
-                {/* ══ TAB CONTENT ═══════════════════════════════ */}
-                <div style={{ marginBottom: 72 }}>
-                    {activeTab === "deskripsi" && <DeskripsiTab material={materialForTab} />}
-                    {activeTab === "silabus"   && (
-                        silabusData.length > 0
-                            ? <SilabusTab syllabus={silabusData} />
-                            : <p style={{ color: "#9CA3AF", fontSize: 14, padding: "32px 0" }}>Silabus belum tersedia.</p>
                     )}
                 </div>
-
-                {/* ══ RELATED MATERIALS ═════════════════════════ */}
-                {relatedNorm.length > 0 && (
-                    <div
-                        ref={relRef}
-                        style={{ marginBottom: 64, opacity: relVisible ? 1 : 0, transform: relVisible ? "none" : "translateY(24px)", transition: "opacity 0.7s ease, transform 0.7s ease" }}
-                    >
-                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 28, flexWrap: "wrap", gap: 12 }}>
-                            <h2 style={{ fontSize: "clamp(1.4rem,2.5vw,1.8rem)", fontWeight: 900, color: "#111827" }}>
-                                Materi Lainnya
-                            </h2>
-                            <Link href="/material" style={{ fontSize: 13, fontWeight: 700, color: "#2563EB", textDecoration: "none", display: "flex", alignItems: "center", gap: 4 }}>
-                                Lihat Semua
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                                    <path d="M5 12h14M12 5l7 7-7 7" />
-                                </svg>
-                            </Link>
-                        </div>
-                        <div className="related-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
-                            {relatedNorm.map((mat, i) => (
-                                <MaterialCard
-                                    key={mat.id}
-                                    {...mat}
-                                    delay={i * 0.1}
-                                    onSelect={() => router.visit(`/material/${mat.id}`)}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                )}
-            </div>
+            </section>
 
             <Footer />
         </div>
