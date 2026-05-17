@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { Head, Link } from "@inertiajs/react";
 import axios from "axios";
-import MaterialContent from '@/components/MaterialContent';
+import MaterialContent from "@/components/MaterialContent";
+// import "@/../css/wariku_module_illustration_theme_tokens.css";
+import '@/../css/style_module_illustration_aljabar.css';
 
+import "@/../css/app.css";
 
 // ─── Theme ────────────────────────────────────────────────────────────────────
 const THEME_MAP = {
@@ -736,23 +739,29 @@ export default function ChapterLesson({ auth, variant, themeDay = null }) {
 
                         <MathHeroImage />
 
-                        {/* Chapter content */}
-                        <div className="mt-7 max-w-none">
+                        <div className="mt-7 max-w-none" data-theme={themeSlug}>
                             <h2 className="font-bold text-gray-800 text-base mb-4">
                                 {activeChapter?.title}
                             </h2>
-                            <div className="space-y-4 text-sm text-gray-600 leading-relaxed">
-                                {activeChapter?.content ? (
+
+                            {activeChapter?.content ? (
+                                variant.learning_type ===
+                                "illustration" ? (
+                                    <MaterialContent
+                                        className="material-illustration"
+                                        html={activeChapter?.content}
+                                    />
+                                ) : (
                                     <MaterialContent
                                         className="prose prose-slate max-w-none prose-headings:font-bold prose-p:leading-8 prose-img:rounded-xl prose-table:overflow-hidden"
                                         html={activeChapter?.content}
                                     />
-                                ) : (
-                                    <p className="text-gray-400">
-                                        Konten belum tersedia.
-                                    </p>
-                                )}
-                            </div>
+                                )
+                            ) : (
+                                <p className="text-gray-400">
+                                    Konten belum tersedia.
+                                </p>
+                            )}
                         </div>
 
                         {/* Bottom CTA */}

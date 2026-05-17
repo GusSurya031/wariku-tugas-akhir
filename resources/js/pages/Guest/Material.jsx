@@ -135,7 +135,7 @@ const TOPIC_LABEL = { geometri: "Geometri", statistik: "Statistik" };
 // ─────────────────────────────────────────────
 export default function MaterialPage({ materials = [] }) {
     const [activeFilter, setActiveFilter] = useState("Semua");
-    const [visibleCount, setVisibleCount] = useState(9);
+    const [visibleCount, setVisibleCount] = useState(6);
     const [heroRef, heroVisible] = useInView(0.1);
 
     // Normalise each DB material to the shape MaterialCard expects

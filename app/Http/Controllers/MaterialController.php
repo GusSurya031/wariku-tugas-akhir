@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chapter;
 use App\Models\Material;
 use App\Models\MaterialHasVariant;
 use Illuminate\Http\Request;
@@ -21,6 +22,14 @@ class MaterialController extends Controller
         $material = Material::findOrFail($id);
         return Inertia::render('Guest/ShowMaterial', [
             'material' => $material,
+        ]);
+    }
+
+    public function showChapter($id)
+    {
+        $chapter = Chapter::findOrFail($id);
+        return Inertia::render('Guest/ShowChapter', [
+            'chapter' => $chapter,
         ]);
     }
 

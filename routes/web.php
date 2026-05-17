@@ -26,7 +26,7 @@ Route::post('/login', [AuthController::class, 'authenticate'])->name('login');
 Route::get('/materials/create', [MaterialController::class, 'create'])->name('materials.create');
 Route::post('/materials', [MaterialController::class, 'store'])->name('materials.store');
 Route::get('/materials/{id}', [MaterialController::class, 'show'])->name('materials.show');
-
+Route::get('/chapters/{id}', [MaterialController::class, 'showChapter'])->name('chapters.show');
 
 // ── Shared: both roles ────────────────────────────────────────────────────────
 Route::middleware(['auth'])->group(function () {
