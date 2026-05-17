@@ -15,13 +15,12 @@ import ThumbnailCard from "@/assets/images/thumbnail_card.png";
 //  Reusable: MaterialCard
 // ─────────────────────────────────────────────
 const MaterialCard = ({
-    title = "Penjumlahan Dasar",
-    description = "Pelajari konsep dasar penjumlahan sebagai fondasi dalam memahami operasi matematika.",
-    sub_description = "Subdeskripsi materi penjumlahan dasar.",
-    category = "Dasar",
-    categoryColor = "#D97706",
-    level = 1,
-    duration = "30 Menit",
+    title = "",
+    description = "",
+    sub_description = "",
+    category = "",
+    categoryColor = "",
+    duration = "",
     thumbnail = ThumbnailCard,
     onSelect,
     delay = 0,
@@ -71,32 +70,12 @@ const MaterialCard = ({
                         <circle cx="12" cy="12" r="10" />
                         <path d="M12 6v6l4 2" />
                     </svg>
-                    {duration}
+                    {duration} Menit
                 </div>
             </div>
 
             {/* Body */}
             <div className="px-[18px] pt-4 pb-[18px]">
-                {/* Difficulty dots */}
-                <div className="flex items-center gap-1 mb-2">
-                    {levelDots.map((d) => (
-                        <div
-                            key={d}
-                            className="w-2 h-2 rounded-full"
-                            style={{
-                                background: d <= level ? "#F59E0B" : "#E5E7EB",
-                            }}
-                        />
-                    ))}
-                    <span className="text-[11px] text-gray-400 ml-1 font-medium">
-                        {level === 1
-                            ? "Pemula"
-                            : level === 2
-                              ? "Menengah"
-                              : "Lanjut"}
-                    </span>
-                </div>
-
                 <h3 className="text-[15px] font-extrabold text-gray-900 mb-1.5 leading-tight">
                     {title}
                 </h3>
@@ -125,10 +104,10 @@ const MaterialCard = ({
 // ─────────────────────────────────────────────
 //  DATA: Filter & topic helpers
 // ─────────────────────────────────────────────
-const CATEGORIES = ["Semua", "Geometri", "Statistik"];
+const CATEGORIES = ["Semua","Aljabar","Sistem Persamaan", "Geometri", "Statistika"];
 
-const TOPIC_COLOR = { geometri: "#16A34A", statistik: "#7C3AED" };
-const TOPIC_LABEL = { geometri: "Geometri", statistik: "Statistik" };
+const TOPIC_COLOR = { geometri: "#16A34A", statistika: "#7C3AED", aljabar: "#F59E0B", "sistem persamaan": "#EF4444" };
+const TOPIC_LABEL = { geometri: "Geometri", statistika: "Statistika", aljabar: "Aljabar", "sistem persamaan": "Sistem Persamaan" };
 
 // ─────────────────────────────────────────────
 //  PAGE: Material Page

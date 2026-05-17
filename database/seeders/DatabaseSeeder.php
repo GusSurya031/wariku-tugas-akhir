@@ -21,15 +21,15 @@ class DatabaseSeeder extends Seeder
     //         'name' => 'Test User',
     //         'email' => 'test@example.com',
     //     ]);
-        Role::create(['role_name' => 'admin']);
-        Role::create(['role_name' => 'student']);
+        // Role::create(['role_name' => 'admin']);
+        // Role::create(['role_name' => 'student']);
 
         $this->call([
-            RecommendationRuleSeeder::class,
-            RecommendationRulePostQuizSeeder::class,
+            // RecommendationRuleSeeder::class,
+            // RecommendationRulePostQuizSeeder::class,
             // MaterialSeeder::class,
             // ChapterSeeder::class,
-            // QuestionSeeder::class,
+            QuestionSeeder::class,
         ]);
     }
 }
