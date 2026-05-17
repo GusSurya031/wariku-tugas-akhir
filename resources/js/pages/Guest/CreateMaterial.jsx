@@ -8,6 +8,7 @@ export default function CreateMaterial() {
     const { data, setData, post, processing, errors } = useForm({
         title: "",
         description: "",
+        sub_description: "",
         difficulty_level: "easy",
         learning_type: "text",
         chapters: [
@@ -97,6 +98,27 @@ export default function CreateMaterial() {
                     {errors.description && (
                         <p className="mt-1 text-sm text-red-500">
                             {errors.description}
+                        </p>
+                    )}
+                </div>
+
+                {/* Sub-Deskripsi Materi */}
+                <div>
+                    <label className="mb-2 block font-semibold text-slate-700">
+                        Sub-Deskripsi Materi
+                    </label>
+
+                    <input
+                        type="text"
+                        value={data.sub_description}
+                        onChange={(e) => setData("sub_description", e.target.value)}
+                        className="w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-purple-500 focus:outline-none"
+                        placeholder="Contoh: Aljabar"
+                    />
+
+                    {errors.sub_description && (
+                        <p className="mt-1 text-sm text-red-500">
+                            {errors.sub_description}
                         </p>
                     )}
                 </div>

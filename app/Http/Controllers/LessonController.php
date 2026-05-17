@@ -52,6 +52,7 @@ class LessonController extends Controller
                 'id'                 => $m->id,
                 'title'              => $m->title,
                 'description'        => $m->description,
+                'sub_description'        => $m->sub_description,
                 'topic'              => $m->topic,
                 'estimated_duration' => $m->estimated_duration,
                 'variants'           => $m->variantMaterials->map(fn($v) => [

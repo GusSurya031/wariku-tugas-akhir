@@ -17,6 +17,7 @@ import ThumbnailCard from "@/assets/images/thumbnail_card.png";
 const MaterialCard = ({
     title = "Penjumlahan Dasar",
     description = "Pelajari konsep dasar penjumlahan sebagai fondasi dalam memahami operasi matematika.",
+    sub_description = "Subdeskripsi materi penjumlahan dasar.",
     category = "Dasar",
     categoryColor = "#D97706",
     level = 1,
@@ -100,7 +101,7 @@ const MaterialCard = ({
                     {title}
                 </h3>
                 <p className="text-[12.5px] text-gray-500 leading-relaxed mb-3.5">
-                    {description}
+                    {sub_description}
                 </p>
 
                 <button className="card-btn">

@@ -4,6 +4,7 @@ import ItemFadeIn from "@/components/ItemFadeIn";
 import Navbar from "@/components/Navbar";
 import useInView from "@/components/useInView";
 import Footer from "@/components/Footer";
+import MaterialContent from "@/components/MaterialContent";
 import "@/../css/app.css";
 import LineHero from "@/assets/icon/LineHero";
 import LineElement from "@/assets/icon/ellipse.svg";
@@ -139,6 +140,7 @@ const GlobalStyles = () => (
 const MaterialCard = ({
     title = "Penjumlahan Dasar",
     description = "Pelajari konsep dasar penjumlahan sebagai fondasi dalam memahami operasi matematika.",
+    sub_description = "Subdeskripsi belum tersedia.",
     category = "Dasar",
     categoryColor = "#D97706",
     level = 1,
@@ -222,7 +224,7 @@ const MaterialCard = ({
                     {title}
                 </h3>
                 <p className="text-[12.5px] text-gray-500 leading-relaxed mb-3.5">
-                    {description}
+                    {sub_description}
                 </p>
 
                 <button className="card-btn">
@@ -285,14 +287,10 @@ const DeskripsiTab = ({ material }) => {
                     Tentang Materi Ini
                 </h2>
 
-                {material.description.map((p, i) => (
-                    <p
-                        key={i}
-                        className="mb-4 text-sm leading-[1.85] text-gray-500"
-                    >
-                        {p}
-                    </p>
-                ))}
+                <MaterialContent
+                    className=""
+                    html={material?.description ?? ""}
+                />
             </div>
 
             {/* Right: sidebar */}
@@ -309,9 +307,7 @@ const DeskripsiTab = ({ material }) => {
 
                     {material.tools.map((t, i) => (
                         <div key={i} className="tool-item items-center">
-                            <span className="shrink-0 text-xl">
-                                {t.icon}
-                            </span>
+                            <span className="shrink-0 text-xl">{t.icon}</span>
 
                             <span className="text-[13px] leading-normal text-gray-700">
                                 {t.label}
@@ -332,10 +328,7 @@ const DeskripsiTab = ({ material }) => {
                     </p>
 
                     {material.methods.map((m, i) => (
-                        <div
-                            key={i}
-                            className="mb-3 flex items-start gap-2.5"
-                        >
+                        <div key={i} className="mb-3 flex items-start gap-2.5">
                             <div className="mt-px flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 border-emerald-500 bg-emerald-100">
                                 <svg
                                     width="10"
@@ -377,7 +370,9 @@ const SilabusTab = ({ syllabus }) => {
                 <div className="flex flex-col gap-3">
                     {syllabus.map((week, wi) => {
                         const isOpen = openWeek === wi;
-                        const doneCount = week.topics.filter((t) => t.done).length;
+                        const doneCount = week.topics.filter(
+                            (t) => t.done,
+                        ).length;
 
                         return (
                             <div
@@ -389,7 +384,9 @@ const SilabusTab = ({ syllabus }) => {
                                 }`}
                             >
                                 <button
-                                    onClick={() => setOpenWeek(isOpen ? -1 : wi)}
+                                    onClick={() =>
+                                        setOpenWeek(isOpen ? -1 : wi)
+                                    }
                                     className="flex w-full cursor-pointer items-center justify-between border-none bg-transparent px-5 py-4 text-left"
                                 >
                                     <div className="flex items-center gap-3.5">
@@ -416,7 +413,8 @@ const SilabusTab = ({ syllabus }) => {
                                                 {week.title}
                                             </div>
                                             <div className="mt-0.5 text-xs text-gray-400">
-                                                {doneCount}/{week.topics.length} topik selesai
+                                                {doneCount}/{week.topics.length}{" "}
+                                                topik selesai
                                             </div>
                                         </div>
                                     </div>
@@ -448,12 +446,10 @@ const SilabusTab = ({ syllabus }) => {
                                                     transitionDelay: `${ti * 0.05}s`,
                                                 }}
                                             >
-                                                <div
-                                                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-gray-100"
-                                                >
-                                                        <span className="text-xs font-bold text-gray-400">
-                                                            {ti + 1}
-                                                        </span>
+                                                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-gray-100">
+                                                    <span className="text-xs font-bold text-gray-400">
+                                                        {ti + 1}
+                                                    </span>
                                                 </div>
 
                                                 <div className="flex-1">
@@ -479,13 +475,24 @@ const SilabusTab = ({ syllabus }) => {
                     </h3>
 
                     {[
-                        { label: "Total Level", value: syllabus.length, icon: "🎯" },
+                        {
+                            label: "Total Level",
+                            value: syllabus.length,
+                            icon: "🎯",
+                        },
                         {
                             label: "Total Topik",
-                            value: syllabus.reduce((a, w) => a + w.topics.length, 0),
+                            value: syllabus.reduce(
+                                (a, w) => a + w.topics.length,
+                                0,
+                            ),
                             icon: "📖",
                         },
-                        { label: "Estimasi Waktu", value: "~85 Mnt", icon: "⏱️" },
+                        {
+                            label: "Estimasi Waktu",
+                            value: "~85 Mnt",
+                            icon: "⏱️",
+                        },
                     ].map((s, i) => (
                         <div
                             key={i}
@@ -524,17 +531,6 @@ export default function DetailMaterialPage({ material = {}, related = [] }) {
         [variants],
     );
 
-    // Split description string into paragraphs on double newlines
-    const descParagraphs = useMemo(() => {
-        const raw = material.description ?? "";
-        const parts = raw.split(/\n\n+/).filter(Boolean);
-        return parts.length > 0
-            ? parts
-            : raw
-              ? [raw]
-              : ["Deskripsi belum tersedia."];
-    }, [material.description]);
-
     // One accordion section per difficulty variant
     const silabusData = useMemo(
         () =>
@@ -554,7 +550,7 @@ export default function DetailMaterialPage({ material = {}, related = [] }) {
     );
 
     const materialForTab = {
-        description: descParagraphs,
+        description: material.description,
         progress: 0,
         totalTopics: totalChapters,
         tools: STATIC_TOOLS,
@@ -625,7 +621,8 @@ export default function DetailMaterialPage({ material = {}, related = [] }) {
                                 </h1>
 
                                 <p className="text-gray-500 text-base md:text-lg leading-relaxed">
-                                    {descParagraphs[0]}
+                                    {material.sub_description ??
+                                        "Subdeskripsi belum tersedia."}
                                 </p>
                                 <span
                                     className="rounded-full px-6 py-2 text-sm font-bold"
@@ -766,9 +763,7 @@ export default function DetailMaterialPage({ material = {}, related = [] }) {
                                     </svg>
                                 </Link>
                             </div>
-                            <div
-                                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-                            >
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 {relatedNorm.map((mat, i) => (
                                     <MaterialCard
                                         key={mat.id}

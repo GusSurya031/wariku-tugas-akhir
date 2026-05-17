@@ -665,7 +665,7 @@ const DetailDrawer = ({
 };
 
 // ─── Course Card ──────────────────────────────────────────────────────────────
-const CourseCard = ({ title, desc, onClick }) => (
+const CourseCard = ({ title, subdesc, onClick }) => (
     <div
         onClick={onClick}
         className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group flex flex-col"
@@ -676,7 +676,7 @@ const CourseCard = ({ title, desc, onClick }) => (
                 {title}
             </h3>
             <p className="text-xs text-gray-500 leading-relaxed flex-1">
-                {limitText(stripHtml(desc), 150)}
+               { subdesc }
             </p>
             <div className="mt-3">
                 <button
@@ -833,7 +833,7 @@ export default function Lesson({
                                     <CourseCard
                                         key={course.id}
                                         title={course.title}
-                                        desc={course.description}
+                                        subdesc={course.sub_description}
                                         topic={course.topic}
                                         {...course}
                                         onClick={() =>

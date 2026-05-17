@@ -447,7 +447,7 @@ const limitText = (text, maxLength = 150) => {
 };
 
 // ─── Course Card ──────────────────────────────────────────────────────────────
-const CourseCard = ({ id, title = "Materi", desc = "", topic = "" }) => (
+const CourseCard = ({ id, title = "Materi", subdesc = "", topic = "" }) => (
     <Link
         href={`/lessons?open=${id}`}
         className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group flex flex-col"
@@ -459,7 +459,7 @@ const CourseCard = ({ id, title = "Materi", desc = "", topic = "" }) => (
                 {title}
             </h3>
             <p className="text-xs text-gray-500 leading-relaxed flex-1">
-                {limitText(stripHtml(desc), 150)}
+               {subdesc}
             </p>
             <div className="mt-3">
                 <span
@@ -685,7 +685,7 @@ export default function Dashboard({
                                         key={m.id}
                                         id={m.id}
                                         title={m.title}
-                                        desc={m.description}
+                                        subdesc={m.sub_description}
                                         topic={m.topic}
                                     />
                                 ))}

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
+            $table->text('sub_description')->nullable();
             $table->integer('estimated_duration')->nullable();
             $table->string('topic')->nullable();
             $table->timestamps();

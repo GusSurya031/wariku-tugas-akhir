@@ -27,6 +27,7 @@ class HomeController extends Controller
                     'id'          => $m->id,
                     'title'       => $m->title,
                     'description' => $m->description,
+                    'sub_description' => $m->sub_description,
                     'topic'       => $m->topic,
                     'duration'    => $m->estimated_duration ?? '30 Menit',
                     'level'       => match ($minDiff) {
@@ -73,6 +74,7 @@ class HomeController extends Controller
                 'id'          => $m->id,
                 'title'       => $m->title,
                 'description' => $m->description,
+                'sub_description' => $m->sub_description,
                 'topic'       => $m->topic,
                 'duration'    => $m->estimated_duration ?? '30 Menit',
             ])
@@ -84,7 +86,8 @@ class HomeController extends Controller
             'material' => [
                 'id'         => $material->id,
                 'title'      => $material->title,
-                'description'=> $material->description,
+                'description' => $material->description,
+                'sub_description' => $material->sub_description,
                 'topic'      => $material->topic,
                 'duration'   => $material->estimated_duration ?? '30 Menit',
                 'difficulty' => $difficulty,

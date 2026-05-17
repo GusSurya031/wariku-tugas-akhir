@@ -46,6 +46,7 @@ class DashboardController extends Controller
             $recommendedMaterials = MaterialHasVariant::with('material')
                 ->where('learning_type', $userProfile->learning_type)
                 ->where('difficulty_level', $userProfile->difficulty_material)
+                ->take(5)
                 ->get()
                 ->map(fn($v) => [
                     'id'            => $v->id,
@@ -60,10 +61,12 @@ class DashboardController extends Controller
 
         // All materials for the exploration section
         $allMaterials = Material::all()
+            ->take(4)
             ->map(fn($m) => [
                 'id'          => $m->id,
                 'title'       => $m->title,
                 'description' => $m->description,
+                'sub_description' => $m->sub_description,
                 'topic'       => $m->topic,
             ])
             ->values();

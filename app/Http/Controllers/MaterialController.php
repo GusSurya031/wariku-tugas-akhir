@@ -29,6 +29,7 @@ class MaterialController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
+            'sub_description' => ['required', 'string'],
             'difficulty_level' => ['required', 'in:easy,medium,hard'],
             'learning_type' => ['required', 'in:text,illustration'],
 
@@ -40,6 +41,7 @@ class MaterialController extends Controller
         Material::create([
             'title' => $validated['title'],
             'description' => $validated['description'],
+            'sub_description' => $validated['sub_description'],
         ]);
 
         MaterialHasVariant::create([

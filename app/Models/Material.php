@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['title', 'description', 'estimated_duration', 'topic'])]
+#[Fillable(['title', 'description','sub_description', 'estimated_duration', 'topic'])]
 class Material extends Model
 {
     use HasFactory;
