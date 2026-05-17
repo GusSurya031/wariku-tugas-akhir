@@ -27,9 +27,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RecommendationRuleSeeder::class,
             RecommendationRulePostQuizSeeder::class,
-            MaterialSeeder::class,
-            ChapterSeeder::class,
-            QuestionSeeder::class,
+            // MaterialSeeder::class,
+            // ChapterSeeder::class,
+            // QuestionSeeder::class,
         ]);
     }
 }

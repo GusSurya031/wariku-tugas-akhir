@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['material_id', 'difficulty_level', 'learning_type', 'thumbnail_path'])]
+#[Fillable(['material_id', 'difficulty_level', 'learning_type'])]
 
 class MaterialHasVariant extends Model
 {

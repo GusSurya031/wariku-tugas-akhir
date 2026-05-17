@@ -180,10 +180,10 @@ export default function QuizPage({ variant, questions = [], themeDay = null }) {
                         </div>
                     </div>
                 </div>
-                                    {/* Logo */}
-                    <div className="flex flex-1 items-center gap-2">
-                        <img src={Logo} alt="Logo" className="w-24 md:w-32"/>
-                    </div>
+                {/* Logo */}
+                <div className="flex items-center gap-2">
+                    <img src={Logo} alt="Logo" className="w-24 md:w-32"/>
+                </div>
             </div>
 
             {/* ── Body grid ──────────────────────────────────────────────── */}

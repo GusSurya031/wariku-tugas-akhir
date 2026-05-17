@@ -292,7 +292,7 @@ const Sidebar = ({ open, onClose }) => {
                 <div className="flex items-center gap-2 mb-8 px-1">
                     {/* Logo */}
                     <div className="flex flex-1 items-center gap-2">
-                        <img src={Logo} alt="Logo" className="w-24 md:w-32"/>
+                        <img src={Logo} alt="Logo" className="w-24 md:w-32" />
                     </div>
                     <button
                         className="ml-auto lg:hidden text-gray-400 hover:text-gray-600"
@@ -429,6 +429,23 @@ const RecommendedCard = ({
     </Link>
 );
 
+const stripHtml = (html) => {
+    if (!html) return "";
+
+    const div = document.createElement("div");
+    div.innerHTML = html;
+
+    return div.textContent || div.innerText || "";
+};
+
+const limitText = (text, maxLength = 150) => {
+    if (!text) return "";
+
+    return text.length > maxLength
+        ? text.substring(0, maxLength) + "..."
+        : text;
+};
+
 // ─── Course Card ──────────────────────────────────────────────────────────────
 const CourseCard = ({ id, title = "Materi", desc = "", topic = "" }) => (
     <Link
@@ -442,7 +459,7 @@ const CourseCard = ({ id, title = "Materi", desc = "", topic = "" }) => (
                 {title}
             </h3>
             <p className="text-xs text-gray-500 leading-relaxed flex-1">
-                {desc}
+                {limitText(stripHtml(desc), 150)}
             </p>
             <div className="mt-3">
                 <span

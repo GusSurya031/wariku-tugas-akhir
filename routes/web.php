@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\OnBoardingController;
 use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,11 @@ Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'store'])->name('auth.store');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('login');
+
+Route::get('/materials/create', [MaterialController::class, 'create'])->name('materials.create');
+Route::post('/materials', [MaterialController::class, 'store'])->name('materials.store');
+Route::get('/   /{id}', [MaterialController::class, 'show'])->name('materials.show');
+
 
 // ── Shared: both roles ────────────────────────────────────────────────────────
 Route::middleware(['auth'])->group(function () {
