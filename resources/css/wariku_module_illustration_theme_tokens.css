@@ -22,11 +22,9 @@
 }
 
 .material-illustration {
-    /* Main theme tokens: set these from your Wariku main CSS / user preference theme. */
-    --theme-primary: #2563eb;
-    --theme-secondary: #0d9488;
-    --theme-soft: #eff6ff;
-    --theme-gradient: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-secondary) 100%);
+    /* Main theme tokens are inherited from [data-theme] ancestor in app.css.
+       Do NOT declare --theme-primary / --theme-secondary / --theme-soft /
+       --theme-gradient here — they must cascade from the Sapta Wara theme. */
 
     /* Derived theme tokens used internally by legacy module HTML classes. */
     --theme-primary-soft: var(--theme-soft);
@@ -70,7 +68,7 @@
     --emerald: var(--theme-secondary);
     --emerald-lt: var(--theme-secondary-soft);
     --emerald-md: var(--theme-secondary-muted);
-    --font: "Nunito", sans-serif;
+    --font: "Quicksand", sans-serif;
     --gray: var(--theme-gray);
     --green: var(--theme-secondary);
     --green-lt: var(--theme-secondary-soft);

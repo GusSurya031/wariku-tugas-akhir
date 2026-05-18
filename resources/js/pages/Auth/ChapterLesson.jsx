@@ -3,9 +3,7 @@ import { Head, Link } from "@inertiajs/react";
 import axios from "axios";
 import MaterialContent from "@/components/MaterialContent";
 // import "@/../css/wariku_module_illustration_theme_tokens.css";
-import '@/../css/style_module_illustration_aljabar.css';
-
-import "@/../css/app.css";
+import "@/../css/wariku_module_illustration_unified.css";
 
 // ─── Theme ────────────────────────────────────────────────────────────────────
 const THEME_MAP = {
@@ -647,6 +645,10 @@ export default function ChapterLesson({ auth, variant, themeDay = null }) {
     const typeBadge =
         variant.learning_type === "illustration" ? "Ilustrasi" : "Teks";
 
+const materialSlug = variant.material.title
+    .toLowerCase()
+    .replace(/[\/\s]+/g, "-");
+
     return (
         <>
             <Head
@@ -739,7 +741,7 @@ export default function ChapterLesson({ auth, variant, themeDay = null }) {
 
                         <MathHeroImage />
 
-                        <div className="mt-7 max-w-none" data-theme={themeSlug}>
+                        <div className="mt-7 max-w-none">
                             <h2 className="font-bold text-gray-800 text-base mb-4">
                                 {activeChapter?.title}
                             </h2>
@@ -748,7 +750,7 @@ export default function ChapterLesson({ auth, variant, themeDay = null }) {
                                 variant.learning_type ===
                                 "illustration" ? (
                                     <MaterialContent
-                                        className="material-illustration"
+                                        className={`material-illustration module-theme-${materialSlug}`}
                                         html={activeChapter?.content}
                                     />
                                 ) : (

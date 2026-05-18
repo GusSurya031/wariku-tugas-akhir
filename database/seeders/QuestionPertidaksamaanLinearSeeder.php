@@ -5,10 +5,14 @@ namespace Database\Seeders;
 use App\Models\Material;
 use App\Models\Question;
 use App\Models\QuestionOption;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class QuestionPertidaksamaanLinearSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
         $material = Material::where('title', 'Pertidaksamaan Linear')->first();

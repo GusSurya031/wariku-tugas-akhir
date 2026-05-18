@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
 
-export default function MaterialContent({ html }) {
+export default function MaterialContent({ html, className }) {
     const contentRef = useRef(null);
 
     useEffect(() => {
@@ -38,7 +38,7 @@ export default function MaterialContent({ html }) {
     return (
         <article
             ref={contentRef}
-            className="prose prose-slate max-w-none prose-p:leading-8 prose-img:rounded-xl prose-table:overflow-hidden"
+            className={`prose prose-slate max-w-none prose-p:leading-8 prose-img:rounded-xl prose-table:overflow-hidden ${className || ''}`}
         />
     );
 }

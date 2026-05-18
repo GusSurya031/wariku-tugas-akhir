@@ -15,21 +15,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-    //     User::factory()->create([
-    //         'name' => 'Test User',
-    //         'email' => 'test@example.com',
-    //     ]);
         // Role::create(['role_name' => 'admin']);
         // Role::create(['role_name' => 'student']);
 
         $this->call([
             // RecommendationRuleSeeder::class,
             // RecommendationRulePostQuizSeeder::class,
-            // MaterialSeeder::class,
-            // ChapterSeeder::class,
-            QuestionSeeder::class,
+            // QuestionAljabarSeeder::class,
+            // QuestionFungsiLinearSeeder::class,
+            // QuestionGeometriSeeder::class,
+            // QuestionPersamaanLinearSeeder::class,
+            // QuestionPertidaksamaanLinearSeeder::class,
+            // QuestionPhytagorasSeeder::class,
+            // QuestionRelasiFungsiSeeder::class,
+            // QuestionSegitigaSegiempatSeeder::class,
+            // QuestionSPLDVSeeder::class,
+            // QuestionStatistikaSeeder::class,
         ]);
     }
 }
