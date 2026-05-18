@@ -10,18 +10,15 @@ use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'home'])->name('home.index');
-Route::get('/material', [HomeController::class, 'material'])->name('home.material');
-Route::get('/material/{id}', [HomeController::class, 'showMaterial'])->name('home.showMaterial');
+Route::get('/material', [MaterialController::class, 'index'])->name('material.index');
+Route::get('/material/{id}', [MaterialController::class, 'show'])->name('material.show');
 Route::get('/about', [HomeController::class, 'about'])->name('home.about');
+
+// ── Authentication ─────────────────────────────────────────────────────────────
 Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'store'])->name('auth.store');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('login');
-
-Route::get('/materials/create', [MaterialController::class, 'create'])->name('materials.create');
-Route::post('/materials', [MaterialController::class, 'store'])->name('materials.store');
-Route::get('/materials/{id}', [MaterialController::class, 'show'])->name('materials.show');
-Route::get('/chapters/{id}', [MaterialController::class, 'showChapter'])->name('chapters.show');
 
 // ── Shared: both roles ────────────────────────────────────────────────────────
 Route::middleware(['auth'])->group(function () {

@@ -2,73 +2,92 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Chapter;
 use App\Models\Material;
-use App\Models\MaterialHasVariant;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class MaterialController extends Controller
 {
-    public function create()
+    public function index()
     {
-        return Inertia::render('Guest/CreateMaterial', [
-            'materials' => Material::all(),
+        $materials = Material::with('variantMaterials')
+            ->get()
+            ->map(function ($m) {
+                $minDiff = $m->variantMaterials
+                    ->sortBy(fn($v) => ['easy' => 1, 'medium' => 2, 'hard' => 3][$v->difficulty_level] ?? 1)
+                    ->first()
+                    ?->difficulty_level ?? 'easy';
+
+                return [
+                    'id'          => $m->id,
+                    'title'       => $m->title,
+                    'description' => $m->description,
+                    'sub_description' => $m->sub_description,
+                    'topic'       => $m->topic,
+                    'duration'    => $m->estimated_duration ?? '30 Menit',
+                    'level'       => match ($minDiff) {
+                        'medium' => 2,
+                        'hard'   => 3,
+                        default  => 1,
+                    },
+                ];
+            })
+            ->values();
+
+        return Inertia::render('Guest/Material', [
+            'materials' => $materials,
         ]);
     }
 
     public function show($id)
     {
-        $material = Material::findOrFail($id);
+        $material = Material::with([
+            'variantMaterials' => fn($q) => $q
+                ->where('learning_type', 'text')
+                ->with(['chapters' => fn($q) => $q->orderBy('order_number')]),
+        ])->findOrFail($id);
+
+        $diffOrder = ['easy' => 1, 'medium' => 2, 'hard' => 3];
+
+        $variants = $material->variantMaterials
+            ->sortBy(fn($v) => $diffOrder[$v->difficulty_level] ?? 1)
+            ->map(fn($v) => [
+                'difficulty' => $v->difficulty_level,
+                'chapters'   => $v->chapters->map(fn($c) => [
+                    'id'           => $c->id,
+                    'title'        => $c->title,
+                    'order_number' => $c->order_number,
+                ])->values(),
+            ])
+            ->values();
+
+        $related = Material::where('id', '!=', $id)
+            ->where('topic', $material->topic)
+            ->limit(3)
+            ->get()
+            ->map(fn($m) => [
+                'id'          => $m->id,
+                'title'       => $m->title,
+                'description' => $m->description,
+                'sub_description' => $m->sub_description,
+                'topic'       => $m->topic,
+                'duration'    => $m->estimated_duration ?? '30 Menit',
+            ])
+            ->values();
+
+        $difficulty = $variants->first()['difficulty'] ?? 'easy';
+
         return Inertia::render('Guest/ShowMaterial', [
-            'material' => $material,
+            'material' => [
+                'id'         => $material->id,
+                'title'      => $material->title,
+                'description' => $material->description,
+                'sub_description' => $material->sub_description,
+                'topic'      => $material->topic,
+                'duration'   => $material->estimated_duration ?? '30 Menit',
+                'difficulty' => $difficulty,
+                'variants'   => $variants,
+            ],
+            'related' => $related,
         ]);
-    }
-
-    public function showChapter($id)
-    {
-        $chapter = Chapter::findOrFail($id);
-        return Inertia::render('Guest/ShowChapter', [
-            'chapter' => $chapter,
-        ]);
-    }
-
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string'],
-            'sub_description' => ['required', 'string'],
-            'difficulty_level' => ['required', 'in:easy,medium,hard'],
-            'learning_type' => ['required', 'in:text,illustration'],
-
-            'chapters' => ['required', 'array', 'size:6'],
-            'chapters.*.title' => ['required', 'string', 'max:255'],
-            'chapters.*.content' => ['required', 'string'],
-        ]);
-
-        Material::create([
-            'title' => $validated['title'],
-            'description' => $validated['description'],
-            'sub_description' => $validated['sub_description'],
-        ]);
-
-        MaterialHasVariant::create([
-            'material_id' => Material::latest()->first()->id,
-            'difficulty_level' => $validated['difficulty_level'],
-            'learning_type' => $validated['learning_type'],
-        ]);
-
-        foreach ($validated['chapters'] as $index => $chapter) {
-            MaterialHasVariant::latest()->first()->chapters()->create([
-                'title' => $chapter['title'],
-                'content' => $chapter['content'],
-                'order_number' => $index + 1,
-            ]);
-        }
-
-        return redirect()
-            ->route('materials.create')
-            ->with('success', 'Materi berhasil ditambahkan.');
     }
 }

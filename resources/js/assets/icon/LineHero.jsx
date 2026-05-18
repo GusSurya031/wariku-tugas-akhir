@@ -2,15 +2,14 @@ const LineHero = ({ className }) => {
     return (
         <svg
             className={className}
-            width="1440"
-            height="714"
             viewBox="0 0 1440 714"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid slice"
         >
             <mask
                 id="mask0_178_4545"
-                style={{ "maskType": "alpha" }}
+                style={{ maskType: "alpha" }}
                 maskUnits="userSpaceOnUse"
                 x="0"
                 y="0"

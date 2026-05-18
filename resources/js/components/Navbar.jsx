@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import Logo from "@/assets/icon/logo.svg";
-import { Link } from "@inertiajs/react";
-
-const navItems = [
-    { name: "Home", href: "/" },
-    { name: "Material", href: "/material" },
-    { name: "About", href: "/about" },
-];
+import { Link, usePage } from "@inertiajs/react";
 
 export default function Navbar() {
+    const { url } = usePage();
+
+    const navItems = [
+        { name: "Home", href: "/" },
+        { name: "Material", href: "/material" },
+        { name: "About", href: "/about" },
+    ];
+
     const [menuOpen, setMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
 
@@ -18,7 +20,6 @@ export default function Navbar() {
         return () => window.removeEventListener("scroll", handler);
     }, []);
 
-
     return (
         <nav className=" max-w-360 mx-auto fixed top-5 left-5 right-5 md:left-8 md:right-8  lg:left-16 lg:right-16 z-50 transition-all duration-300">
             <div
@@ -27,20 +28,23 @@ export default function Navbar() {
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <div className="flex flex-1 items-center gap-2">
-                        <img src={Logo} alt="Logo" className="w-24 md:w-32"/>
+                        <img src={Logo} alt="Logo" className="w-24 md:w-32" />
                     </div>
 
                     {/* Desktop Nav */}
                     <div className="hidden md:flex  items-center gap-8 lg:gap-14">
-                        {navItems.map((item) => (
-                            <Link
-                                key={item.name}
-                                href={item.href}
-                                className={`nav-link text-base font-medium ${item.name === "Home" ? "text-gray-900 font-semibold" : "text-gray-500 hover:text-gray-800"} transition-colors`}
+                        {navItems.map((item) => {
+                            const isActive = url === item.href;
+                            return (
+                                <Link
+                                    key={item.name}
+                                    href={item.href}
+                                    className={`nav-link text-base font-medium ${isActive ? "text-gray-900 font-semibold" : "text-gray-500 hover:text-gray-800"} transition-colors`}
                             >
-                                {item.name}
-                            </Link>
-                        ))}
+                                    {item.name}
+                                </Link>
+                            );
+                        })}
                     </div>
 
                     {/* CTA Buttons */}
@@ -61,6 +65,7 @@ export default function Navbar() {
 
                     {/* Mobile menu button */}
                     <button
+                        id="btn-mobile-menu"
                         className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition"
                         onClick={() => setMenuOpen(!menuOpen)}
                     >

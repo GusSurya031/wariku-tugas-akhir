@@ -1,205 +1,8 @@
 import { useState } from "react";
 import { Link, router } from "@inertiajs/react";
-import "@/../css/app.css";
 import Logo from "@/assets/icon/logo.svg";
-import SingleLogo from "@/assets/icon/single_logo";
-
-const GlobalStyles = () => (
-    <style>{`
-    .auth-page {
-      min-height: 100vh; width: 100%;
-      display: flex; align-items: center; justify-content: center;
-      padding: 24px;
-      background: linear-gradient(135deg, #fef9e7 0%, #fdf4ca 40%, #f0f4ff 100%);
-      position: relative; overflow: hidden;
-    }
-    .bg-blob {
-      position: fixed; border-radius: 50%;
-      filter: blur(80px); pointer-events: none; z-index: 0;
-    }
-    .auth-card {
-      display: flex;
-      width: 100%; max-width: 860px;
-      background: #fff;
-      border-radius: 28px;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.12), 0 8px 24px rgba(0,0,0,0.06);
-      overflow: hidden;
-      position: relative; z-index: 1;
-      min-height: 540px;
-    }
-    .auth-left {
-      width: 320px; flex-shrink: 0;
-      padding: 40px 36px;
-      display: flex; flex-direction: column; justify-content: space-between;
-      position: relative; overflow: hidden;
-      background: linear-gradient(160deg, #a78bfa 0%, #7c3aed 35%, #4338ca 65%, #312e81 100%);
-    }
-    .panel-blob {
-      position: absolute; border-radius: 50%;
-      filter: blur(50px); pointer-events: none;
-    }
-    .auth-right {
-      flex: 1; padding: 48px 44px;
-      display: flex; flex-direction: column; justify-content: center;
-      background: #fff;
-      overflow-y: auto;
-    }
-    .input-group { margin-bottom: 18px; }
-    .input-label {
-      display: block; font-size: 13px; font-weight: 700;
-      color: #374151; margin-bottom: 7px;
-    }
-    .input-wrap { position: relative; }
-    .auth-input {
-      width: 100%; padding: 12px 16px;
-      border: 1.5px solid #E5E7EB; border-radius: 12px;
-      font-size: 14px; font-family: inherit; color: #111827;
-      background: #fafaf8; outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .auth-input:focus {
-      border-color: #7C3AED;
-      box-shadow: 0 0 0 3px rgba(124,58,237,0.10);
-      background: #fff;
-    }
-    .auth-input::placeholder { color: #9CA3AF; }
-    .input-icon {
-      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
-      cursor: pointer; color: #9CA3AF; transition: color 0.2s;
-    }
-    .input-icon:hover { color: #7C3AED; }
-    .btn-primary-auth {
-      width: 100%; padding: 13px;
-      border-radius: 12px; border: none; cursor: pointer;
-      font-size: 14px; font-weight: 800; font-family: inherit;
-      background: linear-gradient(135deg, #7C3AED, #6D28D9);
-      color: #fff;
-      box-shadow: 0 6px 20px rgba(124,58,237,0.35);
-      transition: transform 0.2s, box-shadow 0.2s;
-      margin-bottom: 20px;
-      letter-spacing: 0.02em;
-    }
-    .btn-primary-auth:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(124,58,237,0.45);
-    }
-    .btn-primary-auth:active { transform: none; }
-    .divider {
-      display: flex; align-items: center; gap: 12px;
-      margin-bottom: 18px;
-    }
-    .divider-line { flex: 1; height: 1px; background: #E5E7EB; }
-    .divider-text { font-size: 12px; color: #9CA3AF; font-weight: 500; white-space: nowrap; }
-    .social-btn {
-      flex: 1; padding: 10px 0;
-      border: 1.5px solid #E5E7EB; border-radius: 10px;
-      background: #fff; cursor: pointer; font-size: 13px; font-weight: 600;
-      color: #374151; font-family: inherit;
-      display: flex; align-items: center; justify-content: center; gap: 7px;
-      transition: border-color 0.2s, background 0.2s, transform 0.2s;
-    }
-    .social-btn:hover {
-      border-color: #7C3AED; background: #FAF5FF;
-      transform: translateY(-1px);
-    }
-    .wariga-badge {
-      position: absolute; top: 36px; right: 36px;
-      background: rgba(255,255,255,0.15); backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 12px; padding: 8px 14px;
-      display: flex; align-items: center; gap: 6px;
-    }
-    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-    @keyframes float2 { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-8px) rotate(5deg)} }
-    @keyframes spin-slow { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
-    @keyframes slide-in { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-    .float-el { animation: float 5s ease-in-out infinite; }
-    .float-el2 { animation: float2 7s ease-in-out infinite; }
-    .spin-el { animation: spin-slow 20s linear infinite; }
-    .slide-in { animation: slide-in 0.4s ease; }
-    .strength-bar { height: 4px; border-radius: 999px; transition: width 0.4s ease, background 0.4s ease; }
-    .custom-check {
-      width: 18px; height: 18px; border-radius: 5px;
-      border: 1.5px solid #D1D5DB; background: #fff;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; flex-shrink: 0; transition: all 0.2s;
-    }
-    .custom-check.checked {
-      background: linear-gradient(135deg,#7C3AED,#6D28D9);
-      border-color: #7C3AED;
-    }
-    .input-error { font-size: 11.5px; color: #EF4444; margin-top: 5px; font-weight: 500; }
-    .auth-input.success { border-color: #10B981; }
-    .auth-input.error-state { border-color: #EF4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.10); }
-    @media (max-width: 680px) {
-      .auth-left { display: none; }
-      .auth-right { padding: 36px 28px; }
-      .auth-card { border-radius: 20px; }
-    }
-    @media (max-width: 400px) {
-      .auth-right { padding: 28px 20px; }
-      .social-btns { flex-direction: column !important; }
-    }
-  `}</style>
-);
-
-
-const LeftPanel = () => (
-    <div className="auth-left relative hidden w-[320px] shrink-0 overflow-hidden bg-[linear-gradient(160deg,#a78bfa_0%,#7c3aed_35%,#4338ca_65%,#312e81_100%)] px-9 py-10 lg:flex lg:flex-col lg:justify-between">
-        <div className="panel-blob float-el absolute -left-[60px] -top-[60px] h-[220px] w-[220px] rounded-full bg-violet-400/60" />
-
-        <div className="panel-blob float-el2 absolute -right-10 top-[100px] h-[180px] w-[180px] rounded-full bg-blue-400/45" />
-
-        <div className="panel-blob float-el absolute bottom-[60px] left-5 h-[140px] w-[140px] rounded-full bg-amber-400/25 [animation-delay:1s]" />
-
-        <div className="relative z-[2]">
-            <div className="wariga-badge float-el2">
-                <span className="text-sm">🌟</span>
-                <span className="text-[11px] font-bold text-white/90">
-                    Wariga-Powered
-                </span>
-            </div>
-        </div>
-
-        <div className="relative z-[2] flex flex-1 items-center justify-center">
-            <div className="spin-el absolute h-[120px] w-[120px] rounded-full border-2 border-dashed border-white/20" />
-
-            <div className="flex h-20 w-20 items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur">
-                <span className="text-[32px]">
-                    <SingleLogo className="w-10 h-10" />
-                </span>
-            </div>
-
-            <div className="float-el absolute -top-5 right-2.5 rounded-[10px] border border-white/20 bg-white/15 px-3 py-1.5 backdrop-blur">
-                <span className="text-[11px] font-bold text-white">
-                    ✦ Adaptif
-                </span>
-            </div>
-
-            <div className="float-el2 absolute -bottom-2.5 left-0 rounded-[10px] border border-amber-400/30 bg-amber-400/25 px-3 py-1.5 backdrop-blur">
-                <span className="text-[11px] font-bold text-amber-200">
-                    ✦ Personal
-                </span>
-            </div>
-
-            <div className="float-el absolute bottom-[30px] -right-2.5 rounded-[10px] border border-white/20 bg-white/10 px-3 py-1.5 backdrop-blur [animation-delay:1.5s]">
-                <span className="text-[11px] font-bold text-white">
-                    ✦ Wariga
-                </span>
-            </div>
-        </div>
-
-        <div className="relative z-[2]">
-            <p className="mb-1.5 text-xs font-medium text-white/60">
-                Mulai perjalananmu
-            </p>
-
-            <h2 className="text-lg font-black leading-[1.4] text-white">
-                Dapatkan akses ke sistem belajar adaptif berbasis Wariga Bali
-            </h2>
-        </div>
-    </div>
-);
+import SingleLogo from "@/assets/icon/SingleLogo";
+import LeftPanel from "@/components/PanelAuth";
 
 function getStrength(pw) {
     if (!pw) return { score: 0, label: "", color: "#E5E7EB" };
@@ -235,9 +38,11 @@ export default function Register() {
         const e = {};
         if (!name.trim()) e.name = "Nama tidak boleh kosong";
         if (!email) e.email = "Email tidak boleh kosong";
-        else if (!/\S+@\S+\.\S+/.test(email)) e.email = "Format email tidak valid";
+        else if (!/\S+@\S+\.\S+/.test(email))
+            e.email = "Format email tidak valid";
         if (!password) e.password = "Password tidak boleh kosong";
-        else if (password.length < 8) e.password = "Password minimal 8 karakter";
+        else if (password.length < 8)
+            e.password = "Password minimal 8 karakter";
         if (password !== confirm) e.confirm = "Password tidak cocok";
         return e;
     };
@@ -245,96 +50,147 @@ export default function Register() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // 1. Jalankan validasi client-side
         const validationErrors = validate();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             return;
         }
 
-        // 2. Reset errors dan set loading
         setErrors({});
         setLoading(true);
 
-        // 3. Kirim data ke backend
-        router.post("/register", {
-            name,
-            email,
-            password,
-            password_confirmation: confirm,
-        }, {
-            // Inertia akan otomatis menangani pengiriman data
-            onError: (backendErrors) => {
-                setErrors(backendErrors);
-                setLoading(false);
+        router.post(
+            "/register",
+            { name, email, password, password_confirmation: confirm },
+            {
+                onError: (backendErrors) => {
+                    setErrors(backendErrors);
+                    setLoading(false);
+                },
+                onSuccess: () => setSuccess(true),
+                onFinish: () => setLoading(false),
+                preserveScroll: true,
             },
-            onSuccess: () => {
-                setSuccess(true);
-            },
-            onFinish: () => {
-                setLoading(false);
-            },
-            // Penting: Cegah scroll jump
-            preserveScroll: true,
-        });
+        );
     };
 
-    if (success) return (
-        <div className="auth-page">
-            <GlobalStyles />
-            <div className="auth-card">
-                <LeftPanel />
-                <div className="auth-right">
-                    <div className="slide-in" style={{ textAlign: "center", padding: "24px 0" }}>
-                        <div style={{ width: 72, height: 72, background: "linear-gradient(135deg,#D1FAE5,#6EE7B7)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2.5">
-                                <path d="M20 6L9 17l-5-5" />
-                            </svg>
+    if (success)
+        return (
+            <div className="auth-page">
+                <div className="auth-card">
+                    <LeftPanel
+                        heading="Mulai perjalananmu"
+                        paragraph="Dapatkan akses ke sistem belajar adaptif berbasis Wariga Bali"
+                    />
+                    <div className="auth-right">
+                        <div className="slide-in py-6 text-center">
+                            <div className="mx-auto mb-5 flex h-18 w-18 items-center justify-center rounded-full bg-[linear-gradient(135deg,#D1FAE5,#6EE7B7)]">
+                                <svg
+                                    width="32"
+                                    height="32"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="#059669"
+                                    strokeWidth="2.5"
+                                >
+                                    <path d="M20 6L9 17l-5-5" />
+                                </svg>
+                            </div>
+                            <h2 className="mb-2 text-[22px] font-black text-gray-900">
+                                Akun Berhasil Dibuat! 🎉
+                            </h2>
+                            <p className="mb-6 text-[13.5px] leading-[1.7] text-gray-500">
+                                Selamat datang di Wariku! Sistem sedang
+                                menyiapkan pengalaman belajar yang disesuaikan
+                                dengan profil Wariga Bali kamu.
+                            </p>
+                            <Link
+                                href="/login"
+                                className="btn-primary-auth block text-center no-underline"
+                            >
+                                Masuk ke Akun →
+                            </Link>
                         </div>
-                        <h2 style={{ fontSize: 22, fontWeight: 900, color: "#111827", marginBottom: 8 }}>
-                            Akun Berhasil Dibuat! 🎉
-                        </h2>
-                        <p style={{ fontSize: 13.5, color: "#6B7280", marginBottom: 24, lineHeight: 1.7 }}>
-                            Selamat datang di Wariku! Sistem sedang menyiapkan pengalaman belajar yang disesuaikan dengan profil Wariga Bali kamu.
-                        </p>
-                        <Link href="/login" className="btn-primary-auth" style={{ display: "block", textDecoration: "none", textAlign: "center" }}>
-                            Masuk ke Akun →
-                        </Link>
                     </div>
                 </div>
             </div>
-        </div>
-    );
+        );
 
     return (
         <div className="auth-page">
-            <GlobalStyles />
+            <div
+                className="bg-blob"
+                style={{
+                    width: 400,
+                    height: 400,
+                    background: "#FEF08A",
+                    opacity: 0.25,
+                    top: -120,
+                    left: -100,
+                }}
+            />
+            <div
+                className="bg-blob"
+                style={{
+                    width: 300,
+                    height: 300,
+                    background: "#C4B5FD",
+                    opacity: 0.2,
+                    top: 100,
+                    right: -80,
+                }}
+            />
+            <div
+                className="bg-blob"
+                style={{
+                    width: 250,
+                    height: 250,
+                    background: "#A5F3FC",
+                    opacity: 0.18,
+                    bottom: -80,
+                    left: 200,
+                }}
+            />
 
-            <div className="bg-blob" style={{ width: 400, height: 400, background: "#FEF08A", opacity: 0.25, top: -120, left: -100 }} />
-            <div className="bg-blob" style={{ width: 300, height: 300, background: "#C4B5FD", opacity: 0.2, top: 100, right: -80 }} />
-            <div className="bg-blob" style={{ width: 250, height: 250, background: "#A5F3FC", opacity: 0.18, bottom: -80, left: 200 }} />
-
-            <div className="float-el" style={{ position: "fixed", top: "15%", left: "8%", color: "#FBBF24", fontSize: 20, opacity: 0.5, zIndex: 0 }}>★</div>
-            <div className="float-el2" style={{ position: "fixed", top: "70%", right: "6%", color: "#C4B5FD", fontSize: 16, opacity: 0.5, zIndex: 0 }}>✦</div>
-            <div className="float-el" style={{ position: "fixed", bottom: "20%", left: "5%", color: "#FDE68A", fontSize: 14, opacity: 0.4, zIndex: 0, animationDelay: "1s" }}>✦</div>
+            {/* Decorative floating symbols */}
+            <span className="float-el fixed top-[15%] left-[8%] z-0 text-[20px] text-[#FBBF24] opacity-50">
+                ★
+            </span>
+            <span className="float-el2 fixed top-[70%] right-[6%] z-0 text-[16px] text-[#C4B5FD] opacity-50">
+                ✦
+            </span>
+            <span className="float-el fixed bottom-[20%] left-[5%] z-0 text-[14px] text-[#FDE68A] opacity-40 [animation-delay:1s]">
+                ✦
+            </span>
 
             <div className="auth-card">
-                <LeftPanel />
+                <LeftPanel
+                    heading="Mulai perjalananmu"
+                    paragraph="Dapatkan akses ke sistem belajar adaptif berbasis Wariga Bali"
+                />
 
                 <div className="auth-right">
                     <div className="slide-in">
                         {/* Header */}
-                        <div style={{ marginBottom: 24 }}>
+                        <div className="mb-6">
                             <div className="mb-4">
-                                <Link href="/" className="flex items-center gap-2">
-                                    <img src={Logo} alt="Logo" className="w-20" />
+                                <Link
+                                    href="/"
+                                    className="flex items-center gap-2"
+                                >
+                                    <img
+                                        src={Logo}
+                                        alt="Logo"
+                                        className="w-20"
+                                    />
                                 </Link>
                             </div>
-                            <h1 style={{ fontSize: "clamp(1.3rem,2.5vw,1.7rem)", fontWeight: 900, color: "#111827", marginBottom: 6 }}>
+                            <h1 className="mb-1.5 text-[clamp(1.3rem,2.5vw,1.7rem)] font-black text-gray-900">
                                 Buat Akun Baru
                             </h1>
-                            <p style={{ fontSize: 13, color: "#6B7280", lineHeight: 1.6 }}>
-                                Mulai perjalanan belajar adaptif berbasis Wariga Bali hari ini.
+                            <p className="text-[13px] leading-[1.6] text-gray-500">
+                                Mulai perjalanan belajar adaptif berbasis Wariga
+                                Bali hari ini.
                             </p>
                         </div>
 
@@ -342,28 +198,46 @@ export default function Register() {
                         <form onSubmit={handleSubmit}>
                             {/* Name */}
                             <div className="input-group">
-                                <label className="input-label">Nama lengkap</label>
+                                <label className="input-label">
+                                    Nama lengkap
+                                </label>
                                 <input
                                     className={`auth-input ${errors.name ? "error-state" : name ? "success" : ""}`}
                                     type="text"
                                     placeholder="Nama kamu"
                                     value={name}
-                                    onChange={(e) => { setName(e.target.value); setErrors((p) => ({ ...p, name: "" })); }}
+                                    onChange={(e) => {
+                                        setName(e.target.value);
+                                        setErrors((p) => ({ ...p, name: "" }));
+                                    }}
                                 />
-                                {errors.name && <p className="input-error">⚠ {errors.name}</p>}
+                                {errors.name && (
+                                    <p className="input-error">
+                                        ⚠ {errors.name}
+                                    </p>
+                                )}
                             </div>
 
                             {/* Email */}
                             <div className="input-group">
-                                <label className="input-label">Email kamu</label>
+                                <label className="input-label">
+                                    Email kamu
+                                </label>
                                 <input
                                     className={`auth-input ${errors.email ? "error-state" : email && !errors.email ? "success" : ""}`}
                                     type="email"
                                     placeholder="contoh@email.com"
                                     value={email}
-                                    onChange={(e) => { setEmail(e.target.value); setErrors((p) => ({ ...p, email: "" })); }}
+                                    onChange={(e) => {
+                                        setEmail(e.target.value);
+                                        setErrors((p) => ({ ...p, email: "" }));
+                                    }}
                                 />
-                                {errors.email && <p className="input-error">⚠ {errors.email}</p>}
+                                {errors.email && (
+                                    <p className="input-error">
+                                        ⚠ {errors.email}
+                                    </p>
+                                )}
                             </div>
 
                             {/* Password */}
@@ -375,83 +249,182 @@ export default function Register() {
                                         type={showPw ? "text" : "password"}
                                         placeholder="Min. 8 karakter"
                                         value={password}
-                                        onChange={(e) => { setPassword(e.target.value); setErrors((p) => ({ ...p, password: "" })); }}
                                         style={{ paddingRight: 44 }}
+                                        onChange={(e) => {
+                                            setPassword(e.target.value);
+                                            setErrors((p) => ({
+                                                ...p,
+                                                password: "",
+                                            }));
+                                        }}
                                     />
-                                    <span className="input-icon" onClick={() => setShowPw(!showPw)}>
+                                    <span
+                                        className="input-icon"
+                                        onClick={() => setShowPw(!showPw)}
+                                    >
                                         {showPw ? (
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                            >
                                                 <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22" />
                                             </svg>
                                         ) : (
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                            >
                                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                                                 <circle cx="12" cy="12" r="3" />
                                             </svg>
                                         )}
                                     </span>
                                 </div>
+
                                 {/* Strength meter */}
                                 {password && (
-                                    <div style={{ marginTop: 8 }}>
-                                        <div style={{ display: "flex", gap: 4, marginBottom: 4 }}>
+                                    <div className="mt-2">
+                                        <div className="mb-1 flex gap-1">
                                             {[0, 1, 2, 3].map((i) => (
-                                                <div key={i} className="strength-bar" style={{ flex: 1, background: i < strength.score ? strength.color : "#E5E7EB" }} />
+                                                <div
+                                                    key={i}
+                                                    className="strength-bar"
+                                                    style={{
+                                                        background:
+                                                            i < strength.score
+                                                                ? strength.color
+                                                                : "#E5E7EB",
+                                                    }}
+                                                />
                                             ))}
                                         </div>
-                                        <span style={{ fontSize: 11, color: strength.color, fontWeight: 600 }}>{strength.label}</span>
+                                        <span
+                                            className="text-[11px] font-semibold"
+                                            style={{ color: strength.color }}
+                                        >
+                                            {strength.label}
+                                        </span>
                                     </div>
                                 )}
-                                {errors.password && <p className="input-error">⚠ {errors.password}</p>}
+                                {errors.password && (
+                                    <p className="input-error">
+                                        ⚠ {errors.password}
+                                    </p>
+                                )}
                             </div>
 
                             {/* Confirm Password */}
                             <div className="input-group">
-                                <label className="input-label">Konfirmasi password</label>
+                                <label className="input-label">
+                                    Konfirmasi password
+                                </label>
                                 <div className="input-wrap">
                                     <input
                                         className={`auth-input ${errors.confirm ? "error-state" : confirm && confirm === password ? "success" : confirm ? "error-state" : ""}`}
                                         type={showConfirm ? "text" : "password"}
                                         placeholder="Ulangi password"
                                         value={confirm}
-                                        onChange={(e) => { setConfirm(e.target.value); setErrors((p) => ({ ...p, confirm: "" })); }}
                                         style={{ paddingRight: 44 }}
+                                        onChange={(e) => {
+                                            setConfirm(e.target.value);
+                                            setErrors((p) => ({
+                                                ...p,
+                                                confirm: "",
+                                            }));
+                                        }}
                                     />
-                                    <span className="input-icon" onClick={() => setShowConfirm(!showConfirm)}>
+                                    <span
+                                        className="input-icon"
+                                        onClick={() =>
+                                            setShowConfirm(!showConfirm)
+                                        }
+                                    >
                                         {confirm && confirm === password ? (
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5"><path d="M20 6L9 17l-5-5" /></svg>
+                                            <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="#10B981"
+                                                strokeWidth="2.5"
+                                            >
+                                                <path d="M20 6L9 17l-5-5" />
+                                            </svg>
                                         ) : showConfirm ? (
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                            >
                                                 <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22" />
                                             </svg>
                                         ) : (
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                            >
                                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                                                 <circle cx="12" cy="12" r="3" />
                                             </svg>
                                         )}
                                     </span>
                                 </div>
-                                {errors.confirm && <p className="input-error">⚠ {errors.confirm}</p>}
+                                {errors.confirm && (
+                                    <p className="input-error">
+                                        ⚠ {errors.confirm}
+                                    </p>
+                                )}
                             </div>
 
                             {/* Submit */}
-                            <button className="btn-primary-auth" type="submit" disabled={loading}>
+                            <button
+                                className="btn-primary-auth"
+                                type="submit"
+                                disabled={loading}
+                            >
                                 {loading ? (
-                                    <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ animation: "spin-slow 1s linear infinite" }}>
+                                    <span className="flex items-center justify-center gap-2">
+                                        <svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2.5"
+                                            className="animate-spin"
+                                        >
                                             <path d="M21 12a9 9 0 11-6.219-8.56" />
                                         </svg>
                                         Membuat akun...
                                     </span>
-                                ) : "Buat Akun →"}
+                                ) : (
+                                    "Buat Akun →"
+                                )}
                             </button>
                         </form>
 
                         {/* Switch to Login */}
-                        <p style={{ textAlign: "center", fontSize: 13, color: "#6B7280" }}>
+                        <p className="text-center text-[13px] text-gray-500">
                             Sudah punya akun?{" "}
-                            <Link href="/login" style={{ color: "#7C3AED", fontWeight: 700, textDecoration: "none" }}>
+                            <Link
+                                href="/login"
+                                className="font-bold text-violet-600 no-underline"
+                            >
                                 Masuk
                             </Link>
                         </p>
