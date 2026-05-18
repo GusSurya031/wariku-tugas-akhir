@@ -73,49 +73,6 @@ export default function Register() {
             },
         );
     };
-
-    if (success)
-        return (
-            <div className="auth-page">
-                <div className="auth-card">
-                    <LeftPanel
-                        heading="Mulai perjalananmu"
-                        paragraph="Dapatkan akses ke sistem belajar adaptif berbasis Wariga Bali"
-                    />
-                    <div className="auth-right">
-                        <div className="slide-in py-6 text-center">
-                            <div className="mx-auto mb-5 flex h-18 w-18 items-center justify-center rounded-full bg-[linear-gradient(135deg,#D1FAE5,#6EE7B7)]">
-                                <svg
-                                    width="32"
-                                    height="32"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="#059669"
-                                    strokeWidth="2.5"
-                                >
-                                    <path d="M20 6L9 17l-5-5" />
-                                </svg>
-                            </div>
-                            <h2 className="mb-2 text-[22px] font-black text-gray-900">
-                                Akun Berhasil Dibuat! 🎉
-                            </h2>
-                            <p className="mb-6 text-[13.5px] leading-[1.7] text-gray-500">
-                                Selamat datang di Wariku! Sistem sedang
-                                menyiapkan pengalaman belajar yang disesuaikan
-                                dengan profil Wariga Bali kamu.
-                            </p>
-                            <Link
-                                href="/login"
-                                className="btn-primary-auth block text-center no-underline"
-                            >
-                                Masuk ke Akun →
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-
     return (
         <div className="auth-page">
             <div

@@ -98,7 +98,7 @@ export default function Home() {
     return (
         <>
             <Head>
-                <title>Wariku - LMS Adaptif Berbasis Wariga</title>
+                <title>Wariku - Learning Adaptive Systems</title>
                 <meta
                     name="description"
                     content="Wariku membantu siswa belajar matematika secara adaptif berdasarkan pendekatan Wariga, mood, dan performa belajar."

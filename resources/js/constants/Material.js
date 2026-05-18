@@ -22,13 +22,13 @@ export const TOPIC_LABEL = {
 export const DIFFICULTY_LABEL = {
     easy: "Pemula",
     medium: "Menengah",
-    hard: "Lanjut"
+    hard: "Lanjut",
 };
 
 export const DIFFICULTY_ABBR = {
     easy: "P",
     medium: "M",
-    hard: "L"
+    hard: "L",
 };
 
 export const DIFFICULTY_COLOR = {
@@ -94,4 +94,12 @@ export const FAQS = [
         q: "Apakah data belajar saya tersimpan dengan aman?",
         a: "Ya, seluruh data belajarmu dienkripsi dan disimpan secara aman. Kami tidak membagikan data pribadi kepada pihak ketiga tanpa persetujuan. Privasi dan keamanan data pengguna adalah prioritas utama kami.",
     },
+];
+
+export const MOODS = [
+    { label: "Sangat Semangat", value: 3, emoji: "🔥" },
+    { label: "Semangat", value: 3, emoji: "😄" },
+    { label: "Biasa Saja", value: 2, emoji: "🙂" },
+    { label: "Kurang Fokus", value: 1, emoji: "😴" },
+    { label: "Sangat Lelah", value: 1, emoji: "🥲" },
 ];

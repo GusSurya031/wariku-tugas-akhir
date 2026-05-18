@@ -38,7 +38,6 @@ class DashboardController extends Controller
                 $latestLog->created_at
             );
         }
-        // dd($latestLog, $themeDay);
 
         // Recommended variants: match user's current learning_type + difficulty
         $recommendedMaterials = [];
@@ -537,10 +536,5 @@ class DashboardController extends Controller
             'performanceByMaterial' => $performanceByMaterial,
             'materials'             => $materials,
         ]);
-    }
-
-    public function result()
-    {
-        return Inertia::render('Auth/ExerciseResult');
     }
 }
