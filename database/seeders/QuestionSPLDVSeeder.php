@@ -15,7 +15,7 @@ class QuestionSPLDVSeeder extends Seeder
      */
     public function run(): void
     {
-        $material = Material::where('title', 'SPLDV')->first();
+        $material = Material::where('title', 'Sistem Persamaan Linear Dua Variabel')->first();
 
         if (!$material) {
             return;

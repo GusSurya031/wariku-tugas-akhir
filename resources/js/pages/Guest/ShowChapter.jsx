@@ -8,7 +8,7 @@ import MaterialContent from '@/components/MaterialContent';
 // import '@/../css/style_module_illustration_phytagoras.css';
 // import '@/../css/style_module_illustration_geometri.css';
 // import '@/../css/style_module_illustration_segitiga_segiempat.css';
-import '@/../css/style_module_illustration_statistika_peluang.css';
+// import '@/../css/style_module_illustration_statistika_peluang.css';
 import '@/../css/app.css';
 
 export default function ShowMaterial({ chapter }) {

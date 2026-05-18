@@ -21,16 +21,16 @@ class DatabaseSeeder extends Seeder
         $this->call([
             // RecommendationRuleSeeder::class,
             // RecommendationRulePostQuizSeeder::class,
-            // QuestionAljabarSeeder::class,
-            // QuestionFungsiLinearSeeder::class,
-            // QuestionGeometriSeeder::class,
-            // QuestionPersamaanLinearSeeder::class,
-            // QuestionPertidaksamaanLinearSeeder::class,
-            // QuestionPhytagorasSeeder::class,
-            // QuestionRelasiFungsiSeeder::class,
-            // QuestionSegitigaSegiempatSeeder::class,
-            // QuestionSPLDVSeeder::class,
-            // QuestionStatistikaSeeder::class,
+            QuestionAljabarSeeder::class,
+            QuestionFungsiLinearSeeder::class,
+            QuestionGeometriSeeder::class,
+            QuestionPersamaanLinearSeeder::class,
+            QuestionPertidaksamaanLinearSeeder::class,
+            QuestionPhytagorasSeeder::class,
+            QuestionRelasiFungsiSeeder::class,
+            QuestionSegitigaSegiempatSeeder::class,
+            QuestionSPLDVSeeder::class,
+            QuestionStatistikaSeeder::class,
         ]);
     }
 }

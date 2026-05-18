@@ -15,7 +15,7 @@ class QuestionPhytagorasSeeder extends Seeder
      */
     public function run(): void
     {
-        $material = Material::where('title', 'Pythagoras')->first();
+        $material = Material::where('title', 'Teorema Phytagoras')->first();
 
         if (!$material) {
             return;

@@ -15,7 +15,7 @@ class QuestionFungsiLinearSeeder extends Seeder
      */
     public function run(): void
     {
-        $material = Material::where('title', 'Fungsi Linear Garis Lurus')->first();
+        $material = Material::where('title', 'Fungsi Linear / Garis Lurus')->first();
 
         if (!$material) {
             return;

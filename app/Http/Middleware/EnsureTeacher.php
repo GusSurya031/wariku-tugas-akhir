@@ -16,7 +16,7 @@ class EnsureTeacher
         }
 
         // Jika login tapi bukan teacher → ke dashboard student
-        if (auth()->user()->role_id !== 1) {
+        if ( (int) auth()->user()->role_id !== 1) {
             return redirect()->route('dashboard.index');
         }
 

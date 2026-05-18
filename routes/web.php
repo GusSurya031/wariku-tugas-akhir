@@ -9,11 +9,6 @@ use App\Http\Controllers\OnBoardingController;
 use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-
 Route::get('/', [HomeController::class, 'home'])->name('home.index');
 Route::get('/material', [HomeController::class, 'material'])->name('home.material');
 Route::get('/material/{id}', [HomeController::class, 'showMaterial'])->name('home.showMaterial');
