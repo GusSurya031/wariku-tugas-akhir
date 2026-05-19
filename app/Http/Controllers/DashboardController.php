@@ -88,7 +88,6 @@ class DashboardController extends Controller
 
     public function exercise()
     {
-        /** @var \App\Models\User $user */
         $user = Auth::user();
 
         $userProfile      = $user->userProfile;
@@ -134,123 +133,8 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function profile()
-    {
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-
-        $latestLog = $user->latest_recommendation;
-        $themeDay = null;
-
-        if ($latestLog?->rule) {
-            $themeDay = $user-> recommendation_theme_day;
-        }
-
-        return Inertia::render('Auth/Profile', [
-            'auth' => [
-                'user' => [
-                    'name'     => $user->username,
-                    'fullname' => $user->fullname,
-                ],
-            ],
-            'userData' => [
-                'username'   => $user->username,
-                'fullname'   => $user->fullname,
-                'email'      => $user->email,
-                'profil_url' => $user->profil_path ? Storage::url($user->profil_path) : null,
-                'gender'     => $user->userProfile?->gender,
-                'birth_date' => $user->userProfile?->birth_date
-                    ? \Carbon\Carbon::parse($user->userProfile->birth_date)->format('Y-m-d')
-                    : null,
-            ],
-            'themeDay' => $themeDay,
-        ]);
-    }
-
-    public function updateProfile(Request $request)
-    {
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-
-        $request->validate([
-            'username' => ['required', 'string', 'max:255', Rule::unique('users', 'username')->ignore($user->id)],
-            'fullname' => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
-            'password' => ['nullable', 'string', 'min:8'],
-            'gender'   => ['nullable', 'in:male,female'],
-            'photo'    => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
-        ]);
-
-        $user->username = $request->username;
-        $user->fullname = $request->fullname;
-        $user->email    = $request->email;
-
-        if ($request->filled('password')) {
-            $user->password = $request->password;
-        }
-
-        if ($request->boolean('remove_photo')) {
-            if ($user->profil_path) {
-                Storage::disk('public')->delete($user->profil_path);
-            }
-            $user->profil_path = null;
-        } elseif ($request->hasFile('photo')) {
-            if ($user->profil_path) {
-                Storage::disk('public')->delete($user->profil_path);
-            }
-            $user->profil_path = $request->file('photo')->store('profiles', 'public');
-        }
-
-        $user->save();
-
-        UserProfile::updateOrCreate(
-            ['user_id' => $user->id],
-            ['gender'  => $request->gender ?: null]
-        );
-
-        return redirect()->route('dashboard.profile')->with('success', 'Profil berhasil diperbarui!');
-    }
-
-    public function quiz(int $variantId)
-    {
-        /** @var \App\Models\User $user */
-        $user    = Auth::user();
-        $variant = MaterialHasVariant::with(['material', 'questions.options'])
-            ->findOrFail($variantId);
-
-        $latestLog = $user->latest_recommendation;
-        $themeDay = null;
-
-        if ($latestLog?->rule) {
-            $themeDay = $user-> recommendation_theme_day;
-        }
-
-        // Shuffle options server-side so correct answer position varies each load
-        $questions = $variant->questions->map(fn($q) => [
-            'id'                 => $q->id,
-            'question_text'      => $q->question_text,
-            'estimated_duration' => $q->estimated_duration,
-            'options'            => $q->options
-                ->map(fn($o) => ['id' => $o->id, 'option_text' => $o->option_text])
-                ->shuffle()
-                ->values(),
-        ]);
-
-        return Inertia::render('Auth/Quiz', [
-            'variant' => [
-                'id'            => $variant->id,
-                'materialTitle' => $variant->material->title,
-                'difficulty'    => $variant->difficulty_level,
-                'learningType'  => $variant->learning_type,
-            ],
-            'questions' => $questions,
-            'themeDay'  => $themeDay,
-        ]);
-    }
-
     public function report()
     {
-        /** @var \App\Models\User $user */
         $user = Auth::user();
 
         $latestLog = $user->latest_recommendation;
@@ -309,7 +193,6 @@ class DashboardController extends Controller
 
     public function dashboardTeacher()
     {
-        /** @var \App\Models\User $teacher */
         $teacher = Auth::user();
 
         $latestLog = $teacher->latest_recommendation;
@@ -319,12 +202,10 @@ class DashboardController extends Controller
             $themeDay = $teacher-> recommendation_theme_day;
         }
 
-        // ── Stats ────────────────────────────────────────────────────────────
         $totalStudents  = User::where('role_id', 2)->count();
         $totalMaterials = Material::count();
         $totalQuestions = Question::count();
 
-        // ── Mood chart data grouped by date (students only) ──────────────────
         $moodRows = DB::table('mood_logs')
             ->join('users', 'users.id', '=', 'mood_logs.user_id')
             ->select(DB::raw('DATE(mood_logs.created_at) as log_date'), 'mood_logs.mood_label', DB::raw('COUNT(*) as value'))
@@ -338,7 +219,6 @@ class DashboardController extends Controller
             $moodByDate[$row->log_date][] = ['label' => $row->mood_label, 'value' => (int) $row->value];
         }
 
-        // ── Wariga chart data grouped by date (students active on that date) ──
         $warigaRows = DB::table('mood_logs')
             ->join('users', 'users.id', '=', 'mood_logs.user_id')
             ->join('wariga_profiles', 'wariga_profiles.user_id', '=', 'users.id')
@@ -366,7 +246,6 @@ class DashboardController extends Controller
         ));
         sort($availableDates);
 
-        // ── Export data: per date → per student row ───────────────────────────
         $latestScorePerUser = DB::table('quiz_attempts')
             ->select('user_id', DB::raw('MAX(score_performance) as score_performance'))
             ->groupBy('user_id')
@@ -413,7 +292,6 @@ class DashboardController extends Controller
             ];
         }
 
-        // ── Performance: overall per student ─────────────────────────────────
         $totalVariants = MaterialHasVariant::count();
 
         $attemptStats = DB::table('quiz_attempts')
@@ -444,7 +322,6 @@ class DashboardController extends Controller
             ];
         })->sortByDesc('avg_score')->values();
 
-        // ── Performance: per material ─────────────────────────────────────────
         $materialAttempts = DB::table('quiz_attempts')
             ->join('material_has_variants', 'material_has_variants.id', '=', 'quiz_attempts.material_has_variant_id')
             ->join('materials', 'materials.id', '=', 'material_has_variants.material_id')

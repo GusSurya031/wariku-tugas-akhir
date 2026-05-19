@@ -7,7 +7,7 @@ use App\Models\RecommendationLog;
 use App\Models\RecommendationRule;
 use App\Models\UserProfile;
 use App\Models\WarigaProfile;
-
+use App\Services\WarigaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -16,7 +16,6 @@ class OnBoardingController extends Controller
 {
     public function index()
     {
-        /** @var \App\Models\User $user */
         $user        = Auth::user();
         $userProfile = $user->userProfile;
 
@@ -53,21 +52,12 @@ class OnBoardingController extends Controller
             ]
         );
 
-        // Hitung catur_bekel_kahuripan: (urip lahir + urip hari ini) % 4
-        // 1=Guru, 2=Ratu, 3=Lara, 0=Pati
-        $modulo = (
-            $validated['balinese_birth_date']['pancaWara']['urip'] +
-            $validated['balinese_birth_date']['saptaWara']['urip'] +
-            $validated['balinese_today_date']['pancaWara']['urip'] +
+        $caturBekel = WarigaService::calculateCBK(
+            $validated['balinese_birth_date']['pancaWara']['urip'],
+            $validated['balinese_birth_date']['saptaWara']['urip'],
+            $validated['balinese_today_date']['pancaWara']['urip'],
             $validated['balinese_today_date']['saptaWara']['urip']
-        ) % 4;
-
-        $caturBekel = match ($modulo) {
-            1 => 'guru',
-            2 => 'ratu',
-            3 => 'lara',
-            default => 'pati',
-        };
+        );
 
         WarigaProfile::updateOrCreate(
             ['user_id' => $user->id],
@@ -117,12 +107,10 @@ class OnBoardingController extends Controller
             return back();
         }
 
-        // Selesaikan content type jika 'random'
         $finalContentType = $rule->recommended_content_type === 'random'
             ? collect(['text', 'illustration'])->random()
             : $rule->recommended_content_type;
 
-        // Simpan preferensi ke user_profiles agar bisa digunakan oleh dashboard
         UserProfile::updateOrCreate(
             ['user_id' => $user->id],
             [
@@ -131,7 +119,6 @@ class OnBoardingController extends Controller
             ]
         );
 
-        // Catat log rekomendasi yang diterapkan
         RecommendationLog::create([
             'user_id'                => $user->id,
             'recommendation_rules_id' => $rule->id,

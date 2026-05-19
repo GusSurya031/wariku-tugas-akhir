@@ -385,7 +385,7 @@ export default function ProfilePage({ auth, userData = {}, themeDay = null }) {
 
     return (
         <>
-            <Head title="Profil Anda" />
+            <Head title="Wariku - Profile" />
 
             <div data-theme={themeSlug} className="min-h-screen bg-gray-50 flex">
                 <Sidebar

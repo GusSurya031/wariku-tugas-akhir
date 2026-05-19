@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\OnBoardingController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,8 +24,8 @@ Route::post('/login', [AuthController::class, 'authenticate'])->name('login');
 // ── Shared: both roles ────────────────────────────────────────────────────────
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-    Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
-    Route::post('/profile', [DashboardController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 // ── Teacher only ──────────────────────────────────────────────────────────────
@@ -49,7 +50,7 @@ Route::middleware(['auth', 'student'])->group(function () {
 
     Route::get('/quiz/result/{attemptId}', [QuizController::class, 'result'])->name('quiz.result');
     Route::get('/quiz/{variantId}/info', [QuizController::class, 'preQuizInfo'])->name('quiz.info');
-    Route::get('/quiz/{variantId}', [DashboardController::class, 'quiz'])->name('dashboard.quiz');
+    Route::get('/quiz/{variantId}', [QuizController::class, 'start'])->name('quiz.start');
     Route::post('/quiz', [QuizController::class, 'store'])->name('quiz.store');
 
     Route::get('/report', [DashboardController::class, 'report'])->name('dashboard.report');

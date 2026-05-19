@@ -14,7 +14,6 @@ class LessonController extends Controller
 {
     public function index()
     {
-        /** @var \App\Models\User $user */
         $user = Auth::user();
 
         $userProfile      = $user->userProfile;
@@ -25,7 +24,7 @@ class LessonController extends Controller
             ->get()
             ->keyBy('material_has_variant_id');
 
-        $latestLog             = RecommendationLog::where('user_id', $user->id)->with('rule')->latest()->first();
+        $latestLog = $user->latest_recommendation;
         $recommendedDifficulty = $latestLog?->rule?->recommended_difficulty;
 
         $allMaterials = Material::with([
@@ -67,14 +66,13 @@ class LessonController extends Controller
         ]);
     }
 
-    public function updateProgress(Request $request, $variantId)
+    public function updateProgress(Request $request, int $variantId)
     {
         $request->validate([
             'chapter_index'  => 'required|integer|min:0',
             'total_chapters' => 'required|integer|min:1',
         ]);
 
-        /** @var \App\Models\User $user */
         $user   = Auth::user();
         $newPct = min((int) round(($request->chapter_index + 1) / $request->total_chapters * 100), 100);
 
@@ -91,14 +89,13 @@ class LessonController extends Controller
         return response()->json(['ok' => true]);
     }
 
-    public function show($variantId)
+    public function show(int $variantId)
     {
         $variant = MaterialHasVariant::with([
             'material',
             'chapters' => fn($q) => $q->orderBy('order_number'),
         ])->findOrFail($variantId);
 
-        /** @var \App\Models\User $user */
         $user = Auth::user();
         $themeDay = $user->recommendation_theme_day;
 

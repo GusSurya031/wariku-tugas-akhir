@@ -17,21 +17,56 @@ use Inertia\Inertia;
 
 class QuizController extends Controller
 {
-    public function preQuizInfo($variantId)
+
+    public function start(int $variantId)
+    {
+        $user    = Auth::user();
+        $variant = MaterialHasVariant::with(['material', 'questions.options'])
+            ->findOrFail($variantId);
+
+        $latestLog = $user->latest_recommendation;
+        $themeDay = null;
+
+        if ($latestLog?->rule) {
+            $themeDay = $user->recommendation_theme_day;
+        }
+
+        // Shuffle options
+        $questions = $variant->questions->map(fn($q) => [
+            'id'                 => $q->id,
+            'question_text'      => $q->question_text,
+            'estimated_duration' => $q->estimated_duration,
+            'options'            => $q->options
+                ->map(fn($o) => ['id' => $o->id, 'option_text' => $o->option_text])
+                ->shuffle()
+                ->values(),
+        ]);
+
+        return Inertia::render('Auth/Quiz', [
+            'variant' => [
+                'id'            => $variant->id,
+                'materialTitle' => $variant->material->title,
+                'difficulty'    => $variant->difficulty_level,
+                'learningType'  => $variant->learning_type,
+            ],
+            'questions' => $questions,
+            'themeDay'  => $themeDay,
+        ]);
+    }
+
+    public function preQuizInfo(int $variantId)
     {
         /** @var \App\Models\User $user */
         $user    = Auth::user();
         $variant = MaterialHasVariant::with(['material'])->findOrFail($variantId);
 
-        // Resolve theme from latest recommendation log
         $latestLog = $user->latest_recommendation;
         $themeDay = null;
 
         if ($latestLog?->rule) {
-            $themeDay = $user-> recommendation_theme_day;
+            $themeDay = $user->recommendation_theme_day;
         }
 
-        // Check if user has any prior attempt for this material (any variant)
         $hasAttempt = QuizAttempt::where('user_id', $user->id)
             ->whereHas('materialHasVariant', fn($q) => $q->where('material_id', $variant->material_id))
             ->exists();
@@ -89,7 +124,6 @@ class QuizController extends Controller
         $optionIds   = $answers->pluck('question_option_id');
         $questionIds = $answers->pluck('question_id');
 
-        // Determine correctness server-side (never trust client)
         $correctOptionIds = array_flip(
             QuestionOption::whereIn('id', $optionIds)
                 ->where('is_correct', true)
@@ -97,7 +131,6 @@ class QuizController extends Controller
                 ->toArray()
         );
 
-        // Estimated duration per question for time efficiency calculation
         $estimatedDurations = Question::whereIn('id', $questionIds)
             ->pluck('estimated_duration', 'id');
 
@@ -130,7 +163,6 @@ class QuizController extends Controller
             default                 => 'C',
         };
 
-        // Save QuizAttempt
         $attempt = QuizAttempt::create([
             'user_id'                 => $user->id,
             'material_has_variant_id' => $validated['material_has_variant_id'],
@@ -138,12 +170,10 @@ class QuizController extends Controller
             'score_performance'       => $scorePerformance,
         ]);
 
-        // Save QuizAnswers
         foreach ($answersPayload as $payload) {
             QuizAnswer::create(['quiz_attempt_id' => $attempt->id, ...$payload]);
         }
 
-        // Resolve PQ recommendation — requires today's mood and wariga profile
         $moodLog = MoodLog::where('user_id', $user->id)
             ->whereDate('created_at', today())
             ->latest()
@@ -187,7 +217,7 @@ class QuizController extends Controller
             ->with('rec_log_id', $log->id);
     }
 
-    public function result($attemptId)
+    public function result(int $attemptId)
     {
         /** @var \App\Models\User $user */
         $user    = Auth::user();
@@ -204,18 +234,16 @@ class QuizController extends Controller
         $seconds      = $totalSeconds % 60;
         $durationStr  = $minutes > 0 ? "{$minutes} menit {$seconds} detik" : "{$seconds} detik";
 
-        // Retrieve recommendation log created for this attempt (via flash or latest)
         $logId     = session('rec_log_id');
         $latestLog = $logId
             ? RecommendationLog::with('rule')->find($logId)
             : RecommendationLog::where('user_id', $user->id)->with('rule')->latest()->first();
 
-        // Resolve theme
         $latestLog = $user->latest_recommendation;
         $themeDay = null;
 
         if ($latestLog?->rule) {
-            $themeDay = $user-> recommendation_theme_day;
+            $themeDay = $user->recommendation_theme_day;
         }
 
         $recommendation       = null;
