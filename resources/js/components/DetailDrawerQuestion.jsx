@@ -5,7 +5,7 @@ import RefreshIcon from "@/assets/icon/RefreshIcon";
 import TrophyIcon from "@/assets/icon/TrophyIcon";
 import XIcon from "@/assets/icon/XIcon";
 import PlayIcon from "@/assets/icon/PlayIcon";
-import { DIFF_CONFIG } from "@/constants/Dashboard";
+import { DIFF_CONFIG, INSTRUCTIONS } from "@/constants/Dashboard";
 import ScoreRing from "@/components/ScoreRing";
 
 const DetailDrawerQuestion = ({ variant, onClose, themeSlug }) => {
@@ -148,12 +148,7 @@ const DetailDrawerQuestion = ({ variant, onClose, themeSlug }) => {
                                 Petunjuk Pengerjaan
                             </h3>
                             <ul className="space-y-1.5 text-xs text-amber-700/80">
-                                {[
-                                    "Baca setiap soal dengan teliti sebelum menjawab",
-                                    "Jawaban tidak bisa diubah setelah lanjut ke soal berikutnya",
-                                    "Setiap soal hanya memiliki satu jawaban yang benar",
-                                    "Skor dihitung berdasarkan akurasi dan kecepatan menjawab",
-                                ].map((txt, i) => (
+                                {INSTRUCTIONS.map((txt, i) => (
                                     <li
                                         key={i}
                                         className="flex items-start gap-2"

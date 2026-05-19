@@ -242,6 +242,9 @@ class QuizController extends Controller
             $recVariants = MaterialHasVariant::with('material')
                 ->where('difficulty_level', $rule->recommended_difficulty)
                 ->where('learning_type', $contentType)
+                ->whereHas('material', function ($query) use ($variant) {
+                    $query->where('topic', $variant->material->topic);
+                })
                 ->get();
 
             foreach ($recVariants as $rv) {

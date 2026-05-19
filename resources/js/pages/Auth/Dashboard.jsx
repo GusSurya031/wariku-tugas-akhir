@@ -4,7 +4,6 @@ import {
     THEME_MAP,
     DIFFICULTY_LABEL,
     DIFFICULTY_COLOR,
-    FORMAT_DATE,
 } from "@/constants/Dashboard";
 import Sidebar from "@/components/Sidebar";
 import HeroBanner from "@/components/HeroBanner";
@@ -22,7 +21,6 @@ import PencilIcon from "@/assets/icon/PencilIcon";
 import ChartIcon from "@/assets/icon/ChartIcon";
 import SettingsIcon from "@/assets/icon/SettingsIcon";
 import LogoutIcon from "@/assets/icon/LogoutIcon";
-
 
 const navMain = [
     {
@@ -103,11 +101,11 @@ export default function Dashboard({
                                 <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-none -mx-1 px-1">
                                     {recommendedMaterials.map((item) => (
                                         <RecommendedCard
-                                            key={item.id}
-                                            materialId={item.material_id}
+                                            href={`/lessons?open=${item.material_id}`}
+                                            icon={BookIcon}
+                                            topic={item.topic}
                                             title={item.title}
                                             difficulty={item.difficulty}
-                                            topic={item.topic}
                                         />
                                     ))}
                                 </div>

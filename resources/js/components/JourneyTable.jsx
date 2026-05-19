@@ -1,5 +1,5 @@
 import { Link } from "@inertiajs/react";
-import { FORMAT_DATE } from "@/constants/Dashboard";
+import {formatDate} from "@/helpers/DashboardHelpers";
 import ArrowUpRightIcon from "@/assets/icon/ArrowUpRightIcon";
 
 const JourneyTable = ({ rows = [] }) => (
@@ -42,7 +42,7 @@ const JourneyTable = ({ rows = [] }) => (
                                 className="border-b border-gray-50 last:border-0 hover:bg-gray-50/50 transition-colors"
                             >
                                 <td className="px-5 py-3.5 text-gray-600 text-xs">
-                                    {FORMAT_DATE(row.created_at)}
+                                    {formatDate(row.created_at)}
                                 </td>
                                 <td className="px-5 py-3.5 text-gray-700 text-xs font-medium">
                                     {row.material_title}

@@ -73,7 +73,7 @@ export default function Exercise({ auth, variants = [], themeDay = null }) {
                     navSettings={navSettings}
                 />
 
-                <main className="flex-1 overflow-y-auto min-w-0 space-y-7">
+                <main className="flex-1 overflow-y-auto min-w-0 md:space-y-7">
                     {/* Mobile top bar */}
                     <div className="lg:hidden flex items-center gap-3 px-4 py-3 bg-white border-b border-gray-100 sticky top-0 z-20">
                         <button
@@ -154,7 +154,7 @@ export default function Exercise({ auth, variants = [], themeDay = null }) {
                                     {f.label}
                                 </button>
                             ))}
-                            <span className="ml-auto text-xs text-gray-400">
+                            <span className="md:ml-auto text-xs text-gray-400">
                                 {filtered.length} latihan
                             </span>
                         </div>

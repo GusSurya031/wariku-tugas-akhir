@@ -42,7 +42,7 @@ const ExerciseCard = ({ variant, onClick }) => {
                         </span>
                         <span className="text-xs text-gray-400">
                             {variant.attempt_count > 0
-                                ? `/ ${variant.attempt_count}×`
+                                ? `/ ${variant.attempt_count}× Percobaan`
                                 : "soal"}
                         </span>
                     </div>
