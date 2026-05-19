@@ -70,3 +70,4 @@ export const QUIZ_RULES = [
     },
 ];
 
+export const PER_PAGE = 5;

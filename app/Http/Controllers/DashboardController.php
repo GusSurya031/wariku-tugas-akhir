@@ -7,7 +7,6 @@ use App\Models\MaterialHasVariant;
 use App\Models\MoodLog;
 use App\Models\Question;
 use App\Models\QuizAttempt;
-use App\Models\RecommendationLog;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
@@ -21,25 +20,16 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        /** @var \App\Models\User $user */
         $user        = Auth::user();
         $userProfile = $user->userProfile;
 
-        // Latest recommendation log → determines active theme + content preferences
-        $latestLog = RecommendationLog::where('user_id', $user->id)
-            ->with('rule')
-            ->latest()
-            ->first();
-
+        $latestLog = $user->latest_recommendation;
         $themeDay = null;
+
         if ($latestLog?->rule) {
-            $themeDay = OnBoardingController::resolveThemeDay(
-                $latestLog->rule->theme_day_offset,
-                $latestLog->created_at
-            );
+            $themeDay = $user-> recommendation_theme_day;
         }
 
-        // Recommended variants: match user's current learning_type + difficulty
         $recommendedMaterials = [];
         if ($userProfile?->learning_type && $userProfile?->difficulty_material) {
             $recommendedMaterials = MaterialHasVariant::with('material')
@@ -58,7 +48,6 @@ class DashboardController extends Controller
                 ->values();
         }
 
-        // All materials for the exploration section
         $allMaterials = Material::all()
             ->take(4)
             ->map(fn($m) => [
@@ -70,7 +59,6 @@ class DashboardController extends Controller
             ])
             ->values();
 
-        // Recent quiz attempts for the journey table
         $recentAttempts = QuizAttempt::where('user_id', $user->id)
             ->with('materialHasVariant.material')
             ->latest()
@@ -97,10 +85,6 @@ class DashboardController extends Controller
             'recentAttempts'       => $recentAttempts,
         ]);
     }
-    public function showLesson()
-    {
-        return Inertia::render('Auth/ChapterLesson');
-    }
 
     public function exercise()
     {
@@ -110,13 +94,11 @@ class DashboardController extends Controller
         $userProfile      = $user->userProfile;
         $userLearningType = $userProfile?->learning_type ?? 'text';
 
-        $latestLog = RecommendationLog::where('user_id', $user->id)->with('rule')->latest()->first();
-        $themeDay  = null;
+        $latestLog = $user->latest_recommendation;
+        $themeDay = null;
+
         if ($latestLog?->rule) {
-            $themeDay = OnBoardingController::resolveThemeDay(
-                $latestLog->rule->theme_day_offset,
-                $latestLog->created_at
-            );
+            $themeDay = $user-> recommendation_theme_day;
         }
 
         $variants = MaterialHasVariant::with(['material'])
@@ -157,13 +139,11 @@ class DashboardController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        $latestLog = RecommendationLog::where('user_id', $user->id)->with('rule')->latest()->first();
-        $themeDay  = null;
+        $latestLog = $user->latest_recommendation;
+        $themeDay = null;
+
         if ($latestLog?->rule) {
-            $themeDay = OnBoardingController::resolveThemeDay(
-                $latestLog->rule->theme_day_offset,
-                $latestLog->created_at
-            );
+            $themeDay = $user-> recommendation_theme_day;
         }
 
         return Inertia::render('Auth/Profile', [
@@ -238,13 +218,11 @@ class DashboardController extends Controller
         $variant = MaterialHasVariant::with(['material', 'questions.options'])
             ->findOrFail($variantId);
 
-        $latestLog = RecommendationLog::where('user_id', $user->id)->with('rule')->latest()->first();
-        $themeDay  = null;
+        $latestLog = $user->latest_recommendation;
+        $themeDay = null;
+
         if ($latestLog?->rule) {
-            $themeDay = OnBoardingController::resolveThemeDay(
-                $latestLog->rule->theme_day_offset,
-                $latestLog->created_at
-            );
+            $themeDay = $user-> recommendation_theme_day;
         }
 
         // Shuffle options server-side so correct answer position varies each load
@@ -275,17 +253,11 @@ class DashboardController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        $latestLog = RecommendationLog::where('user_id', $user->id)
-            ->with('rule')
-            ->latest()
-            ->first();
-
+        $latestLog = $user->latest_recommendation;
         $themeDay = null;
+
         if ($latestLog?->rule) {
-            $themeDay = OnBoardingController::resolveThemeDay(
-                $latestLog->rule->theme_day_offset,
-                $latestLog->created_at
-            );
+            $themeDay = $user-> recommendation_theme_day;
         }
 
         $todayMood = MoodLog::where('user_id', $user->id)
@@ -340,13 +312,11 @@ class DashboardController extends Controller
         /** @var \App\Models\User $teacher */
         $teacher = Auth::user();
 
-        $latestLog = RecommendationLog::where('user_id', $teacher->id)->with('rule')->latest()->first();
-        $themeDay  = null;
+        $latestLog = $teacher->latest_recommendation;
+        $themeDay = null;
+
         if ($latestLog?->rule) {
-            $themeDay = OnBoardingController::resolveThemeDay(
-                $latestLog->rule->theme_day_offset,
-                $latestLog->created_at
-            );
+            $themeDay = $teacher-> recommendation_theme_day;
         }
 
         // ── Stats ────────────────────────────────────────────────────────────

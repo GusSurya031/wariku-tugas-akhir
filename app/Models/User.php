@@ -3,14 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Services\ThemeDayService;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['role_id','username', 'fullname', 'email', 'password', 'profil_path'])]
+#[Fillable(['role_id', 'username', 'fullname', 'email', 'password', 'profil_path'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -60,8 +62,45 @@ class User extends Authenticatable
         return $this->hasMany(QuizAttempt::class);
     }
 
-    public function recomendations()
+    public function recommendations()
     {
         return $this->hasMany(RecommendationLog::class);
+    }
+
+    protected function hasRecommendationToday(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->recommendations()
+                ->whereDate('created_at', today())
+                ->exists()
+        );
+    }
+
+    protected function latestRecommendation(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->recommendations()
+                ->with('rule')
+                ->latest()
+                ->first()
+        );
+    }
+
+    protected function recommendationThemeDay(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $latestLog = $this->latest_recommendation;
+
+                if (! $latestLog?->rule) {
+                    return null;
+                }
+
+                return ThemeDayService::resolveThemeDay(
+                    $latestLog->rule->theme_day_offset,
+                    $latestLog->created_at
+                );
+            }
+        );
     }
 }

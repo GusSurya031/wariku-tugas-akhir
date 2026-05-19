@@ -24,13 +24,11 @@ class QuizController extends Controller
         $variant = MaterialHasVariant::with(['material'])->findOrFail($variantId);
 
         // Resolve theme from latest recommendation log
-        $latestLog = RecommendationLog::where('user_id', $user->id)->with('rule')->latest()->first();
-        $themeDay  = null;
+        $latestLog = $user->latest_recommendation;
+        $themeDay = null;
+
         if ($latestLog?->rule) {
-            $themeDay = OnBoardingController::resolveThemeDay(
-                $latestLog->rule->theme_day_offset,
-                $latestLog->created_at
-            );
+            $themeDay = $user-> recommendation_theme_day;
         }
 
         // Check if user has any prior attempt for this material (any variant)
@@ -213,12 +211,11 @@ class QuizController extends Controller
             : RecommendationLog::where('user_id', $user->id)->with('rule')->latest()->first();
 
         // Resolve theme
+        $latestLog = $user->latest_recommendation;
         $themeDay = null;
+
         if ($latestLog?->rule) {
-            $themeDay = OnBoardingController::resolveThemeDay(
-                $latestLog->rule->theme_day_offset,
-                $latestLog->created_at
-            );
+            $themeDay = $user-> recommendation_theme_day;
         }
 
         $recommendation       = null;

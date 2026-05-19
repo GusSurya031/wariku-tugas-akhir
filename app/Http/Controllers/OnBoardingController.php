@@ -144,19 +144,4 @@ class OnBoardingController extends Controller
     {
         return redirect()->route('dashboard.index');
     }
-
-    // -----------------------------------------------
-    // Hitung nama tema dari offset (current / next)
-    // Dipanggil di dashboard saat perlu resolve tema
-    // -----------------------------------------------
-    public static function resolveThemeDay(string $offset, ?\Carbon\Carbon $referenceDate = null): string
-    {
-        $days      = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-        $reference = $referenceDate ?? now();
-        $index     = $offset === 'next'
-            ? ($reference->dayOfWeek + 1) % 7
-            : $reference->dayOfWeek;
-
-        return $days[$index];
-    }
 }

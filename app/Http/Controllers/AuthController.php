@@ -47,7 +47,6 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        // New user: always goes to onboarding first
         return redirect()->route('onboarding.index');
     }
 
@@ -67,26 +66,19 @@ class AuthController extends Controller
         $request->session()->regenerate();
         $user = Auth::user();
 
-        // Teachers go directly to their dashboard
         if ($user->role_id === 1) {
             return redirect()->route('dashboard.teacher');
         }
 
-        // No profile yet: hasn't completed step 1 of onboarding
         if (!$user->userProfile) {
             return redirect()->route('onboarding.index');
         }
 
-        // Check if a recommendation was already generated today
-        $hasRecommendationToday = RecommendationLog::where('user_id', $user->id)
-            ->whereDate('created_at', today())
-            ->exists();
-
+        $hasRecommendationToday = $user->has_recommendation_today;
         if ($hasRecommendationToday) {
             return redirect()->intended(route('dashboard.index'));
         }
 
-        // Different day: go to onboarding (mood-only for returning users)
         return redirect()->route('onboarding.index');
     }
 

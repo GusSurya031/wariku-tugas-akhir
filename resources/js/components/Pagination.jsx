@@ -1,6 +1,9 @@
 import React from "react";
 import ChevronLeftIcon from "@/assets/icon/ChevronLeftIcon";
 import ChevronRightIcon from "@/assets/icon/ChevronRightIcon";
+import { PER_PAGE } from '@/constants/Dashboard';
+
+
 
 const Pagination = ({ current, total, totalItems, onChange }) => {
     if (total <= 0) return null;

@@ -2,6 +2,7 @@ import { Link } from "@inertiajs/react";
 import ScoreBadge from '@/components/ScoreBadge';
 import Pagination from '@/components/Pagination';
 import ArrowUpRightIcon from "@/assets/icon/ArrowUpRightIcon";
+import { PER_PAGE } from '@/constants/Dashboard';
 
 const HistoryCard = ({ rows, page, totalPages, totalItems, onPageChange }) => (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col gap-4 h-full">

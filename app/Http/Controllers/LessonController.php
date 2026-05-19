@@ -12,23 +12,6 @@ use Inertia\Inertia;
 
 class LessonController extends Controller
 {
-    private function resolveThemeDay(): ?string
-    {
-        /** @var \App\Models\User $user */
-        $user      = Auth::user();
-        $latestLog = RecommendationLog::where('user_id', $user->id)
-            ->with('rule')
-            ->latest()
-            ->first();
-
-        if (!$latestLog?->rule) return null;
-
-        return OnBoardingController::resolveThemeDay(
-            $latestLog->rule->theme_day_offset,
-            $latestLog->created_at
-        );
-    }
-
     public function index()
     {
         /** @var \App\Models\User $user */
@@ -36,6 +19,7 @@ class LessonController extends Controller
 
         $userProfile      = $user->userProfile;
         $userLearningType = $userProfile?->learning_type ?? 'text';
+        $themeDay         = $user->recommendation_theme_day;
 
         $progressMap = UserMaterialProgress::where('user_id', $user->id)
             ->get()
@@ -77,7 +61,7 @@ class LessonController extends Controller
                 ],
             ],
             'allMaterials'          => $allMaterials,
-            'themeDay'              => $this->resolveThemeDay(),
+            'themeDay'              => $themeDay,
             'userLearningType'      => $userLearningType,
             'recommendedDifficulty' => $recommendedDifficulty,
         ]);
@@ -116,6 +100,7 @@ class LessonController extends Controller
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
+        $themeDay = $user->recommendation_theme_day;
 
         return Inertia::render('Auth/ChapterLesson', [
             'variant' => [
@@ -140,7 +125,7 @@ class LessonController extends Controller
                     'fullname' => $user->fullname,
                 ],
             ],
-            'themeDay' => $this->resolveThemeDay(),
+            'themeDay' => $themeDay,
         ]);
     }
 }
