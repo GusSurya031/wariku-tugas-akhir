@@ -98,8 +98,8 @@ export const FAQS = [
 
 export const MOODS = [
     { label: "Sangat Semangat", value: 3, emoji: "🔥" },
-    { label: "Semangat", value: 3, emoji: "😄" },
+    { label: "Santai", value: 3, emoji: "😄" },
     { label: "Biasa Saja", value: 2, emoji: "🙂" },
-    { label: "Kurang Fokus", value: 1, emoji: "😴" },
-    { label: "Sangat Lelah", value: 1, emoji: "🥲" },
+    { label: "Bosan", value: 1, emoji: "😴" },
+    { label: "Stress", value: 1, emoji: "🥲" },
 ];

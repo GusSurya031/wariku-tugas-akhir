@@ -14,6 +14,8 @@ export default function Onboarding() {
     const [gender, setGender] = useState(userProfile?.gender ?? "");
 
     const [selectedMood, setSelectedMood] = useState(null);
+    const [errors, setErrors] = useState({});
+
     // Step 1 - Handle Profile submission
     const handleProfile = () => {
         const balineseBirthDate = new BalineseDate(new Date(birthDate));
@@ -28,7 +30,7 @@ export default function Onboarding() {
                 balinese_today_date: balineseTodayDate,
             },
             {
-                onError: (errors) => console.log(errors),
+                onError: (errs) => setErrors(errs),
                 onSuccess: () => setStep(2),
             },
         );
@@ -98,13 +100,19 @@ export default function Onboarding() {
                                         <input
                                             type="text"
                                             value={username}
-                                            onChange={(e) =>
-                                                setUsername(e.target.value)
-                                            }
+                                            onChange={(e) => {
+                                                setUsername(e.target.value);
+                                                if (errors.username) setErrors((prev) => ({ ...prev, username: undefined }));
+                                            }}
                                             placeholder="Contoh: Made"
-                                            className={`w-full rounded-2xl border px-5 py-4 outline-none
-                                            border-(--border-primary) focus:border-(--theme-primary)`}
+                                            className={`w-full rounded-2xl border px-5 py-4 outline-none transition-colors
+                                                ${errors.username
+                                                    ? "border-red-400 focus:border-red-500"
+                                                    : "border-(--border-primary) focus:border-(--theme-primary)"}`}
                                         />
+                                        {errors.username && (
+                                            <p className="mt-1.5 text-sm text-red-500">{errors.username}</p>
+                                        )}
                                     </div>
 
                                     {/* Tanggal Lahir */}
@@ -115,11 +123,18 @@ export default function Onboarding() {
                                         <input
                                             type="date"
                                             value={birthDate}
-                                            onChange={(e) =>
-                                                setBirthDate(e.target.value)
-                                            }
-                                            className={`w-full rounded-2xl border px-5 py-4 outline-none border-(--border-primary) focus:border-(--theme-primary)`}
+                                            onChange={(e) => {
+                                                setBirthDate(e.target.value);
+                                                if (errors.birth_date) setErrors((prev) => ({ ...prev, birth_date: undefined }));
+                                            }}
+                                            className={`w-full rounded-2xl border px-5 py-4 outline-none transition-colors
+                                                ${errors.birth_date
+                                                    ? "border-red-400 focus:border-red-500"
+                                                    : "border-(--border-primary) focus:border-(--theme-primary)"}`}
                                         />
+                                        {errors.birth_date && (
+                                            <p className="mt-1.5 text-sm text-red-500">{errors.birth_date}</p>
+                                        )}
                                     </div>
 
                                     {/* Jenis Kelamin */}
@@ -129,10 +144,14 @@ export default function Onboarding() {
                                         </label>
                                         <select
                                             value={gender}
-                                            onChange={(e) =>
-                                                setGender(e.target.value)
-                                            }
-                                            className={`w-full rounded-2xl border bg-white px-5 py-4 outline-none border-(--border-primary) focus:border-(--theme-primary)`}
+                                            onChange={(e) => {
+                                                setGender(e.target.value);
+                                                if (errors.gender) setErrors((prev) => ({ ...prev, gender: undefined }));
+                                            }}
+                                            className={`w-full rounded-2xl border bg-white px-5 py-4 outline-none transition-colors
+                                                ${errors.gender
+                                                    ? "border-red-400 focus:border-red-500"
+                                                    : "border-(--border-primary) focus:border-(--theme-primary)"}`}
                                         >
                                             <option value="">
                                                 Pilih jenis kelamin
@@ -144,6 +163,9 @@ export default function Onboarding() {
                                                 Perempuan
                                             </option>
                                         </select>
+                                        {errors.gender && (
+                                            <p className="mt-1.5 text-sm text-red-500">{errors.gender}</p>
+                                        )}
                                     </div>
 
                                     <button

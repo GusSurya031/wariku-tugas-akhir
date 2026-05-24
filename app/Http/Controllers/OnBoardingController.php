@@ -10,6 +10,7 @@ use App\Models\WarigaProfile;
 use App\Services\WarigaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class OnBoardingController extends Controller
@@ -31,16 +32,16 @@ class OnBoardingController extends Controller
 
     public function storeProfile(Request $request)
     {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
         $validated = $request->validate([
-            'username'            => ['required', 'string', 'max:100'],
+            'username'            => ['required', 'string', 'max:100', Rule::unique('users', 'username')->ignore($user->id)],
             'birth_date'          => ['required', 'date'],
             'gender'              => ['required', 'in:male,female'],
             'balinese_birth_date' => ['required'],
             'balinese_today_date' => ['required'],
         ]);
-
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
 
         $user->update(['username' => $validated['username']]);
 
