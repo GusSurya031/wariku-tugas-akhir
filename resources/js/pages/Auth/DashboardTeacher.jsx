@@ -1,185 +1,30 @@
 import { useState, useMemo } from "react";
 import { Head, Link } from "@inertiajs/react";
 
-// ─── Theme mapping ────────────────────────────────────────────────────────────
-const THEME_MAP = {
-    Minggu: "redite",
-    Senin: "soma",
-    Selasa: "anggara",
-    Rabu: "buda",
-    Kamis: "wrespati",
-    Jumat: "sukra",
-    Sabtu: "saniscara",
-};
+import {THEME_MAP, MOOD_COLORS, WARIGA_COLORS} from "@/constants/Dashboard";
+import { fmt, exportToCSV } from "@/helpers/DashboardHelpers";
 
-const MOOD_COLORS = ["#22c55e", "#3b82f6", "#8b5cf6", "#6b7280", "#ef4444", "#f59e0b", "#ec4899"];
-const WARIGA_COLORS = { Guru: "#22c55e", Ratu: "#3b82f6", Lara: "#8b5cf6", Pati: "#d1d5db" };
+import HomeIcon from "@/assets/icon/HomeIcon";
+import SettingsIcon from "@/assets/icon/SettingsIcon";
+import LogoutIcon from "@/assets/icon/LogoutIcon";
+import MenuIcon from "@/assets/icon/MenuIcon";
+import XIcon from "@/assets/icon/XIcon";
+import BookIcon from "@/assets/icon/BookIcon";
+import UserIcon from "@/assets/icon/UserIcon";
+import QuestionIcon from "@/assets/icon/QuestionIcon";
+import CalenderIcon from "@/assets/icon/CalenderIcon";
+import ExportIcon from "@/assets/icon/ExportIcon";
+import TrendUpIcon from "@/assets/icon/TrendUpIcon";
 
-// ─── Icons ────────────────────────────────────────────────────────────────────
-const HomeIcon = ({ className }) => (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-    </svg>
-);
-const SettingsIcon = ({ className }) => (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
-);
-const LogoutIcon = ({ className }) => (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-    </svg>
-);
-const MenuIcon = ({ className }) => (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
-);
-const XIcon = ({ className }) => (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-    </svg>
-);
-const CalendarIcon = ({ className }) => (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-    </svg>
-);
-const ExportIcon = ({ className }) => (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-    </svg>
-);
-const UsersIcon = ({ className }) => (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
-);
-const BookIcon = ({ className }) => (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-    </svg>
-);
-const QuestionMarkIcon = ({ className }) => (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-);
-const TrendUpIcon = ({ className }) => (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-    </svg>
-);
+import Sidebar from "@/components/Sidebar";
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-const fmt = (iso) => {
-    if (!iso) return "";
-    const d = new Date(iso + "T00:00:00");
-    return d.toLocaleDateString("id-ID", {
-        weekday: "short", day: "numeric", month: "short", year: "numeric",
-    });
-};
-
-const exportToCSV = (date, exportRows) => {
-    if (!exportRows || exportRows.length === 0) {
-        alert("Tidak ada data untuk tanggal ini.");
-        return;
-    }
-    const headers = ["Nama", "Kondisi Mood", "Level Mood", "Score Performance", "Rekomendasi", "Kondisi Wariga"];
-    const csvRows = [
-        headers.join(","),
-        ...exportRows.map((r) =>
-            [
-                `"${r.user_name}"`,
-                `"${r.mood_label}"`,
-                r.mood_level,
-                r.score_performance,
-                `"${r.recommendation_rule}"`,
-                `"${r.wariga_condition}"`,
-            ].join(",")
-        ),
-    ];
-    const csv = "﻿" + csvRows.join("\n");
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `wariku-report-${date}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-};
-
-// ─── Sidebar ──────────────────────────────────────────────────────────────────
-const Sidebar = ({ open, onClose }) => {
-    const navMain = [
-        { label: "Dashboard", icon: HomeIcon, active: true, href: "/dashboard/teacher" },
-    ];
-    const navBottom = [
-        { label: "Profile", icon: SettingsIcon, href: "/profile" },
-        { label: "Logout", icon: LogoutIcon, href: "/logout", danger: true },
-    ];
-
-    return (
-        <>
-            {open && (
-                <div className="fixed inset-0 bg-black/40 z-30 lg:hidden" onClick={onClose} />
-            )}
-            <aside
-                className={`fixed top-0 left-0 h-full z-40 w-56 bg-white border-r border-gray-100 flex flex-col py-6 px-4 transition-transform duration-300
-                lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 lg:z-auto
-                ${open ? "translate-x-0" : "-translate-x-full"}`}
-            >
-                <div className="flex items-center gap-2 mb-8 px-1">
-                    <div className="w-8 h-8 rounded-full bg-gray-900 flex items-center justify-center">
-                        <span className="text-white text-xs font-bold">✦</span>
-                    </div>
-                    <span className="font-bold text-gray-900 text-lg tracking-tight">Wariku</span>
-                    <button className="ml-auto lg:hidden text-gray-400 hover:text-gray-600" onClick={onClose}>
-                        <XIcon className="w-5 h-5" />
-                    </button>
-                </div>
-
-                <div className="flex-1 flex flex-col justify-between overflow-y-auto">
-                    <div>
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 px-2 mb-2">Overview</p>
-                        <nav className="space-y-0.5">
-                            {navMain.map(({ label, icon: Icon, active, href }) => (
-                                <Link
-                                    key={label}
-                                    href={href}
-                                    className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group
-                                    ${active ? "bg-(--theme-soft) text-(--theme-primary)" : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"}`}
-                                >
-                                    <Icon className={`w-4 h-4 shrink-0 ${active ? "text-(--theme-primary)" : "text-gray-400 group-hover:text-gray-600"}`} />
-                                    {label}
-                                </Link>
-                            ))}
-                        </nav>
-                    </div>
-                    <div>
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 px-2 mb-2">Settings</p>
-                        <nav className="space-y-0.5">
-                            {navBottom.map(({ label, icon: Icon, href, danger }) => (
-                                <Link
-                                    key={label}
-                                    href={href}
-                                    {...(danger ? { method: "post", as: "button" } : {})}
-                                    className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group
-                                    ${danger ? "text-red-400 hover:bg-red-50" : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"}`}
-                                >
-                                    <Icon className={`w-4 h-4 shrink-0 ${danger ? "text-red-400" : "text-gray-400 group-hover:text-gray-600"}`} />
-                                    {label}
-                                </Link>
-                            ))}
-                        </nav>
-                    </div>
-                </div>
-            </aside>
-        </>
-    );
-};
+const navMain = [
+    { label: "Dashboard", icon: HomeIcon, active: true, href: "/dashboard/teacher" },
+];
+const navSettings = [
+    { label: "Profile", icon: SettingsIcon, href: "/profile" },
+    { label: "Logout", icon: LogoutIcon, href: "/logout", danger: true },
+];
 
 // ─── Stat Card ────────────────────────────────────────────────────────────────
 const StatCard = ({ icon: Icon, label, value, unit }) => (
@@ -356,7 +201,12 @@ export default function TeacherDashboard({
             <Head title="Dashboard — Guru" />
 
             <div data-theme={themeSlug} className="min-h-screen bg-gray-50 flex" style={{ height: "100dvh" }}>
-                <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+                <Sidebar
+                    open={sidebarOpen}
+                    onClose={() => setSidebarOpen(false)}
+                    navMain={navMain}
+                    navSettings={navSettings}
+                />
 
                 <main className="flex-1 overflow-y-auto min-w-0">
                     {/* Mobile topbar */}
@@ -385,9 +235,9 @@ export default function TeacherDashboard({
 
                         {/* ── Stat cards ─────────────────────────────────────── */}
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            <StatCard icon={UsersIcon} label="Student" value={stats.totalStudents} unit="users" />
+                            <StatCard icon={UserIcon} label="Student" value={stats.totalStudents} unit="users" />
                             <StatCard icon={BookIcon} label="Materi" value={stats.totalMaterials} unit="materi" />
-                            <StatCard icon={QuestionMarkIcon} label="Soal" value={stats.totalQuestions} unit="soal" />
+                            <StatCard icon={QuestionIcon} label="Soal" value={stats.totalQuestions} unit="soal" />
                         </div>
 
                         {/* ── Section header: charts ─────────────────────────── */}
@@ -402,7 +252,7 @@ export default function TeacherDashboard({
                                     onClick={() => setShowPicker((p) => !p)}
                                     className="flex items-center gap-2 border border-gray-200 bg-white rounded-xl px-4 py-2 text-sm text-gray-600 hover:border-(--theme-secondary) hover:text-(--theme-primary) transition-all shadow-sm"
                                 >
-                                    <CalendarIcon className="w-4 h-4" />
+                                    <CalenderIcon className="w-4 h-4" />
                                     <span className="font-medium whitespace-nowrap">
                                         {filterDate ? fmt(filterDate) : "Pilih Tanggal"}
                                     </span>

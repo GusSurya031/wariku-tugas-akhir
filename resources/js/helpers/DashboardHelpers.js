@@ -70,3 +70,50 @@ export const generateTips = (score, rec) => {
     }
     return tips;
 };
+
+export const fmt = (iso) => {
+    if (!iso) return "";
+    const d = new Date(iso + "T00:00:00");
+    return d.toLocaleDateString("id-ID", {
+        weekday: "short",
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+    });
+};
+
+export const exportToCSV = (date, exportRows) => {
+    if (!exportRows || exportRows.length === 0) {
+        alert("Tidak ada data untuk tanggal ini.");
+        return;
+    }
+    const headers = [
+        "Nama",
+        "Kondisi Mood",
+        "Level Mood",
+        "Score Performance",
+        "Rekomendasi",
+        "Kondisi Wariga",
+    ];
+    const csvRows = [
+        headers.join(","),
+        ...exportRows.map((r) =>
+            [
+                `"${r.user_name}"`,
+                `"${r.mood_label}"`,
+                r.mood_level,
+                r.score_performance,
+                `"${r.recommendation_rule}"`,
+                `"${r.wariga_condition}"`,
+            ].join(","),
+        ),
+    ];
+    const csv = "﻿" + csvRows.join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `wariku-report-${date}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+};

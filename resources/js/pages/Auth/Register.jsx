@@ -74,7 +74,7 @@ export default function Register() {
         );
     };
     return (
-        <div className="auth-page">
+        <div className="auth-page hero-bg">
             <div
                 className="bg-blob"
                 style={{
@@ -108,18 +108,6 @@ export default function Register() {
                     left: 200,
                 }}
             />
-
-            {/* Decorative floating symbols */}
-            <span className="float-el fixed top-[15%] left-[8%] z-0 text-[20px] text-[#FBBF24] opacity-50">
-                ★
-            </span>
-            <span className="float-el2 fixed top-[70%] right-[6%] z-0 text-[16px] text-[#C4B5FD] opacity-50">
-                ✦
-            </span>
-            <span className="float-el fixed bottom-[20%] left-[5%] z-0 text-[14px] text-[#FDE68A] opacity-40 [animation-delay:1s]">
-                ✦
-            </span>
-
             <div className="auth-card">
                 <LeftPanel
                     heading="Mulai perjalananmu"

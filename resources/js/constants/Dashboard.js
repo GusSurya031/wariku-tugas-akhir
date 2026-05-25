@@ -1,7 +1,7 @@
-import ClockIcon from '@/assets/icon/ClockIcon';
-import BanIcon from '@/assets/icon/BanIcon';
-import CheckListIcon from '@/assets/icon/CheckListIcon';
-import AlertIcon from '@/assets/icon/AlertIcon';
+import ClockIcon from "@/assets/icon/ClockIcon";
+import BanIcon from "@/assets/icon/BanIcon";
+import CheckListIcon from "@/assets/icon/CheckListIcon";
+import AlertIcon from "@/assets/icon/AlertIcon";
 
 export const THEME_MAP = {
     Minggu: "redite",
@@ -51,23 +51,39 @@ export const QUIZ_RULES = [
     {
         icon: ClockIcon,
         title: "Timer per soal",
-        desc:  "Setiap soal memiliki waktu yang dihitung untuk mengukur kecepatan menjawabmu.",
+        desc: "Setiap soal memiliki waktu yang dihitung untuk mengukur kecepatan menjawabmu.",
     },
     {
         icon: BanIcon,
         title: "Tidak bisa kembali",
-        desc:  "Setelah menjawab dan lanjut ke soal berikutnya, kamu tidak bisa kembali ke soal sebelumnya.",
+        desc: "Setelah menjawab dan lanjut ke soal berikutnya, kamu tidak bisa kembali ke soal sebelumnya.",
     },
     {
         icon: CheckListIcon,
         title: "Jawab semua soal",
-        desc:  "Pastikan semua soal telah dijawab sebelum menekan tombol kirim.",
+        desc: "Pastikan semua soal telah dijawab sebelum menekan tombol kirim.",
     },
     {
         icon: AlertIcon,
         title: "Jangan tinggalkan halaman",
-        desc:  "Refresh atau keluar dari halaman akan menghapus seluruh progres jawabanmu.",
+        desc: "Refresh atau keluar dari halaman akan menghapus seluruh progres jawabanmu.",
     },
 ];
 
 export const PER_PAGE = 5;
+
+export const MOOD_COLORS = [
+    "#22c55e",
+    "#3b82f6",
+    "#8b5cf6",
+    "#6b7280",
+    "#ef4444",
+    "#f59e0b",
+    "#ec4899",
+];
+export const WARIGA_COLORS = {
+    Guru: "#22c55e",
+    Ratu: "#3b82f6",
+    Lara: "#8b5cf6",
+    Pati: "#d1d5db",
+};
