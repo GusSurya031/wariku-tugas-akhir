@@ -31,7 +31,6 @@ class QuizController extends Controller
             $themeDay = $user->recommendation_theme_day;
         }
 
-        // Shuffle options
         $questions = $variant->questions->map(fn($q) => [
             'id'                 => $q->id,
             'question_text'      => $q->question_text,
@@ -71,18 +70,14 @@ class QuizController extends Controller
             ->whereHas('materialHasVariant', fn($q) => $q->where('material_id', $variant->material_id))
             ->exists();
 
-        // Determine quiz difficulty based on the two rules
         if ($hasAttempt) {
-            // Rule 2: use recommended_quiz_difficulty from the latest log
             $rawDiff        = $latestLog?->rule?->recommended_quiz_difficulty ?? $variant->difficulty_level;
             $mixMap         = ['mix_easy_medium' => 'medium', 'mix_medium_hard' => 'hard'];
             $quizDifficulty = $mixMap[$rawDiff] ?? $rawDiff;
         } else {
-            // Rule 1: same difficulty as the material variant the user just studied
             $quizDifficulty = $variant->difficulty_level;
         }
 
-        // Find quiz variant: same material + same learning_type + resolved difficulty
         $quizVariant = MaterialHasVariant::where('material_id', $variant->material_id)
             ->where('difficulty_level', $quizDifficulty)
             ->where('learning_type', $variant->learning_type)
@@ -158,9 +153,10 @@ class QuizController extends Controller
         $scorePerformance = round(0.7 * $accuracy + 0.3 * $timeEfficiency, 2);
 
         $cluster = match (true) {
-            $scorePerformance <= 60 => 'A',
-            $scorePerformance <= 80 => 'B',
-            default                 => 'C',
+            $scorePerformance <= 60 && $scorePerformance >= 0   => 'A',
+            $scorePerformance <= 80 && $scorePerformance > 60  => 'B',
+            $scorePerformance <= 100 && $scorePerformance > 80  => 'C',
+            default => "Unclustered",
         };
 
         $attempt = QuizAttempt::create([

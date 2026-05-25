@@ -41,6 +41,8 @@ class OnBoardingController extends Controller
             'gender'              => ['required', 'in:male,female'],
             'balinese_birth_date' => ['required'],
             'balinese_today_date' => ['required'],
+        ], [
+            'username.unique' => 'Username sudah digunakan oleh pengguna lain.',
         ]);
 
         $user->update(['username' => $validated['username']]);
@@ -82,6 +84,7 @@ class OnBoardingController extends Controller
         $validated = $request->validate([
             'mood_level' => ['required', 'integer', 'min:1', 'max:3'],
             'mood_label' => ['required', 'string'],
+            'balinese_today_date' => ['required'],
         ]);
 
         /** @var \App\Models\User $user */
@@ -94,7 +97,25 @@ class OnBoardingController extends Controller
         ]);
 
         $warigaProfile = $user->warigaProfile;
-        $caturBekel    = $warigaProfile->catur_bekel_kahuripan;
+        $caturBekelDate = $warigaProfile->catur_bekel_date;
+        
+        if ($caturBekelDate == today()->toDateString()) {
+            $caturBekel    = $warigaProfile->catur_bekel_kahuripan;
+        } else {
+            $caturBekel = WarigaService::calculateCBK(
+                $warigaProfile->urip_panca_wara,
+                $warigaProfile->urip_sapta_wara,
+                $validated['balinese_today_date']['pancaWara']['urip'],
+                $validated['balinese_today_date']['saptaWara']['urip']
+            );
+            // Update catur bekel di database jika tanggal sudah berganti
+            $warigaProfile->update([
+                'catur_bekel_kahuripan' => $caturBekel,
+                'catur_bekel_date' => today()->toDateString(),
+            ]);
+        }
+
+
         $moodValue     = $validated['mood_level'];
 
         $rule = RecommendationRule::active()

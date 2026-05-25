@@ -44,8 +44,10 @@ export default function Onboarding() {
             {
                 mood_level: selectedMood.value,
                 mood_label: selectedMood.label,
+                balinese_today_date: balineseTodayDate,
             },
             {
+                onError: (errs) => setErrors(errs),
                 onSuccess: () => setStep(3),
             },
         );
