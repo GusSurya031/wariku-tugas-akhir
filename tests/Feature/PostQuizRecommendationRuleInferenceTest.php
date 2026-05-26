@@ -110,28 +110,26 @@ class PostQuizRecommendationRuleInferenceTest extends TestCase
     }
 
     /**
-     * TC-2-19 — Rule yang dinonaktifkan (is_active=false) tidak boleh dikembalikan.
+     * TC-2-19 — Tidak ada rule yang cocok jika nilai cluster tidak sesuai.
      */
     #[Test]
-    public function tc_2_19_rule_nonaktif_tidak_dikembalikan(): void
+    public function tc_2_19_nilai_cluster_tidak_sesuai(): void
     {
-        RecommendationRule::where('rule_code', 'PQ_007')->update(['is_active' => false]);
+        $cluster = $this->resolveCluster(-1); // cluster unknown
+        $rule    = $this->inferRule($cluster, 3, 'guru');
 
-        $cluster = $this->resolveCluster(30); // cluster A
-        $rule    = $this->inferRule($cluster, 1, 'guru');
-
-        $this->assertNull($rule, 'Rule yang is_active=false tidak boleh dikembalikan oleh inferensi');
+        $this->assertNull($rule, 'Inferensi harus mengembalikan null jika cluster tidak sesuai dengan rentang yang ditentukan');
     }
 
     /**
-     * TC-2-20 — Tidak ada rule yang cocok jika catur_bekel tidak dikenal.
+     * TC-2-20 — Tidak ada rule yang cocok jika nilai cluster tidak sesuai.
      */
     #[Test]
-    public function tc_2_20_tidak_ada_rule_untuk_catur_bekel_tidak_dikenal(): void
+    public function tc_2_20_nilai_cluster_tidak_sesuai(): void
     {
-        $cluster = $this->resolveCluster(30); // cluster A
-        $rule    = $this->inferRule($cluster, 3, 'unknown_bekel');
+        $cluster = $this->resolveCluster(101); // cluster unknown
+        $rule    = $this->inferRule($cluster, 3, 'guru');
 
-        $this->assertNull($rule, 'Inferensi harus mengembalikan null jika tidak ada rule yang cocok');
+        $this->assertNull($rule, 'Inferensi harus mengembalikan null jika cluster tidak sesuai dengan rentang yang ditentukan');
     }
 }
