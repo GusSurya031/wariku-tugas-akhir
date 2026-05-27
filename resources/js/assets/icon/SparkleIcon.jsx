@@ -1,0 +1,11 @@
+const SparkleIcon = ({ className }) => (
+    <svg
+        className={className}
+        fill="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" />
+    </svg>
+);
+export default SparkleIcon;

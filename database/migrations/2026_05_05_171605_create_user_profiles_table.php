@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('user_profiles', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->date('birth_date')->nullable();
+            $table->enum('gender', ['female', 'male'])->nullable();
+            $table->enum('learning_type', ['text', 'illustration'])->nullable();
+            $table->enum('difficulty_material', ['easy', 'medium', 'hard'])->nullable();
+            $table->enum('difficulty_quiz', ['easy', 'medium', 'hard', 'mix_easy_medium', 'mix_medium_hard'])->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('user_profiles');
+    }
+};
