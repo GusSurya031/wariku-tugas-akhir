@@ -1,0 +1,77 @@
+name: Deploy Wariku
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # bisa juga dijalankan manual dari tab Actions
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      APP_DIR: /home/warikuid/public_html
+      PHP: /opt/alt/php83/usr/bin/php
+      SSH_OPTS: -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }}
+      REMOTE: ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # 1. Build frontend (React/Inertia) di GitHub, bukan di hosting
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+
+      # 2. Bungkus kode + hasil build (tanpa vendor, node_modules, .env, storage)
+      - name: Package release
+        run: |
+          tar -czf /tmp/release.tar.gz \
+            --exclude='./.git' \
+            --exclude='./.github' \
+            --exclude='./node_modules' \
+            --exclude='./vendor' \
+            --exclude='./storage' \
+            --exclude='./.env' \
+            --exclude='./.env.*' \
+            --exclude='./.htaccess' \
+            --exclude='./.well-known' \
+            --exclude='./public/storage' \
+            --exclude='./public/hot' \
+            .
+          ls -lh /tmp/release.tar.gz
+
+      # 3. Siapkan SSH key
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      # 4. Upload paket lewat SSH (server tidak punya rsync)
+      - name: Upload release
+        run: ssh $SSH_OPTS "$REMOTE" "cat > ~/release.tar.gz" < /tmp/release.tar.gz
+
+      # 5. Ekstrak + composer + artisan di server
+      - name: Install on server
+        run: |
+          ssh $SSH_OPTS "$REMOTE" "
+            set -e
+            cd $APP_DIR
+            $PHP artisan down --retry=15 || true
+            trap '$PHP artisan up' EXIT
+            rm -rf public/build
+            tar -xzf ~/release.tar.gz -C $APP_DIR --no-same-owner
+            rm -f ~/release.tar.gz
+            $PHP ~/bin/composer install --no-dev --optimize-autoloader --no-interaction
+            $PHP artisan migrate --force
+            $PHP artisan optimize:clear
+            $PHP artisan optimize
+          "
