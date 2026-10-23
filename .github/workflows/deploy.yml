@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       APP_DIR: /home/warikuid/public_html
-      PHP: /opt/alt/php83/usr/bin/php
+      PHP: php # pakai wrapper CloudLinux agar ekstensi dari "Select PHP Version" ikut dimuat
       SSH_OPTS: -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }}
       REMOTE: ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
 
