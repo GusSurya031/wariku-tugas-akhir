@@ -11,7 +11,7 @@
   <img src="https://img.shields.io/badge/React-19.x-61DAFB?style=flat-square&logo=react" alt="React">
   <img src="https://img.shields.io/badge/Inertia.js-3.x-9553E9?style=flat-square" alt="Inertia.js">
   <img src="https://img.shields.io/badge/Tailwind_CSS-4.x-06B6D4?style=flat-square&logo=tailwind-css" alt="Tailwind CSS">
-  <img src="https://img.shields.io/badge/PHP-8.3-777BB4?style=flat-square&logo=php" alt="PHP">
+  <img src="https://img.shields.io/badge/PHP-8.4-777BB4?style=flat-square&logo=php" alt="PHP">
 </p>
 
 ---
@@ -46,9 +46,10 @@
 
 | Topik | Sub-materi |
 |---|---|
-| Aljabar | Aljabar Dasar, Persamaan Linear, Pertidaksamaan Linear, Fungsi Linear, SPLDV, Relasi & Fungsi |
-| Geometri | Geometri Bangun Datar, Segitiga & Segiempat, Teorema Pythagoras |
-| Statistika | Statistika Dasar |
+| Aljabar | Aljabar, Persamaan Linear, Pertidaksamaan Linear |
+| Sistem Persamaan | Sistem Persamaan Linear Dua Variabel, Relasi dan Fungsi, Fungsi Linear / Garis Lurus |
+| Geometri | Teorema Phytagoras, Geometri, Segitiga dan Segiempat |
+| Statistika | Statistika dan Peluang |
 
 ---
 
@@ -80,12 +81,12 @@
 | Layer | Teknologi | Versi |
 |---|---|---|
 | Backend Framework | Laravel | ^13.0 |
-| Language (Backend) | PHP | ^8.3 |
+| Language (Backend) | PHP | ^8.4 |
 | Frontend Framework | React | ^19.0 |
 | SPA Bridge | Inertia.js | ^3.0 |
 | Styling | Tailwind CSS | ^4.0 |
 | Build Tool | Vite | ^8.0 |
-| Database | MySQL | 8.x |
+| Database | PostgreSQL | >= 16 |
 | Rich Text Editor | CKEditor 5 | ^48.0 |
 | Math Rendering | KaTeX | ^0.16 |
 | Kalender Bali | balinese-date-js-lib | ^0.4.3 |
@@ -98,11 +99,11 @@
 
 Pastikan environment lokal Anda memiliki:
 
-- **PHP** `>= 8.3` dengan ekstensi: `pdo_mysql`, `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `json`, `bcmath`
+- **PHP** `>= 8.4` dengan ekstensi: `pdo_pgsql`, `pgsql`, `pdo_sqlite` (untuk test), `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `json`, `bcmath`
 - **Composer** `>= 2.x`
 - **Node.js** `>= 20.x`
 - **npm** `>= 10.x`
-- **MySQL** `>= 8.0`
+- **PostgreSQL** `>= 16`
 - **Git**
 
 ---
@@ -149,19 +150,21 @@ Edit file `.env` dan sesuaikan konfigurasi database:
 ```env
 APP_NAME=Wariku
 
-DB_CONNECTION=mysql
+DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
-DB_PORT=3306
+DB_PORT=5432
 DB_DATABASE=wariku
-DB_USERNAME=root
+DB_USERNAME=postgres
 DB_PASSWORD=your_password
 ```
 
-Buat database baru di MySQL:
+Buat database baru di PostgreSQL (via `psql` atau pgAdmin):
 
 ```sql
-CREATE DATABASE wariku CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE wariku ENCODING 'UTF8';
 ```
+
+> **Catatan (Windows/Laragon):** pastikan baris `extension=pdo_pgsql` dan `extension=pgsql` di `php.ini` tidak diawali `;`, lalu cek dengan `php -m`.
 
 ### 6. Migrasi Database
 
@@ -173,41 +176,25 @@ php artisan migrate
 
 ### 7. Isi Data Awal (Seeder)
 
-Jalankan seeder untuk mengisi data materi, soal, dan aturan rekomendasi:
+Jalankan seeder untuk mengisi seluruh data awal:
 
 ```bash
 php artisan db:seed
+# atau ulang dari awal: php artisan migrate:fresh --seed
 ```
 
-> **Catatan:** Seeder akan mengisi data soal untuk semua topik matematika yang tersedia. Untuk role dan aturan rekomendasi, pastikan uncomment baris yang diperlukan di `DatabaseSeeder.php` sesuai kebutuhan.
+`DatabaseSeeder` menjalankan seeder berikut secara berurutan:
 
-#### Setup Role Pengguna
+| Seeder | Isi |
+|---|---|
+| `RoleSeeder` | Role `teacher` (id 1) dan `student` (id 2) |
+| `RecommendationRuleSeeder` | 6 aturan rekomendasi login pertama |
+| `RecommendationRulePostQuizSeeder` | 18 aturan rekomendasi post-kuis |
+| `MaterialSeeder` | 10 materi beserta 60 varian (teks/ilustrasi × mudah/sedang/sulit) |
+| `ChapterSeeder` | 120 chapter materi |
+| `Question*Seeder` | 600 soal beserta 2.400 opsi jawaban |
 
-Jalankan perintah berikut via `php artisan tinker` untuk membuat role yang diperlukan:
-
-```php
-App\Models\Role::create(['role_name' => 'teacher']);
-App\Models\Role::create(['role_name' => 'student']);
-```
-
-#### Setup Aturan Rekomendasi
-
-Uncomment baris di `database/seeders/DatabaseSeeder.php` untuk mengisi aturan rekomendasi:
-
-```php
-$this->call([
-    RecommendationRuleSeeder::class,          // Aturan login pertama
-    RecommendationRulePostQuizSeeder::class,  // Aturan post-kuis
-    // ...
-]);
-```
-
-Kemudian jalankan:
-
-```bash
-php artisan db:seed --class=RecommendationRuleSeeder
-php artisan db:seed --class=RecommendationRulePostQuizSeeder
-```
+> **Catatan:** Data materi dan chapter disimpan di `database/seeders/data/materials.json` dan `database/seeders/data/chapters.json`. Ubah file tersebut jika ingin memperbarui konten pelajaran.
 
 ---
 
@@ -223,11 +210,11 @@ APP_DEBUG=true         # false saat production
 APP_URL=http://localhost
 
 # Database
-DB_CONNECTION=mysql
+DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
-DB_PORT=3306
+DB_PORT=5432
 DB_DATABASE=wariku
-DB_USERNAME=root
+DB_USERNAME=postgres
 DB_PASSWORD=
 
 # Session (gunakan database untuk persistent session)

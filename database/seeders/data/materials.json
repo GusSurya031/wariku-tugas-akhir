@@ -1,0 +1,332 @@
+[
+    {
+        "title": "Aljabar",
+        "description": "<p>Pernahkah kamu melihat huruf seperti x, y, atau a di dalam soal matematika, lalu merasa bingung kenapa matematika tiba-tiba menggunakan huruf?</p><p>Tenang, kamu tidak sendirian.</p><p>Pada chapter ini, kamu akan memulai perjalanan pertama untuk mengenal Aljabar, yaitu cabang matematika yang menggunakan simbol atau huruf untuk mewakili suatu nilai yang belum diketahui.</p><p>Sebenarnya, aljabar sangat dekat dengan kehidupan sehari-hari. Misalnya, ketika kita belum mengetahui:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; jumlah uang yang dimiliki seseorang,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; umur seseorang,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; banyaknya barang tertentu,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; atau nilai dari suatu bilangan.</p><p>Dalam kondisi seperti itu, matematika dapat menggunakan simbol sebagai pengganti nilai yang belum diketahui.</p><p>Contohnya, perhatikan bentuk aljabar berikut:</p><figure class=\"table\"><table><tbody><tr><td><p style=\"text-align:center;\"><span style=\"color:#4C1D95;\"><strong>3x + 5</strong></span></p></td></tr></tbody></table></figure><p>Dari bentuk tersebut:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>x</strong> disebut variabel, yaitu simbol pengganti nilai yang belum diketahui.</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>3</strong> disebut koefisien, yaitu angka yang berada di depan variabel.</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>5</strong> disebut konstanta, yaitu angka tetap yang tidak memiliki variabel.</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>3x dan 5</strong> disebut suku, yaitu bagian-bagian yang membentuk ekspresi aljabar.</p><p>Materi ini menjadi pondasi utama sebelum kamu mempelajari operasi aljabar yang lebih kompleks. Karena itu, penting untuk memahami konsep dasarnya dengan baik terlebih dahulu.</p><h2>Yang Akan Dipelajari</h2><p>Pada chapter ini, kamu akan mempelajari:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pengertian bentuk aljabar,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; variabel, koefisien, konstanta, dan suku,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cara membedakan jenis-jenis suku,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; contoh bentuk aljabar dalam kehidupan sehari-hari,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; serta latihan mengidentifikasi bentuk aljabar sederhana.</p><h2>Tujuan Pembelajaran</h2><p>Setelah menyelesaikan chapter ini, kamu diharapkan mampu:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memahami konsep dasar bentuk aljabar,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mengenali komponen-komponen dalam bentuk aljabar,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; membedakan variabel, koefisien, konstanta, dan suku,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; serta membaca bentuk aljabar dengan benar.</p><h2>Kenapa Materi Ini Penting?</h2><p>Aljabar adalah gerbang awal untuk memahami matematika tingkat lanjut.</p><p>Jika kamu memahami dasar aljabar dengan baik, maka materi berikutnya seperti:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; persamaan linear,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fungsi,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sistem Persamaan Linear Dua Variabel atau SPLDV,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hingga matematika tingkat SMA,</p><p>akan terasa lebih mudah dipahami.</p><p>Jadi, jangan terburu-buru. Nikmati proses belajarnya langkah demi langkah.</p><h2>Motivasi Belajar</h2><p>Tidak masalah jika kamu masih merasa bingung di awal.</p><p>Banyak siswa membutuhkan waktu untuk terbiasa membaca simbol dalam matematika. Semakin sering kamu mencoba dan berlatih, semakin mudah kamu memahami pola dalam aljabar.</p>",
+        "sub_description": "Kenali cara matematika menggunakan huruf dan simbol untuk mewakili nilai yang belum diketahui. Materi ini membantumu memahami variabel, koefisien, suku, dan bentuk aljabar dalam kehidupan sehari-hari.",
+        "estimated_duration": 120,
+        "topic": "Aljabar",
+        "variants": [
+            {
+                "difficulty_level": "easy",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "easy",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "illustration"
+            }
+        ]
+    },
+    {
+        "title": "Persamaan Linear",
+        "description": "<p>Pernahkah kamu melihat soal seperti x + 5 = 12 lalu bertanya-tanya, “angka berapa yang sebenarnya disembunyikan oleh x?” 🤔</p><p>Di materi ini, kamu akan belajar memahami Persamaan Linear — bentuk matematika yang menunjukkan bahwa dua sisi memiliki nilai yang sama atau seimbang.</p><p>Bayangkan persamaan linear seperti timbangan. Jika satu sisi berubah, sisi lainnya juga harus tetap seimbang. Dari sinilah kamu akan belajar mencari nilai variabel yang belum diketahui.</p><p>Persamaan linear sering muncul dalam kehidupan sehari-hari. Misalnya:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menghitung harga satu barang ketika total belanja sudah diketahui,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menentukan umur seseorang dari petunjuk tertentu,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mencari jumlah uang yang harus ditambahkan agar mencapai target tertentu.</p><p>Melalui chapter ini, kamu akan belajar memahami beberapa bagian penting, seperti:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Variabel → </strong>simbol pengganti nilai yang belum diketahui</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Konstanta → </strong>angka tetap dalam persamaan</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Ruas kiri dan ruas kanan → </strong>dua bagian persamaan yang dipisahkan oleh tanda sama dengan</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Penyelesaian → </strong>nilai variabel yang membuat persamaan menjadi benar</p><p><span style=\"color:#475569;\"><i>Contoh persamaan linear: x + 4 = 10<br>Dari persamaan tersebut, nilai x adalah 6 karena 6 + 4 = 10.</i></span></p><h2>Yang Akan Dipelajari</h2><p>Pada chapter ini kamu akan mempelajari:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pengertian persamaan linear</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Komponen dalam persamaan linear</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Cara menentukan nilai variabel</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Penyelesaian persamaan linear satu variabel</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Contoh persamaan linear dalam kehidupan sehari-hari</p><h2>Tujuan Pembelajaran</h2><p>Setelah menyelesaikan chapter ini, siswa diharapkan mampu:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memahami konsep dasar persamaan linear,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menentukan bagian-bagian dalam persamaan,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menyelesaikan persamaan linear sederhana,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; serta memeriksa apakah suatu nilai merupakan penyelesaian yang benar.</p><h2>Kenapa Materi Ini Penting?</h2><p>Materi ini penting karena menjadi dasar untuk memahami pertidaksamaan, SPLDV, fungsi, hingga soal cerita matematika yang lebih kompleks.</p><p><span style=\"color:#232D3A;\">Jika kamu memahami cara menjaga “keseimbangan” dalam persamaan, maka menyelesaikan berbagai masalah matematika akan terasa lebih terarah dan logis 🚀</span></p>",
+        "sub_description": "Pelajari cara menemukan nilai yang membuat suatu kalimat matematika menjadi benar. Di materi ini, kamu akan memahami konsep persamaan linear dan cara menyelesaikannya secara bertahap.",
+        "estimated_duration": 90,
+        "topic": "Aljabar",
+        "variants": [
+            {
+                "difficulty_level": "easy",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "easy",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "illustration"
+            }
+        ]
+    },
+    {
+        "title": "Pertidaksamaan Linear",
+        "description": "<p>Dalam kehidupan sehari-hari, tidak semua hal harus bernilai sama. Kadang kita hanya perlu mengetahui apakah sesuatu lebih besar, lebih kecil, minimal, atau maksimal.</p><p>Di materi ini, kamu akan mengenal Pertidaksamaan Linear — bentuk matematika yang menggunakan tanda seperti &lt;, &gt;, ≤, atau ≥ untuk menunjukkan hubungan antara dua nilai.</p><p>Materi ini membantu kamu memahami batasan nilai. Misalnya, uang minimal yang harus dimiliki, nilai maksimum yang diperbolehkan, atau jumlah barang yang harus lebih dari angka tertentu.</p><p>Pertidaksamaan linear sering digunakan dalam situasi seperti:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menentukan nilai minimum agar lulus ujian,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menghitung batas maksimal pengeluaran,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menentukan jumlah barang yang harus dibeli agar memenuhi syarat tertentu.</p><p>Melalui chapter ini, kamu akan belajar memahami beberapa bagian penting, seperti:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Tanda &lt; → </strong>lebih kecil dari</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Tanda &gt; → </strong>lebih besar dari</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Tanda ≤ → </strong>lebih kecil dari atau sama dengan</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Tanda ≥ → </strong>lebih besar dari atau sama dengan</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Himpunan penyelesaian → </strong>kumpulan nilai yang memenuhi pertidaksamaan</p><p><span style=\"color:#475569;\"><i>Contoh pertidaksamaan linear: x + 3 &gt; 8<br>Artinya, nilai x harus lebih besar dari 5 agar pertidaksamaan tersebut bernilai benar.</i></span></p><h2>Yang Akan Dipelajari</h2><p>Pada chapter ini kamu akan mempelajari:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pengertian pertidaksamaan linear</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Perbedaan persamaan dan pertidaksamaan</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Mengenal tanda pertidaksamaan</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Cara menyelesaikan pertidaksamaan linear</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Menentukan himpunan penyelesaian sederhana</p><h2>Tujuan Pembelajaran</h2><p>Setelah menyelesaikan chapter ini, siswa diharapkan mampu:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memahami konsep pertidaksamaan linear,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; membedakan tanda-tanda pertidaksamaan,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menyelesaikan pertidaksamaan linear sederhana,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; serta menentukan himpunan penyelesaiannya dengan benar.</p><h2>Kenapa Materi Ini Penting?</h2><p>Materi ini penting karena melatih kamu memahami batas, syarat, dan rentang nilai dalam matematika.</p><p><span style=\"color:#232D3A;\">Dengan memahami pertidaksamaan linear, kamu akan lebih siap menghadapi soal cerita, grafik, dan masalah sehari-hari yang memiliki kondisi tertentu ✨</span></p>",
+        "sub_description": "Tidak semua masalah matematika harus bernilai “sama dengan”. Materi ini membantumu memahami hubungan lebih besar, lebih kecil, serta cara menentukan himpunan penyelesaian pertidaksamaan linear.",
+        "estimated_duration": 120,
+        "topic": "Aljabar",
+        "variants": [
+            {
+                "difficulty_level": "easy",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "easy",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "illustration"
+            }
+        ]
+    },
+    {
+        "title": "Sistem Persamaan Linear Dua Variabel",
+        "description": "<p>Pernahkah kamu menemukan soal yang memiliki dua informasi berbeda, tetapi keduanya saling berkaitan? Misalnya harga dua jenis barang, jumlah tiket, atau kombinasi umur dua orang.</p><p>Di materi ini, kamu akan mempelajari SPLDV atau Sistem Persamaan Linear Dua Variabel. Materi ini digunakan untuk mencari dua nilai yang belum diketahui dari dua persamaan yang saling berhubungan.</p><p>SPLDV seperti memecahkan teka-teki. Kamu diberi dua petunjuk, lalu dari petunjuk tersebut kamu mencari dua jawaban yang tepat.</p><p>SPLDV sangat dekat dengan kehidupan sehari-hari, misalnya:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menentukan harga pensil dan buku dari total belanja,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menghitung jumlah tiket dewasa dan anak-anak,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menentukan dua bilangan berdasarkan jumlah dan selisihnya.</p><p>Melalui chapter ini, kamu akan belajar memahami beberapa bagian penting, seperti:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Dua variabel → </strong>dua nilai yang belum diketahui, misalnya x dan y</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Dua persamaan → </strong>dua informasi yang digunakan untuk mencari nilai variabel</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Metode substitusi → </strong>mengganti salah satu variabel dengan bentuk lain</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Metode eliminasi → </strong>menghilangkan salah satu variabel untuk menemukan variabel lainnya</p><p><span style=\"color:#475569;\"><i>Contoh SPLDV:<br>x + y = 10<br>x - y = 2<br>Dari dua persamaan tersebut, kita dapat menemukan nilai x dan y yang memenuhi keduanya.</i></span></p><h2>Yang Akan Dipelajari</h2><p>Pada chapter ini kamu akan mempelajari:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pengertian SPLDV</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Mengenal dua variabel dalam persamaan</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Menyusun model matematika dari soal cerita</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Menyelesaikan SPLDV dengan metode substitusi</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Menyelesaikan SPLDV dengan metode eliminasi</p><h2>Tujuan Pembelajaran</h2><p>Setelah menyelesaikan chapter ini, siswa diharapkan mampu:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memahami konsep sistem persamaan linear dua variabel,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menentukan variabel dari suatu masalah,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menyusun model matematika sederhana,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; serta menyelesaikan SPLDV menggunakan metode yang sesuai.</p><h2>Kenapa Materi Ini Penting?</h2><p>Materi ini penting karena melatih kemampuan berpikir logis, membaca informasi, dan mengubah masalah sehari-hari menjadi model matematika.</p><p>Jika kamu memahami SPLDV, kamu akan lebih mudah menyelesaikan soal cerita yang melibatkan dua hal yang saling berkaitan 🚀</p>",
+        "sub_description": "Temukan cara menyelesaikan dua persamaan yang saling berkaitan untuk mencari dua nilai yang belum diketahui. Materi ini sering digunakan dalam masalah harga barang, jumlah benda, dan situasi nyata lainnya.",
+        "estimated_duration": 150,
+        "topic": "Sistem Persamaan",
+        "variants": [
+            {
+                "difficulty_level": "easy",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "easy",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "illustration"
+            }
+        ]
+    },
+    {
+        "title": "Relasi dan Fungsi",
+        "description": "<p>Dalam kehidupan sehari-hari, banyak hal yang saling berhubungan. Misalnya siswa dengan nomor absen, orang dengan tanggal lahir, atau barang dengan harganya.</p><p>Di materi ini, kamu akan mengenal Relasi dan Fungsi — konsep matematika yang membahas hubungan antara anggota suatu himpunan dengan anggota himpunan lainnya.</p><p>Relasi membantu kita melihat keterkaitan antar data, sedangkan fungsi menunjukkan hubungan yang lebih teratur, yaitu setiap nilai awal memiliki tepat satu pasangan nilai tujuan.</p><p>Relasi dan fungsi dapat ditemukan dalam contoh seperti:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; siswa dengan mata pelajaran favoritnya,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nama barang dengan harganya,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; angka input dengan hasil perhitungannya.</p><p>Melalui chapter ini, kamu akan belajar memahami beberapa bagian penting, seperti:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Himpunan asal/domain → </strong>kumpulan nilai awal</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Himpunan kawan/kodomain → </strong>kumpulan nilai tujuan yang mungkin dipasangkan</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Range → </strong>hasil pasangan yang benar-benar digunakan</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Relasi → </strong>hubungan antara dua himpunan</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Fungsi → </strong>relasi khusus yang memasangkan setiap anggota domain ke tepat satu anggota kodomain</p><p><span style=\"color:#475569;\"><i>Contoh fungsi sederhana: f(x) = x + 2<br>Jika x = 3, maka f(3) = 5. Artinya, nilai 3 dipasangkan dengan nilai 5.</i></span></p><h2>Yang Akan Dipelajari</h2><p>Pada chapter ini kamu akan mempelajari:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pengertian relasi</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pengertian fungsi</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Mengenal domain, kodomain, dan range</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Cara menyajikan relasi dan fungsi</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Membedakan relasi biasa dan fungsi</p><h2>Tujuan Pembelajaran</h2><p>Setelah menyelesaikan chapter ini, siswa diharapkan mampu:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memahami konsep relasi dan fungsi,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mengenali domain, kodomain, dan range,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menyajikan hubungan dua himpunan dengan benar,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; serta membedakan apakah suatu relasi termasuk fungsi atau bukan.</p><h2>Kenapa Materi Ini Penting?</h2><p>Materi ini penting karena menjadi dasar untuk memahami grafik, fungsi linear, pola bilangan, dan konsep matematika yang lebih lanjut.</p><p>Dengan memahami relasi dan fungsi, kamu akan lebih mudah membaca hubungan antar data secara terstruktur ✨</p>",
+        "sub_description": "Pahami bagaimana dua himpunan dapat saling berhubungan melalui pasangan nilai. Materi ini menjadi dasar penting untuk memahami fungsi, grafik, dan pola hubungan dalam matematika.",
+        "estimated_duration": 150,
+        "topic": "Sistem Persamaan",
+        "variants": [
+            {
+                "difficulty_level": "easy",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "easy",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "illustration"
+            }
+        ]
+    },
+    {
+        "title": "Fungsi Linear / Garis Lurus",
+        "description": "<p>Pernahkah kamu melihat grafik yang berbentuk garis lurus dan bertanya-tanya apa arti garis tersebut?</p><p>Di materi ini, kamu akan mempelajari Fungsi Linear atau Garis Lurus — fungsi yang menunjukkan hubungan antara dua nilai dengan pola perubahan yang tetap.</p><p>Fungsi linear membantu kita memahami bagaimana suatu nilai berubah ketika nilai lainnya ikut berubah. Misalnya jarak terhadap waktu, harga terhadap jumlah barang, atau tabungan terhadap lama menabung.</p><p>Fungsi linear banyak digunakan dalam kehidupan sehari-hari, seperti:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menghitung total harga berdasarkan jumlah barang,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; membaca hubungan jarak dan waktu perjalanan,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menentukan pertambahan tabungan setiap minggu.</p><p>Melalui chapter ini, kamu akan belajar memahami beberapa bagian penting, seperti:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Gradien → </strong>tingkat kemiringan atau perubahan pada garis</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Titik potong → </strong>titik saat garis memotong sumbu x atau sumbu y</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Persamaan garis → </strong>bentuk matematika untuk menggambarkan garis lurus</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Grafik fungsi linear → </strong>gambar hubungan dua variabel dalam bidang koordinat</p><p><span style=\"color:#475569;\"><i>Contoh fungsi linear: y = 2x + 1<br>Angka 2 menunjukkan gradien, sedangkan 1 menunjukkan titik potong garis pada sumbu y.</i></span></p><h2>Yang Akan Dipelajari</h2><p>Pada chapter ini kamu akan mempelajari:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pengertian fungsi linear</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Mengenal bentuk umum persamaan garis lurus</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Memahami gradien dan titik potong</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Menggambar grafik garis lurus</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Membaca makna grafik fungsi linear</p><h2>Tujuan Pembelajaran</h2><p>Setelah menyelesaikan chapter ini, siswa diharapkan mampu:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memahami konsep fungsi linear,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menentukan gradien dan titik potong,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menggambar grafik garis lurus sederhana,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; serta membaca hubungan antar variabel melalui grafik.</p><h2>Kenapa Materi Ini Penting?</h2><p>Materi ini penting karena menghubungkan konsep aljabar dengan visualisasi grafik.</p><p><span style=\"color:#232D3A;\">Dengan memahami fungsi linear, kamu tidak hanya menghitung angka, tetapi juga mampu membaca pola perubahan dalam bentuk gambar dan grafik 🚀</span></p>",
+        "sub_description": "Pelajari bagaimana suatu hubungan dapat digambarkan dalam bentuk garis lurus. Kamu akan memahami gradien, titik potong, dan cara membaca grafik fungsi linear dengan lebih mudah.",
+        "estimated_duration": 120,
+        "topic": "Sistem Persamaan",
+        "variants": [
+            {
+                "difficulty_level": "easy",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "easy",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "illustration"
+            }
+        ]
+    },
+    {
+        "title": "Teorema Phytagoras",
+        "description": "<p>Pernahkah kamu ingin mengetahui panjang sisi miring sebuah tangga, tinggi sebuah tembok, atau jarak terpendek antara dua titik?</p><p>Di materi ini, kamu akan mempelajari Teorema Pythagoras — konsep matematika yang menjelaskan hubungan antara sisi-sisi pada segitiga siku-siku.</p><p>Pythagoras membantu kita menghitung panjang sisi yang belum diketahui dengan menggunakan dua sisi lainnya.</p><p>Konsep Pythagoras dapat ditemukan pada situasi seperti:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mengukur panjang tangga yang bersandar pada tembok,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menentukan jarak diagonal pada lapangan atau ruangan,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menghitung sisi miring pada bangun datar tertentu.</p><p>Melalui chapter ini, kamu akan belajar memahami beberapa bagian penting, seperti:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Segitiga siku-siku → </strong>segitiga yang memiliki satu sudut 90 derajat</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Sisi siku-siku → </strong>dua sisi yang membentuk sudut siku-siku</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Hipotenusa → </strong>sisi terpanjang yang berada di depan sudut siku-siku</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Rumus Pythagoras → </strong>a² + b² = c²</p><p><span style=\"color:#475569;\"><i>Contoh: jika sisi siku-siku segitiga adalah 3 cm dan 4 cm, maka sisi miringnya adalah 5 cm karena 3² + 4² = 5².</i></span></p><h2>Yang Akan Dipelajari</h2><p>Pada chapter ini kamu akan mempelajari:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pengertian teorema Pythagoras</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Mengenal sisi siku-siku dan hipotenusa</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Menggunakan rumus a² + b² = c²</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Menentukan panjang sisi yang belum diketahui</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Penerapan Pythagoras dalam kehidupan sehari-hari</p><h2>Tujuan Pembelajaran</h2><p>Setelah menyelesaikan chapter ini, siswa diharapkan mampu:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memahami hubungan sisi-sisi pada segitiga siku-siku,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mengenali hipotenusa dan sisi siku-siku,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menggunakan rumus Pythagoras dengan benar,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; serta menyelesaikan masalah sederhana yang melibatkan panjang sisi.</p><h2>Kenapa Materi Ini Penting?</h2><p>Materi ini penting karena sering digunakan dalam geometri, pengukuran, desain, konstruksi, dan berbagai masalah jarak.</p><p><span style=\"color:#232D3A;\">Jika kamu memahami Pythagoras, kamu akan lebih mudah menyelesaikan soal yang melibatkan segitiga siku-siku dan jarak diagonal ✨</span></p>",
+        "sub_description": "Jelajahi hubungan menarik antara sisi-sisi pada segitiga siku-siku. Materi ini membantumu menghitung panjang sisi yang belum diketahui dan memahami penerapannya dalam kehidupan nyata.",
+        "estimated_duration": 90,
+        "topic": "Geometri",
+        "variants": [
+            {
+                "difficulty_level": "easy",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "easy",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "illustration"
+            }
+        ]
+    },
+    {
+        "title": "Geometri",
+        "description": "<p>Matematika tidak hanya berisi angka dan simbol. Ada juga bagian matematika yang membahas bentuk, ukuran, posisi, dan ruang di sekitar kita.</p><p>Di materi ini, kamu akan mengenal Geometri — cabang matematika yang mempelajari berbagai bentuk, baik bangun datar maupun bangun ruang.</p><p>Geometri membantu kamu memahami benda-benda yang sering dilihat sehari-hari, seperti meja, papan tulis, rumah, kotak, bola, hingga pola lantai.</p><p>Geometri sangat dekat dengan kehidupan nyata, misalnya:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menghitung luas lantai sebuah ruangan,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memahami bentuk benda di sekitar rumah dan sekolah,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menentukan ukuran bangun datar atau bangun ruang.</p><p>Melalui chapter ini, kamu akan belajar memahami beberapa bagian penting, seperti:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Titik → </strong>posisi dasar dalam geometri</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Garis → </strong>kumpulan titik yang memanjang</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Sudut → </strong>daerah yang dibentuk oleh dua garis yang bertemu</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Bangun datar → </strong>bentuk dua dimensi seperti persegi, segitiga, dan lingkaran</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Bangun ruang → </strong>bentuk tiga dimensi seperti kubus, balok, tabung, dan bola</p><p><span style=\"color:#475569;\"><i>Contoh geometri: persegi memiliki empat sisi sama panjang dan empat sudut siku-siku. Dari sifat ini, kita dapat menghitung keliling dan luasnya.</i></span></p><h2>Yang Akan Dipelajari</h2><p>Pada chapter ini kamu akan mempelajari:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pengertian geometri</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Mengenal titik, garis, dan sudut</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Mengenal bangun datar dan bangun ruang</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Memahami sifat-sifat dasar bangun</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Contoh penerapan geometri dalam kehidupan sehari-hari</p><h2>Tujuan Pembelajaran</h2><p>Setelah menyelesaikan chapter ini, siswa diharapkan mampu:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memahami konsep dasar geometri,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mengenali unsur-unsur geometri,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; membedakan bangun datar dan bangun ruang,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; serta menjelaskan sifat dasar beberapa bentuk geometri.</p><h2>Kenapa Materi Ini Penting?</h2><p>Materi ini penting karena melatih kemampuan visual, logika ruang, dan pemahaman bentuk.</p><p>Geometri juga menjadi dasar untuk memahami desain, arsitektur, teknologi, seni, dan berbagai pengukuran dalam kehidupan sehari-hari 🚀</p>",
+        "sub_description": "Kenali berbagai bentuk, ukuran, posisi, dan ruang dalam matematika. Materi ini membantumu memahami bangun datar, bangun ruang, serta konsep visual yang dekat dengan kehidupan sehari-hari.",
+        "estimated_duration": 120,
+        "topic": "Geometri",
+        "variants": [
+            {
+                "difficulty_level": "easy",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "easy",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "illustration"
+            }
+        ]
+    },
+    {
+        "title": "Segitiga dan Segiempat",
+        "description": "<p>Coba lihat sekelilingmu. Banyak benda yang memiliki bentuk segitiga dan segiempat, seperti rambu lalu lintas, atap rumah, buku, meja, jendela, dan papan tulis.</p><p>Di materi ini, kamu akan mempelajari Segitiga dan Segiempat — dua kelompok bangun datar yang sangat sering ditemukan dalam kehidupan sehari-hari.</p><p>Kamu akan belajar mengenali jenis-jenisnya, sifat-sifatnya, serta cara menghitung keliling dan luasnya.</p><p>Materi ini dapat diterapkan pada situasi seperti:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menghitung luas bidang berbentuk segitiga atau persegi panjang,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menentukan keliling taman atau halaman,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mengenali bentuk-bentuk bangun pada benda di sekitar.</p><p>Melalui chapter ini, kamu akan belajar memahami beberapa bagian penting, seperti:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Segitiga → </strong>bangun datar dengan tiga sisi dan tiga sudut</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Segiempat → </strong>bangun datar dengan empat sisi dan empat sudut</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Keliling → </strong>jumlah panjang seluruh sisi bangun</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Luas → </strong>ukuran daerah yang ditempati oleh bangun</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Sifat bangun → </strong>ciri khas yang membedakan satu bentuk dengan bentuk lainnya</p><p><span style=\"color:#475569;\"><i>Contoh: persegi memiliki empat sisi sama panjang, sedangkan persegi panjang memiliki dua pasang sisi yang sama panjang. Keduanya termasuk segiempat, tetapi memiliki sifat yang berbeda.</i></span></p><h2>Yang Akan Dipelajari</h2><p>Pada chapter ini kamu akan mempelajari:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pengertian segitiga dan segiempat</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Jenis-jenis segitiga</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Jenis-jenis segiempat</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sifat-sifat segitiga dan segiempat</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Menghitung keliling dan luas bangun sederhana</p><h2>Tujuan Pembelajaran</h2><p>Setelah menyelesaikan chapter ini, siswa diharapkan mampu:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memahami pengertian segitiga dan segiempat,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mengenali jenis dan sifat bangun,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menghitung keliling dan luas sederhana,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; serta menghubungkan bentuk bangun dengan benda di sekitar.</p><h2>Kenapa Materi Ini Penting?</h2><p>Materi ini penting karena menjadi dasar dalam memahami bangun datar yang lebih kompleks.</p><p>Dengan memahami segitiga dan segiempat, kamu akan lebih mudah menyelesaikan soal luas, keliling, dan penerapan bentuk dalam kehidupan nyata ✨</p>",
+        "sub_description": "Pelajari sifat-sifat, keliling, dan luas dari berbagai bentuk segitiga serta segiempat. Materi ini membantumu memahami bentuk-bentuk dasar yang sering ditemukan di sekitar kita.",
+        "estimated_duration": 90,
+        "topic": "Geometri",
+        "variants": [
+            {
+                "difficulty_level": "easy",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "easy",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "illustration"
+            }
+        ]
+    },
+    {
+        "title": "Statistika dan Peluang",
+        "description": "<p>Setiap hari kita bertemu dengan data dan kemungkinan. Misalnya nilai ujian teman sekelas, hasil survei, jumlah penjualan, atau peluang munculnya angka tertentu saat melempar dadu.</p><p>Di materi ini, kamu akan mempelajari Statistika dan Peluang — dua konsep yang membantu kita membaca informasi dan memperkirakan kemungkinan suatu kejadian.</p><p>Statistika membantu kamu mengolah dan menafsirkan data, sedangkan peluang membantu kamu memahami seberapa besar kemungkinan sesuatu dapat terjadi.</p><p>Statistika dan peluang sering digunakan dalam kehidupan sehari-hari, seperti:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; membaca diagram nilai atau hasil survei,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menghitung rata-rata nilai kelas,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memperkirakan peluang menang dalam permainan sederhana,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mengambil keputusan berdasarkan data.</p><p>Melalui chapter ini, kamu akan belajar memahami beberapa bagian penting, seperti:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Data → </strong>kumpulan informasi yang dapat diolah</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Rata-rata → </strong>nilai yang mewakili sekumpulan data</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Median → </strong>nilai tengah dari data yang telah diurutkan</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Modus → </strong>nilai yang paling sering muncul</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Peluang → </strong>kemungkinan terjadinya suatu kejadian</p><p><span style=\"color:#475569;\"><i>Contoh statistika: dari data nilai 70, 80, dan 90, rata-ratanya adalah 80.<br>Contoh peluang: saat melempar koin, peluang muncul gambar adalah 1 dari 2 kemungkinan.</i></span></p><h2>Yang Akan Dipelajari</h2><p>Pada chapter ini kamu akan mempelajari:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pengertian data dan statistika</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Membaca tabel dan diagram sederhana</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Menghitung rata-rata, median, dan modus</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pengertian peluang</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Contoh peluang dalam kehidupan sehari-hari</p><h2>Tujuan Pembelajaran</h2><p>Setelah menyelesaikan chapter ini, siswa diharapkan mampu:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memahami konsep dasar statistika dan peluang,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; membaca dan menafsirkan data sederhana,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; menghitung ukuran pemusatan data,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; serta menentukan peluang kejadian sederhana dengan benar.</p><h2>Kenapa Materi Ini Penting?</h2><p>Materi ini penting karena membantu kamu berpikir kritis, membaca informasi, dan membuat keputusan yang lebih masuk akal berdasarkan data.</p><p>Dengan memahami statistika dan peluang, kamu tidak hanya menghitung angka, tetapi juga belajar memahami makna di balik informasi 🚀</p>",
+        "sub_description": "Pahami cara mengumpulkan, membaca, dan menafsirkan data, serta memperkirakan kemungkinan suatu kejadian. Materi ini membantumu berpikir lebih logis dalam mengambil keputusan berdasarkan informasi.",
+        "estimated_duration": 150,
+        "topic": "Statistika",
+        "variants": [
+            {
+                "difficulty_level": "easy",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "text"
+            },
+            {
+                "difficulty_level": "easy",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "medium",
+                "learning_type": "illustration"
+            },
+            {
+                "difficulty_level": "hard",
+                "learning_type": "illustration"
+            }
+        ]
+    }
+]

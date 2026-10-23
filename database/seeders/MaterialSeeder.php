@@ -10,38 +10,26 @@ class MaterialSeeder extends Seeder
 {
     public function run(): void
     {
-        $materials = [
-            [
-                'title'              => 'Aljabar Dasar',
-                'description'        => 'Memahami konsep dasar aljabar: variabel, ekspresi, dan persamaan sederhana.',
-                'estimated_duration' => 45,
-                'topic'              => 'Aljabar',
-            ],
-            [
-                'title'              => 'Geometri Bangun Datar',
-                'description'        => 'Mempelajari sifat-sifat bangun datar: segitiga, persegi, lingkaran, dan lainnya.',
-                'estimated_duration' => 50,
-                'topic'              => 'Geometri',
-            ],
-            [
-                'title'              => 'Statistika Dasar',
-                'description'        => 'Pengenalan konsep statistika: mean, median, modus, dan penyajian data.',
-                'estimated_duration' => 40,
-                'topic'              => 'Statistika',
-            ],
-        ];
+        // Data materi hasil ekspor dari database lama (lihat database/seeders/data/materials.json)
+        $materials = json_decode(file_get_contents(__DIR__ . '/data/materials.json'), true, flags: JSON_THROW_ON_ERROR);
 
         foreach ($materials as $data) {
-            $material = Material::create($data);
+            $material = Material::updateOrCreate(
+                ['title' => $data['title']],
+                [
+                    'description'        => $data['description'],
+                    'sub_description'    => $data['sub_description'],
+                    'estimated_duration' => $data['estimated_duration'],
+                    'topic'              => $data['topic'],
+                ]
+            );
 
-            foreach (['easy', 'medium', 'hard'] as $difficulty) {
-                foreach (['text', 'illustration'] as $learningType) {
-                    MaterialHasVariant::create([
-                        'material_id'    => $material->id,
-                        'difficulty_level' => $difficulty,
-                        'learning_type'  => $learningType,
-                    ]);
-                }
+            foreach ($data['variants'] as $variant) {
+                MaterialHasVariant::firstOrCreate([
+                    'material_id'      => $material->id,
+                    'difficulty_level' => $variant['difficulty_level'],
+                    'learning_type'    => $variant['learning_type'],
+                ]);
             }
         }
     }
