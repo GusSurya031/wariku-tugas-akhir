@@ -70,6 +70,8 @@ jobs:
             rm -rf public/build
             tar -xzf ~/release.tar.gz -C $APP_DIR --no-same-owner
             rm -f ~/release.tar.gz
+            mkdir -p storage/framework/views storage/framework/cache/data storage/framework/sessions storage/logs bootstrap/cache
+            chmod -R 775 storage bootstrap/cache
             $PHP ~/bin/composer install --no-dev --optimize-autoloader --no-interaction
             $PHP artisan migrate --force
             $PHP artisan optimize:clear
