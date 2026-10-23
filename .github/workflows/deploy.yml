@@ -19,12 +19,12 @@ jobs:
       REMOTE: ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # 1. Build frontend (React/Inertia) di GitHub, bukan di hosting
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: 24
+          node-version: 22
           cache: npm
       - run: npm ci
       - run: npm run build

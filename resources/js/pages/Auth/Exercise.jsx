@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Head, Link } from "@inertiajs/react";
 import { THEME_MAP, DIFF_CONFIG, FILTERS } from "@/constants/Dashboard";
-import ProfileCard from "@/Components/ProfileCard";
-import Sidebar from "@/Components/Sidebar";
+import ProfileCard from "@/components/ProfileCard";
+import Sidebar from "@/components/Sidebar";
 import Logo from "@/assets/icon/logo.svg";
 import MenuIcon from "@/assets/icon/MenuIcon";
 import ArrowUpRightIcon from "@/assets/icon/ArrowUpRightIcon";
